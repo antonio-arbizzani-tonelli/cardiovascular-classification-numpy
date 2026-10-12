@@ -144,8 +144,8 @@ The original delivery audit passed **206 project tests** and **26 public
 course tests**, including a clean Git-eligible package without data or saved
 models. The [current code review](../docs/CODE_REVIEW.md) records checks of
 this portfolio copy, including the logging and report-output regressions.
-Local verification uses Python 3.14.3 / NumPy 2.4.2; execution in the original
-runtime remains a separate check. The active
+Local verification uses Python 3.14.3 / NumPy 2.4.2. [GitHub CI passed](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy/actions/runs/38324436873)
+in the official Python 3.9 / NumPy 1.23.1 environment. The active
 [portfolio CI](../.github/workflows/checks.yml) runs Python 3.9 / NumPy 1.23.1
 on pushes and pull requests. Tests use synthetic fixtures and the included
 text codebook. [Historical delivery checks](docs/FINAL_AUDIT.md) preserve

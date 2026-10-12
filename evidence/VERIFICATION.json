@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-12T23:49:31.421044+00:00",
+  "checked_at_utc": "2026-10-12T23:54:21.877693+00:00",
   "environment": {
     "python": "3.14.3",
     "numpy": "2.4.2",
@@ -15,7 +15,7 @@
     "count": 26,
     "scope": "Historical original-delivery audit, not rerun during this portfolio task"
   },
-  "official_runtime_executed": false,
+  "official_runtime_executed": true,
   "full_training_repeated": false,
   "submission_repeated": false,
   "pdf_brief": {
@@ -105,5 +105,34 @@
     "framing": "EPFL Machine Learning CS-433 project",
     "scope": "README, presentation brief, related prose and regenerated PDF; EPFL Machine Learning CS-433 project framing.",
     "verification": "Full 213-test suite rerun for publication; repository checks pass after excluding local preparation notes, duplicate delivery files and superseded partial exports."
+  },
+  "clean_publication_package": {
+    "passed": true,
+    "source": "Git archive of the initial publication commit, with no ignored local files.",
+    "commit": "baac0fa9d184502eff69a750431aab808b0bd77e",
+    "public_files": 499,
+    "tests": {
+      "count": 213,
+      "seconds": 6.321,
+      "passed": true
+    },
+    "repository_verification_passed": true,
+    "staged_diff_check_passed": true
+  },
+  "github_actions_verification": {
+    "passed": true,
+    "url": "https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy/actions/runs/38324436873",
+    "commit": "baac0fa9d184502eff69a750431aab808b0bd77e",
+    "python_target": "3.9",
+    "numpy_pinned": "1.23.1",
+    "runner": "ubuntu-latest",
+    "project_tests": 213,
+    "checks": [
+      "dependency installation",
+      "repository verification",
+      "unit and integration tests",
+      "entry points"
+    ],
+    "scope": "Initial source release; the following documentation commit records this completed run without changing code, configurations or experiment outcomes."
   }
 }
