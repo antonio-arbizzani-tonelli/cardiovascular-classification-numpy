@@ -1,0 +1,22 @@
+.local/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.log
+.DS_Store
+Thumbs.db
+
+# Local preparation notes and duplicate delivery bundles
+/AGENTS.md
+/docs/PORTFOLIO_PLAN.md
+/project/docs/GITHUB_RELEASE.md
+/presentation/CLAUDE_DESIGN_INPUT.zip
+/project/.github/
+
+# Superseded Phase 29 exports; completed evidence remains published
+/project/results/eda/phase29_feature_selection/first_fold_partial.json
+/project/results/eda/phase29_feature_selection/first_two_folds_partial.json
+/project/results/eda/phase29_feature_selection/rare_feature_support_partial.json
+/project/results/eda/phase29_feature_selection/all_folds_preverification.json

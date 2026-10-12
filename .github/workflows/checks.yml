@@ -1,0 +1,43 @@
+name: Portfolio checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  project:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: project
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.9'
+          cache: pip
+          cache-dependency-path: |
+            project/requirements.txt
+            project/requirements-dev.txt
+      - name: Install project dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Verify records, configuration and links
+        run: python -m tools.verify_repository
+      - name: Run unit and integration tests
+        run: python -m unittest discover -s tests -q
+      - name: Check entry points
+        run: |
+          python run.py --help
+          python run_mlp.py --help
+          python -m tools.prepare_data --help

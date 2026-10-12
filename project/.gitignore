@@ -1,0 +1,45 @@
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Official data and generated numeric caches
+data/raw/dataset/
+data/raw/*.zip
+data/processed/
+
+# Large or reproducible model artifacts
+results/boosting_artifacts/
+results/mlp_artifacts/
+results/oof_predictions/
+results/experiments/*_oof_predictions.npz
+results/linear_imputation_artifacts/**/*.npz
+*.pkl
+*.pkl.tmp
+
+# Keep the text codebook required by the parser tests, but exclude all other
+# course material (PDFs, copied grading tests, and generated caches).
+official_material/*
+!official_material/project1/
+official_material/project1/*
+!official_material/project1/brfss_2015_codebook.txt
+
+# Generated submissions and local logs
+submission*.csv
+*.log
+
+# Temporary test directories
+tests/tmp*/
+pytest-cache-files-*/
+results/phase35_smoke_*/
+
+# Editors and operating systems
+.local/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

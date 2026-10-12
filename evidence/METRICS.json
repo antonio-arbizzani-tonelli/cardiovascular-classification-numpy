@@ -1,0 +1,813 @@
+{
+  "schema_version": 1,
+  "scope": "Evidence summary for the portfolio snapshot. All source paths are relative to project/. Numerical experiment outcomes are preserved; English archival annotation changes and original/copied hashes are recorded in evidence/SNAPSHOT_MANIFEST.json.",
+  "dataset": {
+    "source": "results/eda/dataset_audit.json",
+    "task_source": "docs/DATA.md",
+    "dataset": "BRFSS 2015 course challenge",
+    "target": "_MICHD",
+    "target_meaning": "Self-reported myocardial infarction or coronary heart disease; cross-sectional classification, not prospective risk prediction",
+    "train_rows": 328135,
+    "test_rows": 109379,
+    "raw_predictors": 321,
+    "retained_features": 295,
+    "positives": 28975,
+    "negatives": 299160,
+    "positive_fraction": 0.08830207079403295,
+    "raw_train_missing_cells": 47175779,
+    "raw_train_missing_fraction": 0.4478798165806975
+  },
+  "preprocessing": {
+    "source": "results/eda/phase33_preprocessing_counts.json",
+    "plan": "configs/experiments/phase14_codebook_corrections_only.json",
+    "scope": "Descriptive counts on development rows only, same 295 retained Phase14 source columns before binary recoding. No training or inference; zero mappings exclude binary recodings and values already equal to zero.",
+    "rows": 262508,
+    "columns": 295,
+    "raw_missing_fraction_retained_development": 0.46654836411119543,
+    "cleaned_missing_fraction_retained_development": 0.4806938054898343,
+    "finite_nonresponse_codes_mapped_to_nan": 1095421,
+    "documented_zero_codes_converted_to_zero": 899687,
+    "semantic_examples": [
+      "ALCDAY5=888 maps to zero",
+      "PHYSHLTH=88 maps to zero",
+      "Feature-specific nonresponse codes map to NaN"
+    ],
+    "gain_vs_all_raw_predictors": 0.0006980098536284451,
+    "conditional_cleaned_minus_raw_interval_95": [
+      -0.0012257231537289115,
+      0.0026348459934233044
+    ],
+    "comparison_source": "results/experiments/phase33_raw_preprocessing_comparison.json",
+    "interpretation": "Small uncertain joint effect of cleaning and exclusions. CI includes zero; 128/321 vs 128/295 candidate fractions differ. Does not prove a large predictive contribution of cleaning."
+  },
+  "evaluation": {
+    "split_source": "results/eda/analysis/splits/stratified_seed_20260918.json",
+    "suite_source": "configs/experiments/final_phase14_validation.json",
+    "initial_split_seed": 20260918,
+    "development_rows": 262508,
+    "local_validation_rows": 65627,
+    "development_positives": 23180,
+    "outer_folds": 3,
+    "outer_seed": 20260919,
+    "inner_folds": 2,
+    "inner_seed": 20260922,
+    "threshold_selection": "F1-maximizing threshold on inner OOF probabilities, then frozen for each excluded outer fold",
+    "preprocessing_fit": "Within training partition of every fit",
+    "calibration_scope": "Three new stratified OOF folds on all 328135 labeled rows, pooled F1 threshold; calibration labels also select threshold",
+    "limits": [
+      "Development folds reused for many model choices",
+      "Initial 20% local validation consulted by early baselines",
+      "Threshold nesting reduces threshold-selection optimism; does not remove repeated model-selection optimism",
+      "AIcrowd feedback contributed to choice between Phase14 and Phase34"
+    ]
+  },
+  "model_config_source": "configs/final_model.json",
+  "selected_model": {
+    "n_estimators": 200,
+    "learning_rate": 0.05,
+    "max_depth": 5,
+    "min_samples_leaf": 200,
+    "n_bins": 64,
+    "l2_regularization": 1.0,
+    "max_features": 128,
+    "random_seed": 20260920
+  },
+  "selected_implementation": {
+    "name": "Phase 14",
+    "source": "src/numpy_boosting_phase14.py",
+    "sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
+    "historical_search_omission": "Observed-versus-missing endpoint split candidate can be omitted when extreme quantile bins contain observations",
+    "reason": "Frozen exact reproduction of team-selected AIcrowd submission. Corrected Phase34 retained as documented comparison."
+  },
+  "model_results": [
+    {
+      "name": "Historical ridge",
+      "source": "results/experiments/20260920T111540545185Z_phase7-p2-codebook-clean-ridge-lambda-0p0001.json",
+      "metric_json_path": "outcome.metrics",
+      "metrics": {
+        "accuracy": 0.8615242202142411,
+        "average_precision": 0.39028273319209134,
+        "balanced_accuracy": 0.7283680940224806,
+        "f1": 0.41950783283563026,
+        "log_loss": 0.22917496377979585,
+        "precision": 0.33302908141274307,
+        "recall": 0.5666522864538395,
+        "specificity": 0.8900839015911218
+      },
+      "confusion_counts": {
+        "false_negatives": 10045,
+        "false_positives": 26306,
+        "true_negatives": 213022,
+        "true_positives": 13135
+      },
+      "control": "",
+      "scope_note": "Median fill; lambda 0.0001; Platt calibration and threshold fitted on inner OOF ridge scores. This schema stores nested scores in outcome.metrics."
+    },
+    {
+      "name": "Historical logistic regression",
+      "source": "results/experiments/20260920T113608936798Z_phase7-p2-codebook-clean-bphigh4-corrected-interactions-gamma-0p2-nested-4000.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8745676322245417,
+        "average_precision": 0.3877451806152685,
+        "balanced_accuracy": 0.7173065944293143,
+        "f1": 0.42562841244090915,
+        "log_loss": 0.22197857200982044,
+        "precision": 0.35727882390839605,
+        "recall": 0.5263157894736842,
+        "specificity": 0.9082973993849445
+      },
+      "confusion_counts": {
+        "false_negatives": 10980,
+        "false_positives": 21947,
+        "true_negatives": 217381,
+        "true_positives": 12200
+      },
+      "control": "",
+      "scope_note": "Historical median-fill representation with age interactions; gamma 0.2, 4000 updates, no regularization. Precedes categorical mode-fill correction."
+    },
+    {
+      "name": "Raw-predictor historical booster",
+      "source": "results/experiments/phase33_raw_preprocessing/20261007T011322024298Z_phase33-raw-321-features-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8760647294558642,
+        "average_precision": 0.42783496220143896,
+        "balanced_accuracy": 0.730926749846363,
+        "f1": 0.44145721741519023,
+        "log_loss": 0.21534810427206727,
+        "precision": 0.3666305463670583,
+        "recall": 0.5546591889559965,
+        "specificity": 0.9071943107367295
+      },
+      "confusion_counts": {
+        "false_negatives": 10323,
+        "false_positives": 22211,
+        "true_negatives": 217117,
+        "true_positives": 12857
+      },
+      "control": "Phase 14",
+      "scope_note": "All 321 raw predictors, numerical response codes and NaNs; same model and folds. Measures cleaning and exclusions together; prior split-search implementation."
+    },
+    {
+      "name": "Selected Phase 14",
+      "source": "results/experiments/20260921T105139261213Z_phase14-boosting-codebook-corrections-only-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8764342420040532,
+        "average_precision": 0.4286092503721835,
+        "balanced_accuracy": 0.7310904383294219,
+        "f1": 0.4421552272688187,
+        "log_loss": 0.21522507121178044,
+        "precision": 0.36763233906254467,
+        "recall": 0.5545729076790337,
+        "specificity": 0.9076079689798101
+      },
+      "confusion_counts": {
+        "false_negatives": 10325,
+        "false_positives": 22112,
+        "true_negatives": 217216,
+        "true_positives": 12855
+      },
+      "control": "",
+      "scope_note": "Frozen historical implementation, including omitted observed-versus-missing endpoint candidates; exact reproduction of selected submission."
+    },
+    {
+      "name": "Corrected Phase 34",
+      "source": "results/experiments/phase34_missing_only_split/20261007T092637381255Z_phase34-missing-only-split-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8737638471970378,
+        "average_precision": 0.4287814331957269,
+        "balanced_accuracy": 0.7336390350704145,
+        "f1": 0.4408032399595005,
+        "log_loss": 0.21522931558252084,
+        "precision": 0.3620011086474501,
+        "recall": 0.5634598792062122,
+        "specificity": 0.9038181909346169
+      },
+      "confusion_counts": {
+        "false_negatives": 10119,
+        "false_positives": 23019,
+        "true_negatives": 216309,
+        "true_positives": 13061
+      },
+      "control": "Phase 14",
+      "scope_note": "Complete missing-only split candidate search; nine fresh fits against reused historical control. Same parameters, cleaning and nested folds."
+    },
+    {
+      "name": "MLP 64/32",
+      "source": "results/experiments/mlp/20261001T014455026674Z_phase32-mlp-mlp64-32.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8765447148277385,
+        "average_precision": 0.3877821137819869,
+        "balanced_accuracy": 0.7135205963814009,
+        "f1": 0.42445123250692623,
+        "log_loss": 0.22167438622387117,
+        "precision": 0.36072204781453754,
+        "recall": 0.5155306298533219,
+        "specificity": 0.9115105629094798
+      },
+      "confusion_counts": null,
+      "control": "Phase 14",
+      "scope_note": "Dedicated imputation, scaling, one-hot, frequency conversion and flags; training-only 10% early stopping, then full refit. This compares complete pipelines."
+    },
+    {
+      "name": "MLP 128/64",
+      "source": "results/experiments/mlp/20261001T014455269281Z_phase32-mlp-mlp128-64.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8662631234095722,
+        "average_precision": 0.37938028877628655,
+        "balanced_accuracy": 0.721966752809506,
+        "f1": 0.4192678609829123,
+        "log_loss": 0.2227104181960239,
+        "precision": 0.34000482923295683,
+        "recall": 0.5467213114754098,
+        "specificity": 0.8972121941436021
+      },
+      "confusion_counts": null,
+      "control": "Phase 14",
+      "scope_note": "Same protocol as MLP 64/32; both MLPs lose F1 on all three folds. HAREHAB1 retained."
+    }
+  ],
+  "selected_development_folds": [
+    {
+      "fold": 1,
+      "inner_threshold": 0.203056688916058,
+      "f1": 0.43902684732785974
+    },
+    {
+      "fold": 2,
+      "inner_threshold": 0.22010463713275993,
+      "f1": 0.44405352097659784
+    },
+    {
+      "fold": 3,
+      "inner_threshold": 0.20944597307683668,
+      "f1": 0.44351164576401336
+    }
+  ],
+  "selected_final": {
+    "source": "results/eda/final_phase14_submission.json",
+    "calibration_metrics": {
+      "accuracy": 0.8767549941335121,
+      "precision": 0.3685091743119266,
+      "recall": 0.5545125107851596,
+      "f1": 0.44276954874267993,
+      "specificity": 0.9079656371172616,
+      "balanced_accuracy": 0.7312390739512107
+    },
+    "threshold": {
+      "value": 0.2106169795070252,
+      "method": "pooled_3_fold_full_train_oof_f1",
+      "fold_count": 3,
+      "fold_seed": 20260919,
+      "training_rows": 328135,
+      "preprocessing_fit": "within_each_training_fold_only"
+    },
+    "submission": {
+      "local_path": "results/submission_phase14_full_train_oof_20261012.csv",
+      "sha256": "8583daf81f7afb378eef3eafdfefd988ce85f78de8d58d38cd8ca39e1faa0df1",
+      "rows": 109379,
+      "positive_predictions": 14746,
+      "negative_predictions": 94633,
+      "header": [
+        "Id",
+        "Prediction"
+      ],
+      "label_domain": [
+        -1,
+        1
+      ]
+    },
+    "final_fit_rows": 328135,
+    "phase34_calibration": {
+      "threshold": 0.2214498433950319,
+      "f1": 0.4435698543091851
+    },
+    "verification": {
+      "passed": true,
+      "scope": "Current default configuration and normal Phase 14 module replay of trusted final checkpoint, current full-train preprocessing, official inputs and signed CSV. No repeated full training. End-to-end training entry point additionally tested on a synthetic fixture.",
+      "training_shape": [
+        328135,
+        295
+      ],
+      "test_shape": [
+        109379,
+        295
+      ],
+      "max_probability_difference": 0.0,
+      "csv_sha256": "8583daf81f7afb378eef3eafdfefd988ce85f78de8d58d38cd8ca39e1faa0df1",
+      "positive_predictions": 14746,
+      "negative_predictions": 94633,
+      "input_hashes_verified": 9,
+      "seconds": 8.108060900005512
+    }
+  },
+  "leaderboard": {
+    "source": "results/eda/final_phase14_submission.json",
+    "record": {
+      "f1": 0.452,
+      "accuracy": 0.878,
+      "reported_on": "2026-10-12",
+      "provenance": "Team-reported AIcrowd displayed scores, three decimal places; submission URL not provided.",
+      "phase34_score": null
+    },
+    "official_submission_url": null,
+    "screenshot": null,
+    "rank": 7,
+    "snapshot_date": "2026-10-12",
+    "status": "current leaderboard position reported by author; not a final placing",
+    "leaderboard_url": "https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards",
+    "rank_provenance": "User confirmation in the portfolio preparation conversation, 2026-10-12. No independent account matching or ranking verification is established.",
+    "top_10_status": "Current rank 7 reported by the author on 2026-10-12; no final placing, challenge year or cohort size inferred",
+    "display_rule": "Label .452 F1 and .878 accuracy as team-reported AIcrowd displayed scores; never call them nested CV or independent audit-verified leaderboard scores. Use 'Ranked 7th on the AIcrowd leaderboard' with the visible note 'Position reported by the author, 12 Oct 2026' and the leaderboard link."
+  },
+  "phase34": {
+    "source": "results/experiments/phase34_missing_only_split_comparison.json",
+    "metric_deltas": {
+      "accuracy": -0.002670394807015364,
+      "average_precision": 0.00017218282354342085,
+      "balanced_accuracy": 0.0025485967409926147,
+      "f1": -0.0013519873093181811,
+      "log_loss": 4.244370740397185e-06,
+      "precision": -0.005631230415094557,
+      "recall": 0.008886971527178544,
+      "specificity": -0.003789778045193204
+    },
+    "paired_conditional_f1_interval_95": [
+      -0.0030049692460550823,
+      0.00031912702088536326
+    ],
+    "interval_scope": "Fixed fits and thresholds; excludes retraining and repeated selection",
+    "algorithm_validation_source": "docs/FINAL_REPORT.md",
+    "recorded_tests": 49,
+    "recorded_regression_tests": 8,
+    "recorded_exhaustive_candidate_checks": 700,
+    "effect": "Completes valid candidates; small uncertain F1 decrease, slightly higher AP; 206 additional TP and 907 additional FP",
+    "caveat": "Selected Phase14 intentionally preserves earlier search. Historical ablations were not all rerun after correction."
+  },
+  "negative_ablations": [
+    {
+      "name": "Remove HAREHAB1",
+      "source": "results/experiments/20260921T154905753681Z_phase15-boosting-ablate-harehab1-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8692535084645039,
+        "average_precision": 0.39685691648886934,
+        "balanced_accuracy": 0.7299965741724226,
+        "f1": 0.4310390557655328,
+        "log_loss": 0.21905507426225362,
+        "precision": 0.3500161533491277,
+        "recall": 0.5608714408973253,
+        "specificity": 0.8991217074475197
+      },
+      "confusion_counts": {
+        "false_negatives": 10179,
+        "false_positives": 24143,
+        "true_negatives": 215185,
+        "true_positives": 13001
+      },
+      "control": "Phase 14",
+      "scope_note": "Validity check; source variable is post-heart-attack rehabilitation."
+    },
+    {
+      "name": "Daily food frequencies",
+      "source": "results/experiments/20260928T153145004719Z_phase18-boosting-diet-frequency-features-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8764990019351792,
+        "average_precision": 0.4287979789722235,
+        "balanced_accuracy": 0.7306973694449146,
+        "f1": 0.4418620665909169,
+        "log_loss": 0.21523820274152633,
+        "precision": 0.3676445310261846,
+        "recall": 0.5536238136324417,
+        "specificity": 0.9077709252573873
+      },
+      "confusion_counts": {
+        "false_negatives": 10347,
+        "false_positives": 22073,
+        "true_negatives": 217255,
+        "true_positives": 12833
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation."
+    },
+    {
+      "name": "Exact low-cardinality bins",
+      "source": "results/experiments/20260930T005323542120Z_phase20-phase14-exact-low-cardinality-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8771656482850047,
+        "average_precision": 0.42887442462280334,
+        "balanced_accuracy": 0.7286278344535825,
+        "f1": 0.4407831983489707,
+        "log_loss": 0.21522213837662488,
+        "precision": 0.3685507960906006,
+        "recall": 0.5482312338222606,
+        "specificity": 0.9090244350849044
+      },
+      "confusion_counts": {
+        "false_negatives": 10472,
+        "false_positives": 21773,
+        "true_negatives": 217555,
+        "true_positives": 12708
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation."
+    },
+    {
+      "name": "Activity one-hot",
+      "source": "results/experiments/20260930T024920071303Z_phase22-phase14-activity-one-hot-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8772723117009767,
+        "average_precision": 0.4287462173519238,
+        "balanced_accuracy": 0.7282577465825797,
+        "f1": 0.4405702477903767,
+        "log_loss": 0.21529180701048714,
+        "precision": 0.3686826121072975,
+        "recall": 0.5472821397756686,
+        "specificity": 0.9092333533894906
+      },
+      "confusion_counts": {
+        "false_negatives": 10494,
+        "false_positives": 21723,
+        "true_negatives": 217605,
+        "true_positives": 12686
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation."
+    },
+    {
+      "name": "Missing-reason flags",
+      "source": "results/experiments/20260930T103147105876Z_phase23-phase14-missing-reason-flags-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8747276273484998,
+        "average_precision": 0.4288329614986372,
+        "balanced_accuracy": 0.7317324563566597,
+        "f1": 0.44032200418673517,
+        "log_loss": 0.21525767247102284,
+        "precision": 0.36360570031199935,
+        "recall": 0.5580672993960311,
+        "specificity": 0.9053976133172884
+      },
+      "confusion_counts": {
+        "false_negatives": 10244,
+        "false_positives": 22641,
+        "true_negatives": 216687,
+        "true_positives": 12936
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation."
+    },
+    {
+      "name": "Restricted imputation",
+      "source": "results/experiments/20260930T114012414713Z_phase24-original-restricted-imputation-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8765980465357246,
+        "average_precision": 0.4286107053654765,
+        "balanced_accuracy": 0.7304789522973789,
+        "f1": 0.44179073614557485,
+        "log_loss": 0.2152303063907383,
+        "precision": 0.36781246413405255,
+        "recall": 0.5530198446937015,
+        "specificity": 0.9079380599010562
+      },
+      "confusion_counts": {
+        "false_negatives": 10361,
+        "false_positives": 22033,
+        "true_negatives": 217295,
+        "true_positives": 12819
+      },
+      "control": "Phase 14",
+      "scope_note": "Use nested-threshold result, not optimistic screening F1 0.44267."
+    },
+    {
+      "name": "Two-seed mean",
+      "source": "results/experiments/20260930T181509840904Z_phase26-phase14-uniform-mean-two-seeds.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8760837764944307,
+        "average_precision": 0.42936749980518574,
+        "balanced_accuracy": 0.7305475730376951,
+        "f1": 0.4411112829235606,
+        "log_loss": 0.21508527953383935,
+        "precision": 0.3665305656283014,
+        "recall": 0.5537963761863676,
+        "specificity": 0.9072987698890226
+      },
+      "confusion_counts": {
+        "false_negatives": 10343,
+        "false_positives": 22186,
+        "true_negatives": 217142,
+        "true_positives": 12837
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation; no F1 gain in any fold."
+    },
+    {
+      "name": "400 trees at learning rate 0.025",
+      "source": "results/experiments/20260930T221319968519Z_phase27-phase14-lr0025-400trees-depth5-features128-400trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8750171423347098,
+        "average_precision": 0.4293520551208401,
+        "balanced_accuracy": 0.7315795360890274,
+        "f1": 0.44058722228853003,
+        "log_loss": 0.2151233289420229,
+        "precision": 0.36426174969691844,
+        "recall": 0.5573770491803278,
+        "specificity": 0.9057820229977269
+      },
+      "confusion_counts": {
+        "false_negatives": 10260,
+        "false_positives": 22549,
+        "true_negatives": 216779,
+        "true_positives": 12920
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation."
+    },
+    {
+      "name": "Remove ALCDAY5",
+      "source": "results/experiments/20260930T212010451103Z_phase28-phase14-ablate-alcday5-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8730362503237996,
+        "average_precision": 0.4290396262571708,
+        "balanced_accuracy": 0.7344283504165416,
+        "f1": 0.4405351417588505,
+        "log_loss": 0.2152506848164396,
+        "precision": 0.3605638446954085,
+        "recall": 0.5660914581535806,
+        "specificity": 0.9027652426795026
+      },
+      "confusion_counts": {
+        "false_negatives": 10058,
+        "false_positives": 23271,
+        "true_negatives": 216057,
+        "true_positives": 13122
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation."
+    },
+    {
+      "name": "Permutation top 100 features",
+      "source": "results/experiments/phase29_feature_selection/20260930T222023662096Z_phase29-phase14-fold-local-top100-permutation-features.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8765218583814588,
+        "average_precision": 0.427210061126528,
+        "balanced_accuracy": 0.7280020266121038,
+        "f1": 0.43922355627832954,
+        "log_loss": 0.21553505037463436,
+        "precision": 0.36664548552943216,
+        "recall": 0.5476272648835203,
+        "specificity": 0.9083767883406872
+      },
+      "confusion_counts": {
+        "false_negatives": 10486,
+        "false_positives": 21928,
+        "true_negatives": 217400,
+        "true_positives": 12694
+      },
+      "control": "Phase 14",
+      "scope_note": "Selection fitted within each training partition; loses in all three folds."
+    },
+    {
+      "name": "Permutation top 60 features",
+      "source": "results/experiments/phase29_feature_selection/20260930T222046496842Z_phase29-phase14-fold-local-top60-permutation-features.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8725829308059183,
+        "average_precision": 0.4239735012542594,
+        "balanced_accuracy": 0.7320368126526491,
+        "f1": 0.4375840731772935,
+        "log_loss": 0.21636197697600557,
+        "precision": 0.35853631654359086,
+        "recall": 0.5613459879206212,
+        "specificity": 0.9027276373846771
+      },
+      "confusion_counts": {
+        "false_negatives": 10168,
+        "false_positives": 23280,
+        "true_negatives": 216048,
+        "true_positives": 13012
+      },
+      "control": "Phase 14",
+      "scope_note": "Selection fitted within each training partition; loses in all three folds."
+    },
+    {
+      "name": "Depth 7",
+      "source": "results/experiments/20261001T001533065665Z_phase31-phase14-depth7-depth7-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.874940954180444,
+        "average_precision": 0.428748337642389,
+        "balanced_accuracy": 0.732278035603515,
+        "f1": 0.44116094986807386,
+        "log_loss": 0.21509023337569877,
+        "precision": 0.3643469703360045,
+        "recall": 0.559016393442623,
+        "specificity": 0.905539677764407
+      },
+      "confusion_counts": {
+        "false_negatives": 10222,
+        "false_positives": 22607,
+        "true_negatives": 216721,
+        "true_positives": 12958
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation."
+    },
+    {
+      "name": "Positive weight 1.25",
+      "source": "results/experiments/20261007T115927629165Z_phase35-phase14-positive-weight1p25-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8790932085879287,
+        "average_precision": 0.4291352591552876,
+        "balanced_accuracy": 0.7258471772444005,
+        "f1": 0.4408308521696235,
+        "log_loss": 0.21672996200425967,
+        "precision": 0.37256186534051994,
+        "recall": 0.539732528041415,
+        "specificity": 0.911961826447386
+      },
+      "confusion_counts": {
+        "false_negatives": 10669,
+        "false_positives": 21070,
+        "true_negatives": 218258,
+        "true_positives": 12511
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation; loses in all three folds; conditional interval includes zero."
+    },
+    {
+      "name": "Positive weight 1.5",
+      "source": "results/experiments/20261007T115928100147Z_phase35-phase14-positive-weight1p5-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8750399987809895,
+        "average_precision": 0.4285934103210763,
+        "balanced_accuracy": 0.7315725900511076,
+        "f1": 0.44061322283044285,
+        "log_loss": 0.22061219155011963,
+        "precision": 0.36431572713685456,
+        "recall": 0.5573339085418464,
+        "specificity": 0.905811271560369
+      },
+      "confusion_counts": {
+        "false_negatives": 10261,
+        "false_positives": 22542,
+        "true_negatives": 216786,
+        "true_positives": 12919
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation; loses in all three folds; conditional interval includes zero."
+    },
+    {
+      "name": "Random undersampling 5:1",
+      "source": "results/experiments/20261007T135726798413Z_phase37-phase14-random-ratio5-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8763428162189343,
+        "average_precision": 0.42682745006902517,
+        "balanced_accuracy": 0.7272609575145177,
+        "f1": 0.43822577574719207,
+        "log_loss": 0.23429998660911455,
+        "precision": 0.36589313065341156,
+        "recall": 0.5462036238136324,
+        "specificity": 0.9083182912154031
+      },
+      "confusion_counts": {
+        "false_negatives": 10519,
+        "false_positives": 21942,
+        "true_negatives": 217386,
+        "true_positives": 12661
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation; all positives retained; one sampling seed; loses in all three folds."
+    },
+    {
+      "name": "Random undersampling 7:1",
+      "source": "results/experiments/20261007T140713077912Z_phase37-phase14-random-ratio7-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.8750057141115699,
+        "average_precision": 0.42789061075061857,
+        "balanced_accuracy": 0.7308135042282902,
+        "f1": 0.4398197152320142,
+        "log_loss": 0.22039321524226402,
+        "precision": 0.3639317398429112,
+        "recall": 0.5556945642795513,
+        "specificity": 0.905932444177029
+      },
+      "confusion_counts": {
+        "false_negatives": 10299,
+        "false_positives": 22513,
+        "true_negatives": 216815,
+        "true_positives": 12881
+      },
+      "control": "Phase 14",
+      "scope_note": "Historical implementation; all positives retained; 5:1 sample contained in 7:1; loses in all three folds."
+    },
+    {
+      "name": "Random undersampling 3:1",
+      "source": "results/experiments/20261007T124912476309Z_phase36-undersampling-random-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.875059045819556,
+        "average_precision": 0.425835950971669,
+        "balanced_accuracy": 0.7302972809774761,
+        "f1": 0.4393887597429236,
+        "log_loss": 0.2749165371561139,
+        "precision": 0.36386026497565394,
+        "recall": 0.5544866264020708,
+        "specificity": 0.9061079355528814
+      },
+      "confusion_counts": {
+        "false_negatives": 10327,
+        "false_positives": 22471,
+        "true_negatives": 216857,
+        "true_positives": 12853
+      },
+      "control": "Phase 34",
+      "scope_note": "Corrected implementation; all positives retained; one sampling seed; improves one of three folds."
+    },
+    {
+      "name": "Hybrid hard undersampling 3:1",
+      "source": "results/experiments/20261007T125233036668Z_phase36-undersampling-hybrid-hard-depth5-features128-200trees.json",
+      "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
+      "metrics": {
+        "accuracy": 0.85706340378198,
+        "average_precision": 0.3842250188042801,
+        "balanced_accuracy": 0.7072002887925132,
+        "f1": 0.3935348310974624,
+        "log_loss": 0.269448019127125,
+        "precision": 0.3146549495993797,
+        "recall": 0.5251941328731665,
+        "specificity": 0.8892064447118598
+      },
+      "confusion_counts": {
+        "false_negatives": 11006,
+        "false_positives": 26516,
+        "true_negatives": 212812,
+        "true_positives": 12174
+      },
+      "control": "Phase 34",
+      "scope_note": "Corrected implementation; half random negatives, half pilot-high-score negatives; pilot trained only within training; loses in all three folds."
+    }
+  ],
+  "temporal_proxy": {
+    "source": "docs/FINAL_REPORT.md",
+    "record": "results/experiments/20260921T154905753681Z_phase15-boosting-ablate-harehab1-depth5-features128-200trees.json",
+    "variable": "HAREHAB1",
+    "meaning": "Outpatient rehabilitation after heart attack, conditional on CVDINFR4 response",
+    "development_rows_with_recorded_code": 620,
+    "positive_fraction_of_recorded_rows": 1.0,
+    "selected_model_keeps_feature": true,
+    "ablated_nested_f1": 0.4310390557655328,
+    "delta_f1": -0.011116171503285865,
+    "limitation": "Post-event target-linked information. The result supports reported-disease classification only, not pre-event prediction; future prospective evaluation must exclude it and audit timing of other features."
+  },
+  "attribution": {
+    "source": "User confirmation in the portfolio preparation conversation, 2026-10-12",
+    "portfolio_author": "Antonio Arbizzani Tonelli",
+    "confirmed_on": "2026-10-12",
+    "context": "Implementation and analysis attribution was supplied by the author on 2026-10-12. The public README and presentation use EPFL Machine Learning CS-433 project framing, as requested on 2026-10-13.",
+    "historical_course_authorship": "The original academic submission and its author list remain preserved in the original workspace; the academic report is separate from this portfolio.",
+    "wording": "Present simply as an EPFL Machine Learning CS-433 project, with Antonio Arbizzani Tonelli credited as author. Use a project-centered voice and retain the recorded provenance of AIcrowd feedback.",
+    "work_allocation": {
+      "implementation": "Antonio Arbizzani Tonelli",
+      "experiment_design_and_execution": "Antonio Arbizzani Tonelli",
+      "analysis": "Antonio Arbizzani Tonelli"
+    }
+  },
+  "employer_story": {
+    "headline": "An auditable NumPy ML pipeline for incomplete, imbalanced survey data",
+    "summary": "The EPFL Machine Learning CS-433 project implements and evaluates a NumPy histogram gradient boosting pipeline over 328135 labeled survey responses, with codebook-aware preprocessing, nested threshold selection and recorded ablations. The selected historical pipeline achieved nested F1 0.44216 versus 0.42563 for logistic regression; its academic submission record contains team-reported AIcrowd F1 0.452. The author reports current AIcrowd rank 7 on 2026-10-12. The portfolio demonstrates data correctness, metric interpretation and evidence-based model selection for Data Scientist roles.",
+    "strongest_evidence": [
+      "NumPy model implementation and six required learning functions",
+      "Semantic audit separating missing answers from documented zeros",
+      "Fixed matched comparisons and train-only fitting boundaries",
+      "Rejected imputation, wider neural models, weighting and sampling when F1 worsened",
+      "Audit exposing both a split-search omission and post-event target proxy",
+      "Recorded input/source/output fingerprints and checkpoint replay"
+    ],
+    "avoid_claims": [
+      "Clinical deployment or prospective heart-attack prediction",
+      "Final leaderboard placing or independently verified rank from the author-reported current rank 7",
+      "Large statistically established cleaning uplift",
+      "Independent test validity for OOF threshold calibration",
+      "Corrected split search used by selected submission"
+    ]
+  },
+  "source_base": "project/"
+}
