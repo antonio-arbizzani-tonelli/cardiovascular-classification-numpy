@@ -1,7 +1,9 @@
 # Configuration guide
 
-[final_model.json](final_model.json) defines the selected historical Phase 14 booster
-used by `python run.py`: Phase 14 model parameters and preprocessing, data
+[final_model.json](final_model.json) defines the final selected Phase 14 booster
+used by `python run.py`, explicitly setting `implementation` to `phase14` and
+loading [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py).
+It specifies Phase 14 model parameters and preprocessing, data
 filenames, and threshold **0.2106169795070252**, selected on pooled three-fold
 OOF predictions over all 328,135 training rows. The included historical
 source is identified by its SHA-256; the calibration and AIcrowd scores are
@@ -9,7 +11,7 @@ in [the final submission record](../results/eda/final_phase14_submission.json).
 
 | File | Contents |
 | --- | --- |
-| [final_model.json](final_model.json) | Settings for full-data training and prediction |
+| [final_model.json](final_model.json) | Final selected Phase 14 implementation, full-data training settings and prediction threshold |
 | [Selected Phase 14 validation](experiments/final_phase14_validation.json) | Explicit historical implementation, original development folds and inner threshold selection |
 | [feature_metadata.json](feature_metadata.json) | Feature names, semantic types and codebook response codes |
 | [Phase 14 cleaning](experiments/phase14_codebook_corrections_only.json) | The selected 295 source columns, exclusions and code corrections |
@@ -17,7 +19,7 @@ in [the final submission record](../results/eda/final_phase14_submission.json).
 | [Phase 32 MLP](experiments/phase32_mlp.json) | Dedicated neural preprocessing and the two evaluated architectures |
 | [Raw tree inputs](experiments/phase33_raw_tree_preprocessing.json) | All 321 predictors, preserving original response codes and NaNs |
 | [Raw preprocessing ablation CV](experiments/phase33_raw_boosting_cv.json) | Historical Phase 14 parameters and folds with raw inputs |
-| [Corrected missing-only split CV](experiments/phase34_missing_only_split.json) | Same 295-column representation and nested folds, with the corrected split search |
+| [Phase 34 comparison CV](experiments/phase34_missing_only_split.json) | Separate evaluation of corrected split search with the same 295-column representation and nested folds |
 | [Historical positive weight 1.25](experiments/phase35_phase14_positive_weight1p25.json) | Phase 14 settings with positive loss weight 1.25; execute through the Phase 35 driver |
 | [Historical positive weight 1.5](experiments/phase35_phase14_positive_weight1p5.json) | Phase 14 settings with positive loss weight 1.5; execute through the Phase 35 driver |
 | [Random undersampling](experiments/phase36_undersampling_random.json) | Corrected Phase 34 with three randomly selected negatives per positive; execute through the Phase 36 driver |
@@ -29,12 +31,14 @@ The other configurations in `experiments/` describe experimental pipelines.
 The measured results are explained in [EXPERIMENTS.md](../docs/EXPERIMENTS.md).
 
 Configurations specify settings and input representations; the executed source
-also determines the result. Recorded Phase 14 and Phase 33 scores used the
-implementation before the missing-only split correction. Running those settings
-with the default corrected CV code performs a new experiment. Use
-`final_phase14_validation.json` for the selected historical pipeline and the
-Phase 34 suite for the corrected comparison. The historical preprocessing comparison keeps
-both its raw and cleaned controls on the previous implementation.
+also determines the result. The final-model configuration and
+`final_phase14_validation.json` explicitly select Phase 14. Generic CV suites
+without an implementation selector use the corrected module, so rerunning old
+settings through that fallback performs a new experiment. Use the Phase 14
+validation suite to reproduce the final selected pipeline and the Phase 34
+suite for its separate corrected comparison. The recorded Phase 33
+preprocessing study keeps both raw and cleaned controls on Phase 14's
+earlier implementation.
 
 CV uses numeric caches and the included fixed split. Place the official CSVs
 as described in [data/README.md](../data/README.md), then run from the repository

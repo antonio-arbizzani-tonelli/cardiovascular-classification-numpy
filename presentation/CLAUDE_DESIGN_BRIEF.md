@@ -4,9 +4,11 @@ Create an editable **16:9 PowerPoint and a matching PDF** for [cardiovascular-cl
 
 Present this simply as an **EPFL Machine Learning CS-433 project**. Credit **Antonio Arbizzani Tonelli** and use a project-centered voice focused on methods, decisions and results. Use the portfolio's technical notes and recorded results; the academic submission report remains a separate artifact.
 
+**Final model: Phase 14.** Describe the implementation in `project/src/numpy_boosting_phase14.py`, selected by `project/configs/final_model.json`. Phase 34 is a separately evaluated candidate that was not adopted. Attribute the final parameters, threshold, calibration and AIcrowd score to Phase 14 throughout the deck.
+
 ## Narrative and design
 
-**Main message:** The project combines a NumPy classification pipeline, controlled model comparisons and a documented implementation audit.
+**Main message:** Phase 14 is the final NumPy classification pipeline, supported by controlled model comparisons and a documented implementation audit.
 
 Lead with the outcome, then show the data problem, evaluation design, model choices, rejected alternatives and remaining limitations. Explain the reasoning behind specific decisions. Emphasize data correctness, useful metrics, reproducible analysis and clear reasoning. Keep the public deck company-neutral.
 
@@ -118,21 +120,21 @@ The original submission record describes AIcrowd F1 **0.452** and accuracy **0.8
 
 **Source:** `project/configs/experiments/final_phase14_validation.json`, `project/src/run_boosting_cv.py`, `evidence/METRICS.json`.
 
-## Slide 7 — Histogram gradient boosting implemented in NumPy
+## Slide 7 — The final model is Phase 14 histogram gradient boosting
 
 **On-slide copy:**
 
 > Quantile bins → Newton tree updates for logistic loss → summed tree predictions
 >
-> Selected configuration: 200 trees, maximum depth 5.
+> Final Phase 14 configuration: 200 trees, maximum depth 5.
 >
 > Missing responses are routed inside each tree; binning is learned on training data.
 
 **Visual:** A small annotated model diagram with one tree and an ensemble sum. Explain the operations in words; move equations and the full parameter table to the appendix.
 
-**Caption:** Training uses NumPy and the Python standard library. The selected historical source is preserved for submission reproduction; the audited correction is shown later.
+**Caption:** Phase 14 training uses NumPy and the Python standard library. Its exact source is preserved to reproduce the selected submission.
 
-**Source:** `project/src/numpy_boosting_phase14.py`, `project/src/numpy_boosting.py`, `project/configs/final_model.json`.
+**Source:** `project/src/numpy_boosting_phase14.py`, `project/configs/final_model.json`.
 
 ## Slide 8 — The selected booster improved development F1 by 0.0165
 
@@ -140,7 +142,7 @@ The original submission record describes AIcrowd F1 **0.452** and accuracy **0.8
 
 > Historical logistic regression: 0.4256
 >
-> Selected booster: 0.4422
+> Final Phase 14 booster: 0.4422
 >
 > Same development rows and outer folds; thresholds selected in inner folds.
 
@@ -158,7 +160,7 @@ The original submission record describes AIcrowd F1 **0.452** and accuracy **0.8
 >
 > MLP 128 → 64: F1 0.4193
 >
-> Selected booster: F1 0.4422
+> Final Phase 14 booster: F1 0.4422
 >
 > Both networks underperformed the booster in all three outer folds.
 
@@ -180,7 +182,7 @@ The original submission record describes AIcrowd F1 **0.452** and accuracy **0.8
 >
 > Positive class weight 1.25: 0.4408
 >
-> Selected reference: 0.4422
+> Final Phase 14 reference: 0.4422
 
 **Visual:** A compact decision table: tested change, nested F1, decision. These variants use the historical Phase 14 control.
 
@@ -246,33 +248,33 @@ The original submission record describes AIcrowd F1 **0.452** and accuracy **0.8
 
 **Source:** `project/docs/FINAL_REPORT.md`, `evidence/METRICS.json`, `project/results/experiments/20260921T154905753681Z_phase15-boosting-ablate-harehab1-depth5-features128-200trees.json`.
 
-## Slide 14 — An implementation audit led to a controlled comparison
+## Slide 14 — Phase 14 remained final after testing Phase 34
 
 **On-slide copy:**
 
-> The audit found omitted splits separating observed and missing responses.
+> Final Phase 14: F1 0.4422; AP 0.4286.
 >
-> Corrected Phase 34: F1 0.4408; AP 0.4288.
+> Phase 34 comparison: F1 0.4408; AP 0.4288.
 >
-> Historical Phase 14: F1 0.4422; AP 0.4286.
+> Phase 34 adds split candidates separating observed and missing responses.
 
-**Visual:** A small split sketch beside the two labeled implementations. Mark the historical submission as frozen and the corrected version as available.
+**Visual:** Compare the models. Label Phase 14 **final selected model** and Phase 34 **experimental comparison, not adopted**. Attribute the split-search correction only to Phase 34.
 
-**Caption:** The correction completes the candidate search. Its paired F1 difference interval includes zero; an algorithmic correction need not improve the chosen metric on this split.
+**Caption:** Phase 34 corrects missing-only split search. Phase 14 remains selected; the paired F1 difference interval includes zero.
 
-**Notes:** Both versions were submitted. Reported challenge feedback contributed to retaining Phase 14; the numerical Phase 34 AIcrowd score was not supplied. Do not describe the selected historical implementation as the corrected algorithm.
+**Notes:** Phase 14 retains the audited omission. Both versions were submitted; reported AIcrowd feedback supported Phase 14. The numerical Phase 34 challenge score was not supplied.
 
-**Source:** `project/results/eda/phase34_missing_only_split_summary.md`, `project/src/boosting_implementation.py`, `evidence/METRICS.json`.
+**Source:** `project/configs/final_model.json`, `project/results/eda/phase34_missing_only_split_summary.md`, `evidence/METRICS.json`.
 
-## Slide 15 — Development, calibration and challenge feedback measure different things
+## Slide 15 — Phase 14 has distinct development, calibration and challenge scores
 
 **On-slide copy:**
 
-> Nested development: F1 0.4422 — excluded outer folds
+> Phase 14 nested development: F1 0.4422 — excluded outer folds
 >
-> Full-train OOF calibration: F1 0.4428 — threshold selection
+> Phase 14 full-train OOF calibration: F1 0.4428 — threshold selection
 >
-> AIcrowd feedback: F1 0.452 — reported challenge score
+> Phase 14 AIcrowd feedback: F1 0.452 — reported challenge score
 
 **Visual:** Three labeled rows with purpose, data scope and score. Do not plot them as successive improvements.
 
@@ -300,9 +302,9 @@ The original submission record describes AIcrowd F1 **0.452** and accuracy **0.8
 
 **Source:** `docs/CODE_REVIEW.md`, `evidence/VERIFICATION.json`, `project/README.md`.
 
-## Appendix A — The selected model is specified for reproduction
+## Appendix A — The final Phase 14 model is specified for reproduction
 
-Use an editable parameter table: 200 trees; depth 5; learning rate 0.05; minimum 200 rows per leaf; 64 bins; 128 candidate features per node; leaf L2 1; positive weight 1; model seed 20260920; 295 source variables; final threshold 0.2106169795070252.
+Use an editable parameter table for **Phase 14**: 200 trees; depth 5; learning rate 0.05; minimum 200 rows per leaf; 64 bins; 128 candidate features per node; leaf L2 1; positive weight 1; model seed 20260920; 295 source variables; final threshold 0.2106169795070252. Identify `implementation: "phase14"` and `src/numpy_boosting_phase14.py`.
 
 Show commands from `project/`: install `requirements-dev.txt`, run `python -m tools.verify_repository`, `python -m unittest discover -s tests -q`, then `python run.py` with official challenge data. Keep official data, checkpoints and row-level predictions outside Git. Explain that the source hash identifies the historical selected model.
 

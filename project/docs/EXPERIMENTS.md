@@ -1,12 +1,14 @@
 # Experiments and model selection
 
-The selected version is **historical Phase 14 NumPy histogram boosting**, with
+The final selected version is **Phase 14 NumPy histogram boosting**, using
+[src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py), with
 295 source features and parameters selected in Phase 14, including `HAREHAB1`.
 Its nested development F1 is **0.442155227**; the full-data threshold is
 **0.2106169795070252**, calibrated on pooled three-fold OOF predictions over
 all 328,135 training rows. AIcrowd feedback reported by the author is
 **F1 0.452 and accuracy 0.878**. Model search is closed for this version.
-Corrected Phase 34 reaches nested F1 0.440803240; Phase 14 was retained
+The separate corrected Phase 34 comparison reaches nested F1 0.440803240;
+Phase 14 was retained
 after submitting both versions with separately calibrated thresholds.
 The [technical results](FINAL_REPORT.md) summarize the selected pipeline; this
 page records the experiment path and links to the detailed evidence.
@@ -241,9 +243,9 @@ Corrected nested F1 is **0.440803**, delta **−0.001352**. Fold deltas are
 0.563460, while precision falls from 0.367632 to 0.362001: the corrected
 pipeline adds 206 true positives and 907 false positives. AP changes by
 +0.000172 and log loss by +0.000004. This is an implementation-correction
-comparison with frozen settings. The corrected candidate is selected to
-restore the intended candidate set; the higher historical F1 does not justify
-retaining the omission.
+comparison with frozen settings. The correction restores the intended
+candidate set. Phase 34 remains an evaluated comparison; the final submission
+and `run.py` use frozen Phase 14, whose split-search omission is documented.
 
 The paired conditional 95% interval for corrected minus historical F1 is
 [−0.003005, +0.000319], from 20,000 class-stratified paired resamples. It
@@ -282,8 +284,8 @@ under the corrected Phase 34 implementation.
 Neither new weight meets the operational promotion rule. Their paired
 conditional F1-delta intervals include zero; the observed declines do not
 establish a population-level effect. Weight 1 remains preferred within this
-historical comparison. The final Phase 34 configuration was updated by its
-separate study and is not changed by these weight trials.
+historical comparison and is used by the final Phase 14 model. These weight
+trials do not alter the separate Phase 34 comparison configuration.
 
 [Verified study and runtime scope](../results/eda/phase35_positive_weights_summary.md),
 [comparison JSON](../results/experiments/phase35_positive_weights_comparison.json).
@@ -316,7 +318,7 @@ not evaluated.
 Neither candidate improves nested F1. Random's paired conditional delta
 interval is [-0.003356, +0.000540], including zero. Hybrid's interval is
 [-0.051379, -0.043165]; AP, precision and recall also decrease. Prefer
-all training rows for the current model. These results concern the two fixed
+all training rows for the corrected Phase 34 control in this comparison. These results concern the two fixed
 3:1 procedures and one sampling seed, not every possible undersampling policy.
 
 The complete candidate runners took 24.9 and 28.2 minutes, respectively,

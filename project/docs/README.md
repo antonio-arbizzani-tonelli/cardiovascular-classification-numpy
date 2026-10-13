@@ -5,6 +5,11 @@ project. Start with the [portfolio overview](../../README.md)
 for the result story and the [project guide](../README.md) for setup and
 reproduction.
 
+The final selected model is **Phase 14**, using
+[`src/numpy_boosting_phase14.py`](../src/numpy_boosting_phase14.py) as specified
+in [`configs/final_model.json`](../configs/final_model.json). Phase 34 is a
+separate evaluated comparison of corrected split search.
+
 | Document | Purpose |
 | --- | --- |
 | [Technical results](FINAL_REPORT.md) | Methods, comparisons, limitations and links to numerical evidence |

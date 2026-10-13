@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-12T23:54:21.877693+00:00",
+  "checked_at_utc": "2026-10-13T00:43:26.937733+00:00",
   "environment": {
     "python": "3.14.3",
     "numpy": "2.4.2",
@@ -8,7 +8,7 @@
   "project_tests": {
     "passed": true,
     "count": 213,
-    "seconds": 6.218,
+    "seconds": 7.16,
     "scope": "Complete unit/integration suite in the EPFL Machine Learning CS-433 portfolio copy, including active root CI and portfolio publication boundaries; synthetic fixtures and included codebook."
   },
   "original_public_course_tests": {
@@ -36,7 +36,7 @@
     "source_files": 491,
     "archived_course_files": 2,
     "public_files": 499,
-    "local_links_checked": 315,
+    "local_links_checked": 324,
     "json_numeric_comparisons": 285,
     "original_source_unchanged": true,
     "numerical_json_outcomes_unchanged": true,
@@ -45,7 +45,7 @@
     "anchor_errors": []
   },
   "repository_verification": {
-    "checked_at_utc": "2026-10-12T23:49:05.938623+00:00",
+    "checked_at_utc": "2026-10-13T00:41:26.302459+00:00",
     "environment": {
       "python": "3.12.14"
     },
@@ -54,7 +54,7 @@
       "eligible_files": 486,
       "python_files": 97,
       "json_files": 281,
-      "markdown_links": 298,
+      "markdown_links": 306,
       "indexed_records": 114
     },
     "errors": [],
@@ -103,8 +103,8 @@
   "wording_revision": {
     "date": "2026-10-13",
     "framing": "EPFL Machine Learning CS-433 project",
-    "scope": "README, presentation brief, related prose and regenerated PDF; EPFL Machine Learning CS-433 project framing.",
-    "verification": "Full 213-test suite rerun for publication; repository checks pass after excluding local preparation notes, duplicate delivery files and superseded partial exports."
+    "scope": "Final Phase 14 identity aligned across READMEs, results, experiment history, chart labels, evidence summary and Claude brief/PDF. Phase 34 is a separate comparison. Phase 37 report output uses the same final-model wording.",
+    "verification": "213 tests pass; repository and Markdown link checks pass; numerical experiment outcomes, final configuration, calibrated threshold, final submission record and frozen Phase 14 source remain unchanged."
   },
   "clean_publication_package": {
     "passed": true,
@@ -133,6 +133,18 @@
       "unit and integration tests",
       "entry points"
     ],
-    "scope": "Initial source release; the following documentation commit records this completed run without changing code, configurations or experiment outcomes."
+    "scope": "Successful initial source release checks. Later documentation alignment updates prose and generated report wording while preserving model implementation, final configuration and numerical experiment outcomes."
+  },
+  "phase14_documentation_alignment": {
+    "passed": true,
+    "final_selected_model": "Phase 14",
+    "config": "project/configs/final_model.json",
+    "implementation_source": "project/src/numpy_boosting_phase14.py",
+    "submission_record": "project/results/eda/final_phase14_submission.json",
+    "phase34_role": "Separate experimental comparison, not adopted as the final model",
+    "final_configuration_unchanged": true,
+    "frozen_source_unchanged": true,
+    "numerical_results_unchanged": true,
+    "final_submission_record_unchanged": true
   }
 }

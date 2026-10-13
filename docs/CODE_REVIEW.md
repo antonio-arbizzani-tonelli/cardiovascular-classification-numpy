@@ -1,6 +1,6 @@
 # Code review and verification
 
-The portfolio copy was reviewed against the selected model configuration, recorded evaluation protocols and existing test contracts. The review covers the root entry points, linear implementations, every `src/` module, every `tools/` module, configurations and CI. Static checks cover all published Python files; execution uses synthetic fixtures and bounded checks.
+The portfolio copy was reviewed against the final **Phase 14** configuration, recorded evaluation protocols and existing test contracts. `configs/final_model.json` and `run.py` select `src/numpy_boosting_phase14.py`; Phase 34 is a separate comparison. The review covers the root entry points, linear implementations, every `src/` module, every `tools/` module, configurations and CI. Static checks cover all published Python files; execution uses synthetic fixtures and bounded checks.
 
 ## Corrections in the portfolio copy
 
@@ -15,7 +15,7 @@ Documentation and generated report text are in English. Four historical hypothes
 
 ## Interpretation and reproduction limits
 
-The frozen Phase 14 booster retains the known omission of some observed-versus-missing split candidates. It is an explicit historical reproduction, not the corrected implementation. Phase 34 is available separately. Changing the frozen source would break the recorded submission identity.
+The final Phase 14 booster retains the known omission of some observed-versus-missing split candidates. Its frozen source reproduces the selected submission. Phase 34 evaluates a correction separately and was not adopted as the final model. Changing the Phase 14 source would break the recorded submission identity.
 
 Data caches check structure and IDs rather than the full CSV content. When data values change, use a fresh cache directory even if shape and IDs stay the same. Historical experimental controllers may need ignored local checkpoints and OOF artifacts; the default final training entry point is documented separately.
 

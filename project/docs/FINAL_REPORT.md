@@ -2,7 +2,7 @@
 
 These notes document the EPFL Machine Learning CS-433 project: dataset understanding, NumPy implementation, validation, experiments and result interpretation. The [portfolio overview](../../README.md) provides the concise story; this document retains the methods and evidence behind it. The filename is retained for compatibility with historical documentation. The course-delivery report is archived outside the public package.
 
-The selected model is **NumPy histogram gradient boosting, historical Phase 14**, with 295 features and the included original numerical implementation. Recorded AIcrowd feedback is **F1 0.452 and accuracy 0.878** on 12 October 2026, displayed to three decimals and reported by the project author. Nested development F1 is **0.442155**; full-train OOF calibration F1 is **0.442770**. These are three distinct evaluation protocols. Corrected Phase 34 reaches development F1 0.440803. Both versions were submitted and Phase 14 was selected using AIcrowd feedback; no numerical official Phase 34 score was provided.
+The final selected model is **Phase 14 NumPy histogram gradient boosting**, with 295 features and the frozen implementation in [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py). Recorded AIcrowd feedback is **F1 0.452 and accuracy 0.878** on 12 October 2026, displayed to three decimals and reported by the project author. Nested development F1 is **0.442155**; full-train OOF calibration F1 is **0.442770**. These are three distinct evaluation protocols. The separate corrected Phase 34 comparison reaches development F1 0.440803. Both versions were submitted and Phase 14 was selected using AIcrowd feedback; no numerical official Phase 34 score was provided.
 
 This portfolio copy preserves experiment numeric outcomes. Four historical annotations were translated with updated copy hashes. At the portfolio root, `evidence/SNAPSHOT_MANIFEST.json` records original source-commit provenance and keeps the original course project distinct from the portfolio.
 
@@ -79,7 +79,7 @@ These studies guided the retained Phase 14 plan and historical code. Phase 34 se
 
 The feature remains included. Its isolated historical ablation reduces F1 from 0.442155 to 0.431039, a loss of 0.011116. This supports classification of reported disease and limits interpreting the result as prediction before an event. The effect is documented in the [ablation record](../results/experiments/20260921T154905753681Z_phase15-boosting-ablate-harehab1-depth5-features128-200trees.json).
 
-## Split-search verification: Phase 34
+## Split-search comparison: Phase 34
 
 Review found an omission in quantile-bin split search: when edge bins contain observed values, the model could skip a split separating every observed value from all `NaN` values. The correction adds the final boundary when a node contains missing rows, retaining minimum-leaf and gain constraints. It applies to recursive and levelwise strategies.
 
@@ -93,11 +93,11 @@ Complete nested F1 is **0.440803** versus **0.442155**: **−0.001352**, with tw
 
 The [threshold diagnostic](../results/eda/phase34_threshold_diagnostic.json) crosses scores and thresholds from both versions. Corrected scores with old thresholds give F1 0.441583; corrected scores with new thresholds give 0.440803. The operating threshold contributes to the difference. These cells are descriptive: development comparisons retain thresholds selected in inner folds, without selecting by outer F1. Final calibration later uses new full-train OOF predictions. The [complete comparison](../results/experiments/phase34_missing_only_split_comparison.json) retains metrics, transitions and diagnostic curves; the [summary](../results/eda/phase34_missing_only_split_summary.md) explains the study.
 
-The [updated error analysis](../results/eda/phase34_error_followup.json) identifies 9,363 positives missed by both boosting and logistic regression: 40.39% of development positives. Of these, 2,307 have `_AGE80 >= 65` and excellent/very good health (`GENHLTH` 1/2). `_AGE80` is CDC-imputed age; this definition reproduces 2,332 cases in the earlier analysis. Combining positive decisions recovers 756 positives but adds 3,480 false positives, reducing F1 to 0.43521. These errors are consistent with the difficulty of recovering past diagnoses from current responses; they do not establish a ceiling on achievable performance.
+The [Phase 34 comparison's error analysis](../results/eda/phase34_error_followup.json) identifies 9,363 positives missed by both corrected boosting and logistic regression: 40.39% of development positives. Of these, 2,307 have `_AGE80 >= 65` and excellent/very good health (`GENHLTH` 1/2). `_AGE80` is CDC-imputed age; this definition reproduces 2,332 cases in the earlier analysis. Combining positive decisions recovers 756 positives but adds 3,480 false positives, reducing F1 to 0.43521. These errors are consistent with the difficulty of recovering past diagnoses from current responses; they do not establish a ceiling on achievable performance.
 
 ## Final studies: weighting and training sampling
 
-None of the final six configurations improves its matched control. Selected Phase 14 retains all rows and positive weight 1. Weights 1.25/1.5 and random ratios 5:1/7:1 use historical Phase 14; random 3:1 and hybrid hard use corrected Phase 34. These ratios are not a single comparison of data quantity under one algorithm.
+None of the six late-stage candidates improves its matched control. Final selected Phase 14 retains all rows and positive weight 1. Weights 1.25/1.5 and random ratios 5:1/7:1 use historical Phase 14; random 3:1 and hybrid hard use corrected Phase 34. These ratios are not a single comparison of data quantity under one algorithm.
 
 | Study | Control | F1 | Delta F1 | Favorable folds |
 | --- | --- | ---: | ---: | ---: |
@@ -116,7 +116,7 @@ None of the final six configurations improves its matched control. Selected Phas
 
 ## Full training and submission
 
-Final comparison performs three OOF fits and one full-data fit per implementation with identical folds and parameters. Phase 14 selects threshold **0.2106169795070252** with calibration F1 **0.442769549**; Phase 34 selects **0.2214498433950319** with calibration F1 **0.443569854**. Phase 34's OOF advantage did not determine the AIcrowd-based choice; these values do not reveal its test score.
+Full-train calibration compares both implementations with three OOF fits and one full-data fit each, using identical folds and parameters. Final selected Phase 14 uses threshold **0.2106169795070252** with calibration F1 **0.442769549**; the Phase 34 comparison uses **0.2214498433950319** with calibration F1 **0.443569854**. Phase 34's OOF advantage did not determine the AIcrowd-based choice; these values do not reveal its test score.
 
 Final Phase 14 trains on all **328,135 labeled rows** and produces **109,379 predictions: 14,746 positive and 94,633 negative**. The CSV uses header `Id,Prediction`, labels −1/+1 and official sample ID order. The [final record](../results/eda/final_phase14_submission.json) retains calibration, historical source, counts and submission fingerprints. `python run.py` uses that source and threshold; the [validation suite](../configs/experiments/final_phase14_validation.json) explicitly selects the same historical code. The [earlier summary](../results/eda/final_training_summary.json) describes September training with threshold 0.21086909970855153 and 14,728 positive predictions.
 

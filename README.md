@@ -1,6 +1,6 @@
 # Cardiovascular Disease Classification in NumPy
 
-An **EPFL Machine Learning CS-433 project** for the AIcrowd challenge, focused on cardiovascular disease classification from BRFSS 2015 survey data. The NumPy pipeline covers survey preprocessing, histogram gradient boosting and neural-network comparisons.
+An **EPFL Machine Learning CS-433 project** for the AIcrowd challenge, focused on cardiovascular disease classification from BRFSS 2015 survey data. The final model is **Phase 14 histogram gradient boosting in NumPy**, with 295 codebook-cleaned predictors, 200 trees and maximum depth 5. Phase 34 is a separate experimental comparison.
 
 **Ranked 7th on the AIcrowd leaderboard · AIcrowd F1 0.452**
 
@@ -8,7 +8,7 @@ Position reported by the author, 12 Oct 2026: [current leaderboard](https://www.
 
 **328,135 labeled respondents · 295 selected features**
 
-The AIcrowd score is reported competition feedback, displayed to three decimals and preserved in the historical academic submission record. On nested development evaluation, the selected booster reaches **F1 0.4422**, compared with **0.4256** for logistic regression: an absolute improvement of **0.0165** on the same development rows and outer folds.
+The AIcrowd score is reported feedback for the selected **Phase 14 submission**, displayed to three decimals and preserved in the academic submission record. On nested development evaluation, Phase 14 reaches **F1 0.4422**, compared with **0.4256** for logistic regression: an absolute improvement of **0.0165** on the same development rows and outer folds.
 
 ![Model comparison](assets/figures/model_comparison.png)
 
@@ -27,7 +27,7 @@ The work combines data quality, model implementation and reliable comparisons. T
 
 Training uses NumPy and the Python standard library. The project implements the six required linear-model functions, a histogram gradient booster and a two-hidden-layer MLP with Adam. Configurations, fixed development splits and experiment records make the comparisons inspectable.
 
-The target is **reported myocardial infarction or coronary heart disease** (`_MICHD`). The model includes `HAREHAB1`, a question about rehabilitation after a heart attack. This limits interpretation as prediction before an event. The selected historical booster also preserves an audited split-search omission; its corrected counterpart is available with a separately reported result. See [the results and scope](docs/RESULTS.md).
+The target is **reported myocardial infarction or coronary heart disease** (`_MICHD`). Phase 14 includes `HAREHAB1`, a question about rehabilitation after a heart attack, which limits interpretation as prediction before an event. Its source is preserved in `project/src/numpy_boosting_phase14.py`, including an audited split-search omission. The Phase 34 correction was evaluated separately and was not adopted as the final model. See [the results and scope](docs/RESULTS.md).
 
 ## Run the checks
 

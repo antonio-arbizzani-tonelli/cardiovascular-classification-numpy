@@ -1,13 +1,13 @@
 # Final model and completed studies
 
-The recorded model-development sequence is **complete**. This repository preserves the experiments of the EPFL Machine Learning CS-433 project without starting new training. The selected model is historical Phase 14, chosen after submitting both versions to AIcrowd, with author-reported **F1 0.452 and accuracy 0.878**. Phase 34 corrects the observed-versus-missing split search and remains a documented comparison. [EXPERIMENTS.md](EXPERIMENTS.md) records the study history; the [technical results](FINAL_REPORT.md) explain the choice.
+The recorded model-development sequence is **complete**. This repository preserves the experiments of the EPFL Machine Learning CS-433 project without starting new training. The final selected model is **Phase 14**, using [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py), with author-reported **F1 0.452 and accuracy 0.878** after submitting both versions to AIcrowd. Phase 34 is a separate evaluated comparison that corrects the observed-versus-missing split search. [EXPERIMENTS.md](EXPERIMENTS.md) records the study history; the [technical results](FINAL_REPORT.md) explain the choice.
 
 ## Frozen configuration
 
 | Component | Selected value |
 | --- | --- |
 | Model | Histogram gradient boosting implemented in NumPy |
-| Split search | Included historical Phase 14 source, verified by SHA-256 |
+| Split search | `src/numpy_boosting_phase14.py`, the frozen Phase 14 source verified by SHA-256 |
 | Input | 295 Phase 14 features, including HAREHAB1 and ALCDAY5 |
 | Preprocessing | Documented nonresponses → NaN; documented zero quantities → 0; quantile bins fitted on training rows |
 | Parameters | 200 trees, depth 5, learning rate 0.05, minimum leaf size 200, 64 bins, 128 candidate features per node |

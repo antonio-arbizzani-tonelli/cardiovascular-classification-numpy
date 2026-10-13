@@ -10,7 +10,7 @@
     "source_files": 491,
     "archived_course_files": 2,
     "public_files": 499,
-    "local_links_checked": 315,
+    "local_links_checked": 324,
     "json_numeric_comparisons": 285,
     "original_source_unchanged": true,
     "numerical_json_outcomes_unchanged": true,
@@ -44,15 +44,15 @@
       "path": "README.md",
       "source_sha256": "94540bcef4ad20440dd63cf386bba4b7f646998cfdd107a3c458f662f15064a7",
       "bytes": 6735,
-      "portfolio_sha256": "a174e93cf8e2ea6eeb371f75fa0ebe39beeb8a6eb459f27346498fbe9092e65a",
+      "portfolio_sha256": "8681ea494fa2526156fc92a70a7881d97bd7b507ae873fe6580cbf6e9856f147",
       "changed": true
     },
     {
       "path": "configs/README.md",
       "source_sha256": "19d948cfc30cd2a2119be54d0113c670de8deacd6587fc0ac49e79b5f01afa4a",
       "bytes": 5210,
-      "portfolio_sha256": "19d948cfc30cd2a2119be54d0113c670de8deacd6587fc0ac49e79b5f01afa4a",
-      "changed": false
+      "portfolio_sha256": "c2007a42fba1eae55d4c9f52f7f541bcb224abeb24750985e29311224bdf20d5",
+      "changed": true
     },
     {
       "path": "configs/experiments/all_negative_baseline.json",
@@ -618,14 +618,14 @@
       "path": "docs/DEVELOPMENT_PLAN.md",
       "source_sha256": "61e5a46f784ef25abe08c7bfc30662cedaf5ba9abc9e3bad4405b94b7fe1214f",
       "bytes": 6565,
-      "portfolio_sha256": "f6588e2dafab895fc98d36ceb4d55f22c11e01190e02971814e9f739638759d1",
+      "portfolio_sha256": "718db3d2ade289099ac250cc9a6052a5f4d51de7618f57617a8a06fcfb34f47e",
       "changed": true
     },
     {
       "path": "docs/EXPERIMENTS.md",
       "source_sha256": "43deb94a9718ee18bc22c02dd15402485dd13fff7026752e34197a0ca21a78aa",
       "bytes": 26817,
-      "portfolio_sha256": "2a5b6e05151ea528d488adc9f49f7654c1f0e1d713b5609732281f67db1bc76b",
+      "portfolio_sha256": "a425d722f178e8d382d052ba0fb8a3da48e8830c97c060aba0d7a767ec234d1d",
       "changed": true
     },
     {
@@ -639,7 +639,7 @@
       "path": "docs/FINAL_REPORT.md",
       "source_sha256": "d2e1a0aed9c63215763ff7b7b81126b1dbedeb27a4ebbc9234cc3e5d3d0ca275",
       "bytes": 17938,
-      "portfolio_sha256": "7b700e72ab89a9e53008eb026256c86f5ec0050d083c98eb8eecc6bddb1f16e3",
+      "portfolio_sha256": "4cb8a0cdca641c368d7056cc6c05810f79fe2c00e1ca799c0c890a49632cf93d",
       "changed": true
     },
     {
@@ -667,7 +667,7 @@
       "path": "docs/README.md",
       "source_sha256": "b4a52f147857ec9f0709b8b8623894ea55fc3749092f5115ccbae07bdbcba5f9",
       "bytes": 1142,
-      "portfolio_sha256": "f3930af67a27560110004a561ecc4684b52a7cf050b53ce5658468570d4251dd",
+      "portfolio_sha256": "4dc4b6e796d12730a134f1034a95008b618ab655359bec89742c8c3cbbfabcd4",
       "changed": true
     },
     {
@@ -716,7 +716,7 @@
       "path": "results/README.md",
       "source_sha256": "26908588bcb60f03d40a849cc7392c4d5a8c19b5c69af8bbbfc958f857954289",
       "bytes": 6716,
-      "portfolio_sha256": "e52342cd9f6846506f72e14fc06777456eaa18fcafbfd1e972921b181ed62871",
+      "portfolio_sha256": "7a33296cfd3e898d111803cd9b4ac0486711ecf6674bd80bda6b1bbe3881c791",
       "changed": true
     },
     {
@@ -1752,7 +1752,7 @@
       "path": "results/eda/phase37_undersampling_ratios_summary.md",
       "source_sha256": "31314c1105edba1a84086491189c92db8abafeb564f24e7c84cea15054cfa836",
       "bytes": 4343,
-      "portfolio_sha256": "6b8ff558751b7eff43cfc4fa13522f70d0d9034b7396dea6a9633d48a88a921f",
+      "portfolio_sha256": "f2ae9ef2860312a4025ee6874d0a1e751a0224404063dd9d3c6ee9867741778f",
       "changed": true
     },
     {
@@ -3397,7 +3397,7 @@
       "path": "tools/phase37_undersampling_ratios.py",
       "source_sha256": "faeb4127676a7aff6abe1e6f14fdc5b8892905f41ba2388fa4febaa00118fa45",
       "bytes": 34562,
-      "portfolio_sha256": "9eea55998332c461ddfc1afff67e6219042c98d4d01015368b7f0d3664a12f6e",
+      "portfolio_sha256": "f6b0c27b8a2e8480ed979a96fde17db89149847ea8f025a68a308b7cb5b1afb1",
       "changed": true
     },
     {

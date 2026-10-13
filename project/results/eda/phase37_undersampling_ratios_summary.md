@@ -32,7 +32,7 @@ No fold improves. The conditional paired F1-delta interval is [âˆ’0.004093154, â
 
 Candidates run concurrently. Three reference and all 18 candidate models replay; every inner OOF probability set, retained-row bin thresholds, inner decision thresholds and metrics are reconstructed. All positives are retained, validation rows excluded from training and 5:1 is contained in 7:1 in all nine fits. Sources and 25-tree checkpoints remain local.
 
-Ratios are fixed before results and only one sampling seed is tested. Development folds were already consulted; bootstrap conditions on fixed fits, samples and thresholds and excludes new sampling, retraining and repeated selection. Raw probabilities reflect sampled prevalence. These historical tests change neither corrected Phase 34 configuration nor submission.
+Ratios are fixed before results and only one sampling seed is tested. Development folds were already consulted; bootstrap conditions on fixed fits, samples and thresholds and excludes new sampling, retraining and repeated selection. Raw probabilities reflect sampled prevalence. These Phase 14 comparisons support retaining all training rows in the final Phase 14 model; they do not change its configuration or submission. Phase 34 is a separate comparison.
 
 Reproduce with `python -m tools.phase37_undersampling_ratios prepare`, `python -m tools.phase37_undersampling_ratios run` and `python -m tools.phase37_undersampling_ratios report --publish`. Local official data and the Phase 35 historical snapshot are required.
 

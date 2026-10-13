@@ -11,7 +11,8 @@ myocardial infarction or coronary heart disease reported in the BRFSS survey.
 The dataset contains 328,135 labeled respondents, 321 predictors and 8.83%
 positive labels.
 
-The selected model is **Phase 14 histogram gradient boosting**, with 295
+The final selected model is **Phase 14 histogram gradient boosting**, using
+[src/numpy_boosting_phase14.py](src/numpy_boosting_phase14.py), with 295
 features cleaned according to the Phase 14 codebook plan, 200 trees and
 maximum depth 5. Its AIcrowd submission scores **F1 0.452 and accuracy 0.878**
 (author-reported feedback, displayed to three decimals). Nested development F1
@@ -25,7 +26,8 @@ from missing responses. Phase 34 evaluates the correction with the same
 −0.00135 while AP rises by 0.00017. After full-train OOF calibration and
 submission of both versions, Phase 14 was selected based on AIcrowd
 feedback. Its exact historical source is included as
-`src/numpy_boosting_phase14.py`; the corrected Phase 34 remains available.
+`src/numpy_boosting_phase14.py`; Phase 34 remains a separate evaluated
+comparison using `src/numpy_boosting.py`.
 
 | Pipeline | Development F1 |
 | --- | ---: |

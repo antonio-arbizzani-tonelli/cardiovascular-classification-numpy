@@ -1,8 +1,9 @@
 # Results and evidence
 
-The selected Phase 14 booster scores **F1 0.452 and accuracy 0.878 on AIcrowd**,
+The final selected model uses [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py).
+This Phase 14 booster scores **F1 0.452 and accuracy 0.878 on AIcrowd**,
 as reported by the author. Its nested development F1 is **0.442155227**;
-the corrected Phase 34 comparison reaches **0.440803240**. The
+the separate corrected Phase 34 comparison reaches **0.440803240**. The
 [technical results](../docs/FINAL_REPORT.md) explain the model comparison and choice.
 
 | Location | Contents |
@@ -13,8 +14,8 @@ the corrected Phase 34 comparison reaches **0.440803240**. The
 | [MLP index](experiments/mlp/index.csv) | Two neural candidates |
 | [Raw-input benchmark index](experiments/phase33_raw_preprocessing/index.csv) | One controlled preprocessing comparison |
 | [Split-search correction index](experiments/phase34_missing_only_split/index.csv) | One controlled implementation correction |
-| [Full-data training](eda/final_training_summary.json) | Historical Phase 14 runtime, prediction counts and submission fingerprint |
-| [Selected submission](eda/final_phase14_submission.json) | Full-train OOF calibration, selected source and CSV fingerprints, AIcrowd feedback |
+| [Earlier full-data training](eda/final_training_summary.json) | Historical Phase 14 runtime, prediction counts and earlier submission fingerprint |
+| [Final selected Phase 14 submission](eda/final_phase14_submission.json) | Full-train OOF calibration, selected source and CSV fingerprints, AIcrowd feedback |
 | [Final project checks](eda/final_phase14_readiness.json) | Current clean-package tests, public course tests and integrity checks |
 | [Earlier project checks](eda/final_readiness.json) | Historical audit and execution environment |
 | [Fixed split](eda/analysis/splits/stratified_seed_20260918.npz) | Development and initial-validation row indices |

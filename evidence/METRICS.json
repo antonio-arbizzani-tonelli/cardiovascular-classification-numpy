@@ -70,14 +70,16 @@
     "n_bins": 64,
     "l2_regularization": 1.0,
     "max_features": 128,
-    "random_seed": 20260920
+    "random_seed": 20260920,
+    "name": "Phase 14"
   },
   "selected_implementation": {
     "name": "Phase 14",
     "source": "src/numpy_boosting_phase14.py",
     "sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
     "historical_search_omission": "Observed-versus-missing endpoint split candidate can be omitted when extreme quantile bins contain observations",
-    "reason": "Frozen exact reproduction of team-selected AIcrowd submission. Corrected Phase34 retained as documented comparison."
+    "reason": "Final Phase 14 model selected for the AIcrowd submission. Its exact source is preserved; Phase 34 is a separately evaluated comparison that was not adopted.",
+    "status": "final_selected_model"
   },
   "model_results": [
     {
@@ -150,7 +152,7 @@
       "scope_note": "All 321 raw predictors, numerical response codes and NaNs; same model and folds. Measures cleaning and exclusions together; prior split-search implementation."
     },
     {
-      "name": "Selected Phase 14",
+      "name": "Final Phase 14",
       "source": "results/experiments/20260921T105139261213Z_phase14-boosting-codebook-corrections-only-depth5-features128-200trees.json",
       "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
       "metrics": {
@@ -173,7 +175,7 @@
       "scope_note": "Frozen historical implementation, including omitted observed-versus-missing endpoint candidates; exact reproduction of selected submission."
     },
     {
-      "name": "Corrected Phase 34",
+      "name": "Phase 34 comparison",
       "source": "results/experiments/phase34_missing_only_split/20261007T092637381255Z_phase34-missing-only-split-depth5-features128-200trees.json",
       "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
       "metrics": {
@@ -304,7 +306,8 @@
       "negative_predictions": 94633,
       "input_hashes_verified": 9,
       "seconds": 8.108060900005512
-    }
+    },
+    "implementation": "phase14"
   },
   "leaderboard": {
     "source": "results/eda/final_phase14_submission.json",
@@ -347,7 +350,8 @@
     "recorded_regression_tests": 8,
     "recorded_exhaustive_candidate_checks": 700,
     "effect": "Completes valid candidates; small uncertain F1 decrease, slightly higher AP; 206 additional TP and 907 additional FP",
-    "caveat": "Selected Phase14 intentionally preserves earlier search. Historical ablations were not all rerun after correction."
+    "caveat": "Selected Phase14 intentionally preserves earlier search. Historical ablations were not all rerun after correction.",
+    "status": "experimental_comparison_not_adopted"
   },
   "negative_ablations": [
     {
@@ -792,7 +796,7 @@
   },
   "employer_story": {
     "headline": "An auditable NumPy ML pipeline for incomplete, imbalanced survey data",
-    "summary": "The EPFL Machine Learning CS-433 project implements and evaluates a NumPy histogram gradient boosting pipeline over 328135 labeled survey responses, with codebook-aware preprocessing, nested threshold selection and recorded ablations. The selected historical pipeline achieved nested F1 0.44216 versus 0.42563 for logistic regression; its academic submission record contains team-reported AIcrowd F1 0.452. The author reports current AIcrowd rank 7 on 2026-10-12. The portfolio demonstrates data correctness, metric interpretation and evidence-based model selection for Data Scientist roles.",
+    "summary": "The EPFL Machine Learning CS-433 project implements and evaluates a NumPy histogram gradient boosting pipeline over 328135 labeled survey responses, with codebook-aware preprocessing, nested threshold selection and recorded ablations. The final selected Phase 14 pipeline achieved nested F1 0.44216 versus 0.42563 for logistic regression; its academic submission record contains team-reported AIcrowd F1 0.452. The author reports current AIcrowd rank 7 on 2026-10-12. The portfolio demonstrates data correctness, metric interpretation and evidence-based model selection for Data Scientist roles.",
     "strongest_evidence": [
       "NumPy model implementation and six required learning functions",
       "Semantic audit separating missing answers from documented zeros",

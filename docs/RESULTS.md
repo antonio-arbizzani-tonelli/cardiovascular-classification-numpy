@@ -1,6 +1,6 @@
 # Results and interpretation
 
-The selected NumPy histogram booster achieves **nested development F1 0.442155**, an absolute gain of **0.016527** over historical logistic regression on the same development rows and outer folds. The historical academic submission record reports **AIcrowd F1 0.452 and accuracy 0.878**.
+The final selected model is **Phase 14 NumPy histogram gradient boosting**. It achieves **nested development F1 0.442155**, an absolute gain of **0.016527** over historical logistic regression on the same development rows and outer folds. Its academic submission record reports **AIcrowd F1 0.452 and accuracy 0.878**. Phase 34 is an evaluated comparison and was not selected.
 
 Developed for EPFL Machine Learning CS-433, the project combines NumPy model implementation, controlled experiments and result analysis. The experiment records retain the provenance of the academic challenge feedback.
 
@@ -12,8 +12,8 @@ Developed for EPFL Machine Learning CS-433, the project combines NumPy model imp
 | --- | ---: | ---: | ---: | ---: |
 | Historical ridge | 0.419508 | 0.33303 | 0.56665 | 0.39028 |
 | Historical logistic regression | 0.425628 | 0.35728 | 0.52632 | 0.38775 |
-| Selected Phase 14 booster | **0.442155** | 0.367632 | 0.554573 | 0.428609 |
-| Corrected Phase 34 booster | 0.440803 | 0.362001 | 0.563460 | 0.428781 |
+| **Final Phase 14 booster** | **0.442155** | 0.367632 | 0.554573 | 0.428609 |
+| Phase 34 comparison, corrected search | 0.440803 | 0.362001 | 0.563460 | 0.428781 |
 | MLP 64 → 32 | 0.424451 | 0.360722 | 0.515531 | 0.387782 |
 | MLP 128 → 64 | 0.419268 | 0.340005 | 0.546721 | 0.379380 |
 
@@ -31,7 +31,7 @@ The selected booster recovers 12,855 of 23,180 development positives and produce
 | Full-train three-fold OOF calibration | 0.442770 | The same OOF labels select and describe the final threshold |
 | AIcrowd feedback | 0.452 | Team-reported displayed score preserved in the historical academic submission record; direct submission URL is unavailable |
 
-The final threshold is **0.2106169795070252**. The full-data run generates 109,379 predictions, including 14,746 positives. The [submission record](../project/results/eda/final_phase14_submission.json) records configuration, input hashes, CSV fingerprint and feedback provenance.
+These three scores belong to **Phase 14**. Its final threshold is **0.2106169795070252**. The full-data run generates 109,379 predictions, including 14,746 positives. The [final configuration](../project/configs/final_model.json) selects `implementation: "phase14"` and `src/numpy_boosting_phase14.py`; `python run.py` uses this configuration. The [submission record](../project/results/eda/final_phase14_submission.json) records input hashes, CSV fingerprint and feedback provenance.
 
 ## Decisions supported by experiments
 
@@ -43,9 +43,9 @@ The raw-versus-cleaned benchmark holds the historical booster and folds fixed: F
 
 `HAREHAB1` records rehabilitation after a heart attack. All 620 development respondents with a recorded code are positive. Removing the feature in the historical ablation reduces F1 to **0.431039**. Its presence is useful for classifying a reported diagnosis but limits interpretation as prediction before an event.
 
-An audit found omitted candidates separating observed values from missing responses. The historical Phase 14 source is frozen for submission reproduction; Phase 34 implements the correction. Under the same nested protocol, corrected F1 is 0.440803 while AP rises slightly to 0.428781. The paired F1 difference interval **[−0.003005, +0.000319]** includes zero. A correction can be appropriate without improving the chosen metric on this dataset.
+An audit found omitted candidates separating observed values from missing responses in Phase 14. The selected Phase 14 source retains that behavior for exact reproduction. Phase 34 evaluates the correction as a separate candidate: nested F1 is 0.440803 and AP is 0.428781. Its paired F1 difference interval versus Phase 14, **[−0.003005, +0.000319]**, includes zero. Phase 34's complete split search must not be attributed to the final Phase 14 model.
 
-AIcrowd feedback contributed to the final choice between the two submitted versions. The selected challenge score should therefore be described as competition feedback used in selection. No prospective, clinical, temporal or external-population validation is established.
+AIcrowd feedback contributed to retaining **Phase 14** after both versions were submitted. The selected challenge score is competition feedback used in selection. No prospective, clinical, temporal or external-population validation is established.
 
 ## Evidence
 
