@@ -3,6 +3,8 @@
 The final selected model uses [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py).
 This Phase 14 booster scores **F1 0.452 and accuracy 0.878 on AIcrowd**,
 as reported by the author. Its nested development F1 is **0.442155227**;
+the matched logistic baseline using shared cleaning reaches **0.434466576**,
+an absolute gap of **0.007688651** in favor of Phase 14;
 the separate corrected Phase 34 comparison reaches **0.440803240**. The
 [technical results](../docs/FINAL_REPORT.md) explain the model comparison and choice.
 
@@ -14,13 +16,16 @@ the separate corrected Phase 34 comparison reaches **0.440803240**. The
 | [MLP index](experiments/mlp/index.csv) | Two neural candidates |
 | [Raw-input benchmark index](experiments/phase33_raw_preprocessing/index.csv) | One controlled preprocessing comparison |
 | [Split-search correction index](experiments/phase34_missing_only_split/index.csv) | One controlled implementation correction |
+| [Matched logistic index](experiments/phase38_matched_logistic/index.csv) | One completed comparison with shared Phase 14 cleaning |
+| [Matched logistic study](eda/phase38_matched_logistic_summary.md) | Shared Phase 14 cleaning, source variables and nested folds, with model-specific finite inputs |
+| [Matched logistic verification](eda/phase38_matched_logistic_verification.json) | Matching boundaries, convergence, source/OOF fingerprints and recorded metrics |
 | [Earlier full-data training](eda/final_training_summary.json) | Historical Phase 14 runtime, prediction counts and earlier submission fingerprint |
 | [Final selected Phase 14 submission](eda/final_phase14_submission.json) | Full-train OOF calibration, selected source and CSV fingerprints, AIcrowd feedback |
 | [Final project checks](eda/final_phase14_readiness.json) | Current clean-package tests, public course tests and integrity checks |
 | [Earlier project checks](eda/final_readiness.json) | Historical audit and execution environment |
 | [Fixed split](eda/analysis/splits/stratified_seed_20260918.npz) | Development and initial-validation row indices |
 
-The five indices cover **114 records** and store a SHA-256 fingerprint for
+The six indices cover **115 records** and store a SHA-256 fingerprint for
 each JSON record. [EXPERIMENTS.md](../docs/EXPERIMENTS.md) connects the studies
 to their results.
 
@@ -32,6 +37,18 @@ score the outer folds. In booster JSONs, this result is stored in
 `outcome.metrics` can instead contain fixed-threshold or exploratory scores,
 including a threshold selected on the same pooled OOF rows being scored.
 The experiment summaries identify the protocol used for each result.
+
+The matched logistic baseline uses the exact Phase 14 cleaner and 295 source
+variables, then fits missing-value filling and standardization of values and
+295 missingness flags inside each training partition, adding an intercept.
+NumPy L-BFGS uses
+fixed L2 0.0001 without outer-fold tuning. Its F1 is **0.434467**; Phase 14
+is higher in all three outer folds. The paired 95% interval for the booster's
+gain is **[+0.004919, +0.010463]**, conditional on fitted models and thresholds
+and excluding retraining or repeated-selection uncertainty. This compares
+complete pipelines with different final matrices. The change from the
+historical logistic score also changes solver, regularization, flags and
+interactions, so it is not an isolated cleaning effect.
 
 The [Phase 33 comparison](experiments/phase33_raw_preprocessing_comparison.json)
 keeps the historical Phase 14 booster implementation and nested folds fixed:
@@ -99,7 +116,7 @@ Training saves checkpoints, OOF arrays and logs under `boosting_artifacts/`,
 caches and submission CSVs are excluded from Git.
 
 To reproduce CV, download the official CSVs and run
-`python -m tools.prepare_data` from the repository root before running the
+`python -m tools.prepare_data` from `project/` before running the
 experiment configuration. Exact replay requires the saved checkpoints and
 prediction arrays listed in the study report; a new CV run generates its own
 artifacts.

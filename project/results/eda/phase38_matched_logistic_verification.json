@@ -1,0 +1,1208 @@
+{
+  "status": "passed",
+  "verified_at_utc": "2026-10-13T01:09:11.954509+00:00",
+  "scope": "Read-only replay of all nine saved fits and pooled OOF artifacts; no model training or parameter updates. Original project unchanged.",
+  "experiment_record": "results/experiments/phase38_matched_logistic/20261013T010425774510Z_phase38-phase14-shared-cleaning-logistic.json",
+  "experiment_record_sha256": "fd5f8a060d2b692e6ff953350400c1eff214f523cfc210ef6d841e047f410c50",
+  "source_protocol_commit": "3c00bd3",
+  "committed_execution_sources_verified": [
+    {
+      "path": "src/run_matched_logistic_cv.py",
+      "recorded_sha256": "3a076efb79ddf89e845cf6bcaaef70e0cb4bb45a7ba12373815d26d09035702b"
+    },
+    {
+      "path": "src/numpy_logistic.py",
+      "recorded_sha256": "56d7bb3508b6533107286f3ae9a1990e7bf6b05f32a8afc7f75e5ec92f316801"
+    },
+    {
+      "path": "configs/experiments/phase38_phase14_logistic.json",
+      "recorded_sha256": "4117b0a83e5b25a4603a37ee9267bc29b874679fb12f5e303270790a3db2da8f"
+    }
+  ],
+  "current_runner_sha256": "b09c42fd8362b2a8ea751177e5a9728386eddf727e33353948f024a0ace2e15c",
+  "current_runner_matches_execution": false,
+  "current_runner_scope": "The recorded study uses committed 3c00bd3 bytes. The final current runner adds input-fingerprint guards and makes --reference-oof optional: the default reproduces logistic metrics and a point comparison from the included Phase 14 record; supplying the verified original OOF archive also reproduces paired decisions and the conditional interval. Numerical adaptation, fitting, metrics and paired-bootstrap function ASTs are unchanged from the executed protocol. The nine-fit numerical replay above was not repeated during this interface/provenance refresh.",
+  "environment": {
+    "python": "3.14.3",
+    "numpy": "2.4.2",
+    "openblas_threads": 1
+  },
+  "checks_passed": 213,
+  "checks": [
+    {
+      "check": "Recorded study completed",
+      "passed": true
+    },
+    {
+      "check": "features_sha256 matches execution record",
+      "passed": true,
+      "sha256": "8a6f1b0587adac3139dfadffef5a3ccb3d9f32e0a6ad5854a75a52168acf03b8"
+    },
+    {
+      "check": "labels_sha256 matches execution record",
+      "passed": true,
+      "sha256": "cfa3b3138223cc6b57f2d320f5800bc9ba9d59edfb4c08cc2a67d09f903a55fd"
+    },
+    {
+      "check": "split_sha256 matches execution record",
+      "passed": true,
+      "sha256": "1845a935f0fe7f71ff09a834ee5efbc594efc078e94345be521352aa1d6a3630"
+    },
+    {
+      "check": "metadata_sha256 matches execution record",
+      "passed": true,
+      "sha256": "28e5f94aae365c1aece9dbc7398d875ca90fbd91456115c46ecfc573723ad587"
+    },
+    {
+      "check": "preprocessing_sha256 matches execution record",
+      "passed": true,
+      "sha256": "3c6188166857fbf9b22b5896dfbaea9025b70e1004a44769b7cba4ee8dec41fb"
+    },
+    {
+      "check": "suite_sha256 matches execution record",
+      "passed": true,
+      "sha256": "4117b0a83e5b25a4603a37ee9267bc29b874679fb12f5e303270790a3db2da8f"
+    },
+    {
+      "check": "phase14_oof_sha256 matches execution record",
+      "passed": true,
+      "sha256": "3f15553b05c6f8b3af09f9016d588f583a7ce8297eb0655cb9eb256df2390753"
+    },
+    {
+      "check": "solver_sha256 matches execution record",
+      "passed": true,
+      "sha256": "56d7bb3508b6533107286f3ae9a1990e7bf6b05f32a8afc7f75e5ec92f316801"
+    },
+    {
+      "check": "Shared historical Phase 14 features hash",
+      "passed": true
+    },
+    {
+      "check": "Shared historical Phase 14 labels hash",
+      "passed": true
+    },
+    {
+      "check": "Shared historical Phase 14 split_indices hash",
+      "passed": true
+    },
+    {
+      "check": "Shared historical Phase 14 feature_metadata hash",
+      "passed": true
+    },
+    {
+      "check": "Shared historical Phase 14 preprocessing_config hash",
+      "passed": true
+    },
+    {
+      "check": "Selected historical booster source preserved",
+      "passed": true,
+      "sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98"
+    },
+    {
+      "check": "Committed execution protocol 3c00bd3: src/run_matched_logistic_cv.py",
+      "passed": true,
+      "sha256": "3a076efb79ddf89e845cf6bcaaef70e0cb4bb45a7ba12373815d26d09035702b"
+    },
+    {
+      "check": "Committed execution protocol 3c00bd3: src/numpy_logistic.py",
+      "passed": true,
+      "sha256": "56d7bb3508b6533107286f3ae9a1990e7bf6b05f32a8afc7f75e5ec92f316801"
+    },
+    {
+      "check": "Committed execution protocol 3c00bd3: configs/experiments/phase38_phase14_logistic.json",
+      "passed": true,
+      "sha256": "4117b0a83e5b25a4603a37ee9267bc29b874679fb12f5e303270790a3db2da8f"
+    },
+    {
+      "check": "Matched pooled OOF archive hash",
+      "passed": true
+    },
+    {
+      "check": "Phase 14 development row order",
+      "passed": true
+    },
+    {
+      "check": "Phase 14 labels from official cache",
+      "passed": true
+    },
+    {
+      "check": "Matched OOF development_indices alignment",
+      "passed": true
+    },
+    {
+      "check": "Matched OOF labels alignment",
+      "passed": true
+    },
+    {
+      "check": "Matched OOF fold_ids alignment",
+      "passed": true
+    },
+    {
+      "check": "Outer 1 reference fold assignment",
+      "passed": true
+    },
+    {
+      "check": "outer1 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer1 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer1 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer1 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer1 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer1 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer1 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer1 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer1 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer1 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer1 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer1 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer1 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer1 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer1 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.21509292253654483
+    },
+    {
+      "check": "outer1 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.21524321190857115
+    },
+    {
+      "check": "outer1 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 9.74482710491839e-07
+    },
+    {
+      "check": "outer1 probability assembly",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 excludes outer evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 threshold rows exclude outer evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner1 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer1_inner1 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.21530036508204353
+    },
+    {
+      "check": "outer1_inner1 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.21549913844908916
+    },
+    {
+      "check": "outer1_inner1 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 9.968692953506651e-07
+    },
+    {
+      "check": "outer1_inner2 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 excludes outer evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 threshold rows exclude outer evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer1_inner2 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer1_inner2 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.21221233564138894
+    },
+    {
+      "check": "outer1_inner2 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.21239658047294677
+    },
+    {
+      "check": "outer1_inner2 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 8.993180300394162e-07
+    },
+    {
+      "check": "Outer 1 threshold reconstructed from inner OOF",
+      "passed": true
+    },
+    {
+      "check": "Outer 1 threshold assembly",
+      "passed": true
+    },
+    {
+      "check": "Outer 1 decision assembly",
+      "passed": true
+    },
+    {
+      "check": "Outer 1 all metrics and counts",
+      "passed": true
+    },
+    {
+      "check": "Outer 2 reference fold assignment",
+      "passed": true
+    },
+    {
+      "check": "outer2 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer2 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer2 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer2 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer2 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer2 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer2 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer2 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer2 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer2 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer2 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer2 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer2 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer2 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer2 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.2153378746175461
+    },
+    {
+      "check": "outer2 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.21548290541469267
+    },
+    {
+      "check": "outer2 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 9.208723882688848e-07
+    },
+    {
+      "check": "outer2 probability assembly",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 excludes outer evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 threshold rows exclude outer evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner1 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer2_inner1 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.21355035262424157
+    },
+    {
+      "check": "outer2_inner1 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.21374761208708767
+    },
+    {
+      "check": "outer2_inner1 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 9.57912550345502e-07
+    },
+    {
+      "check": "outer2_inner2 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 excludes outer evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 threshold rows exclude outer evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer2_inner2 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer2_inner2 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.21438240322842683
+    },
+    {
+      "check": "outer2_inner2 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.21459531180800956
+    },
+    {
+      "check": "outer2_inner2 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 8.799357727417133e-07
+    },
+    {
+      "check": "Outer 2 threshold reconstructed from inner OOF",
+      "passed": true
+    },
+    {
+      "check": "Outer 2 threshold assembly",
+      "passed": true
+    },
+    {
+      "check": "Outer 2 decision assembly",
+      "passed": true
+    },
+    {
+      "check": "Outer 2 all metrics and counts",
+      "passed": true
+    },
+    {
+      "check": "Outer 3 reference fold assignment",
+      "passed": true
+    },
+    {
+      "check": "outer3 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer3 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer3 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer3 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer3 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer3 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer3 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer3 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer3 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer3 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer3 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer3 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer3 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer3 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer3 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.2156993161694449
+    },
+    {
+      "check": "outer3 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.21584184421284963
+    },
+    {
+      "check": "outer3 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 9.365300203503213e-07
+    },
+    {
+      "check": "outer3 probability assembly",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 excludes outer evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 threshold rows exclude outer evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner1 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer3_inner1 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.21439251177992158
+    },
+    {
+      "check": "outer3_inner1 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.2145928505520442
+    },
+    {
+      "check": "outer3_inner1 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 9.723481196307517e-07
+    },
+    {
+      "check": "outer3_inner2 training rows",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 disjoint fit/evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 excludes outer evaluation rows",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 threshold rows exclude outer evaluation",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 training_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 validation_row_sha256",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 recorded convergence",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 exact shared source columns",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 training-only fill_values",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 training-only means",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 training-only scales",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 training-only missing_means",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 training-only missing_scales",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 finite weights and 591-column design",
+      "passed": true
+    },
+    {
+      "check": "outer3_inner2 full evaluation probability replay",
+      "passed": true,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "check": "outer3_inner2 saved-weight training BCE",
+      "passed": true,
+      "replayed": 0.21410118935044362
+    },
+    {
+      "check": "outer3_inner2 saved-weight penalized objective",
+      "passed": true,
+      "replayed": 0.21426654139905527
+    },
+    {
+      "check": "outer3_inner2 saved-weight gradient criterion",
+      "passed": true,
+      "replayed": 9.916201698275852e-07
+    },
+    {
+      "check": "Outer 3 threshold reconstructed from inner OOF",
+      "passed": true
+    },
+    {
+      "check": "Outer 3 threshold assembly",
+      "passed": true
+    },
+    {
+      "check": "Outer 3 decision assembly",
+      "passed": true
+    },
+    {
+      "check": "Outer 3 all metrics and counts",
+      "passed": true
+    },
+    {
+      "check": "Pooled all metrics/counts reconstructed",
+      "passed": true
+    },
+    {
+      "check": "Selected Phase 14 all reference metrics/counts reconstructed",
+      "passed": true
+    },
+    {
+      "check": "Selected historical Phase 14 F1 exact",
+      "passed": true
+    },
+    {
+      "check": "Paired joint decisions reconstructed",
+      "passed": true
+    },
+    {
+      "check": "Conditional paired bootstrap interval exact",
+      "passed": true
+    },
+    {
+      "check": "F1 comparison exact",
+      "passed": true
+    }
+  ],
+  "saved_fit_replays": [
+    {
+      "fit": "outer1",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer1.npz",
+      "artifact_sha256": "e19e86e15436fb4aa5843125b4facc45985510d1d9024d15d25dd07a2c20ca63",
+      "training_rows": 175005,
+      "evaluation_rows": 87503,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.21509292253654483,
+      "replayed_objective": 0.21524321190857115,
+      "replayed_gradient_inf_norm": 9.74482710491839e-07,
+      "seconds": 6.543708400000469
+    },
+    {
+      "fit": "outer1_inner1",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer1_inner1.npz",
+      "artifact_sha256": "4a2ac321bf9792335d88c8a8612bbc7e1b47f4a1d8f546e01ddbe91bc3294072",
+      "training_rows": 87502,
+      "evaluation_rows": 87503,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.21530036508204353,
+      "replayed_objective": 0.21549913844908916,
+      "replayed_gradient_inf_norm": 9.968692953506651e-07,
+      "seconds": 4.366147799999453
+    },
+    {
+      "fit": "outer1_inner2",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer1_inner2.npz",
+      "artifact_sha256": "a9115b6580dd40dc18f51e6b694b79a9568b51403ddcf36c48078acfd29b6b33",
+      "training_rows": 87503,
+      "evaluation_rows": 87502,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.21221233564138894,
+      "replayed_objective": 0.21239658047294677,
+      "replayed_gradient_inf_norm": 8.993180300394162e-07,
+      "seconds": 4.420970499995747
+    },
+    {
+      "fit": "outer2",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer2.npz",
+      "artifact_sha256": "530d4633ec2d98b90ca89bfbf72c2f79ba4f00956eae4f7f6407aa9f9bf3d1f2",
+      "training_rows": 175005,
+      "evaluation_rows": 87503,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.2153378746175461,
+      "replayed_objective": 0.21548290541469267,
+      "replayed_gradient_inf_norm": 9.208723882688848e-07,
+      "seconds": 6.654594899999211
+    },
+    {
+      "fit": "outer2_inner1",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer2_inner1.npz",
+      "artifact_sha256": "dc8c7465e0245f22beb91ce865fb1baf5f15c5cae656d97e9e0e69c683151ca1",
+      "training_rows": 87502,
+      "evaluation_rows": 87503,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.21355035262424157,
+      "replayed_objective": 0.21374761208708767,
+      "replayed_gradient_inf_norm": 9.57912550345502e-07,
+      "seconds": 3.461523499994655
+    },
+    {
+      "fit": "outer2_inner2",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer2_inner2.npz",
+      "artifact_sha256": "f820dc4cec5c9bdb4a79faeca54bebc12b2b3fdc48635bc9ddb736008e00d990",
+      "training_rows": 87503,
+      "evaluation_rows": 87502,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.21438240322842683,
+      "replayed_objective": 0.21459531180800956,
+      "replayed_gradient_inf_norm": 8.799357727417133e-07,
+      "seconds": 3.89293390000239
+    },
+    {
+      "fit": "outer3",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer3.npz",
+      "artifact_sha256": "116f137aec89b9cb2c45052792d431dd94a306795f06df2c06d054ef4132e830",
+      "training_rows": 175006,
+      "evaluation_rows": 87502,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.2156993161694449,
+      "replayed_objective": 0.21584184421284963,
+      "replayed_gradient_inf_norm": 9.365300203503213e-07,
+      "seconds": 6.156382900007884
+    },
+    {
+      "fit": "outer3_inner1",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer3_inner1.npz",
+      "artifact_sha256": "64f08ae4452967697a7be04852ffb3b8b4e43221c621bf6fc4dd8b055c377c7c",
+      "training_rows": 87503,
+      "evaluation_rows": 87503,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.21439251177992158,
+      "replayed_objective": 0.2145928505520442,
+      "replayed_gradient_inf_norm": 9.723481196307517e-07,
+      "seconds": 3.7471672000101535
+    },
+    {
+      "fit": "outer3_inner2",
+      "artifact": "results/oof_predictions/phase38_phase14_logistic/outer3_inner2.npz",
+      "artifact_sha256": "1a396ae11b152399eef2544304125defeb495d854e417e1070d1ef5bbdc18239",
+      "training_rows": 87503,
+      "evaluation_rows": 87503,
+      "source_columns": 295,
+      "design_columns": 591,
+      "rows_and_training_state_verified": true,
+      "maximum_probability_replay_difference": 0.0,
+      "replayed_training_loss": 0.21410118935044362,
+      "replayed_objective": 0.21426654139905527,
+      "replayed_gradient_inf_norm": 9.916201698275852e-07,
+      "seconds": 4.328428099994198
+    }
+  ],
+  "folds": [
+    {
+      "fold": 1,
+      "inner_seed": 20260923,
+      "training_rows": 175005,
+      "evaluation_rows": 87503,
+      "threshold": 0.19991592620869694,
+      "inner_f1": 0.43208826334648004,
+      "metrics": {
+        "accuracy": 0.8752042787104443,
+        "precision": 0.36224005522478214,
+        "recall": 0.5432897631681118,
+        "f1": 0.4346655622282046,
+        "specificity": 0.907353088648215,
+        "balanced_accuracy": 0.7253214259081634,
+        "average_precision": 0.42141792292687763,
+        "log_loss": 0.21881029372247948
+      },
+      "confusion_counts": {
+        "true_positives": 4198,
+        "false_positives": 7391,
+        "true_negatives": 72385,
+        "false_negatives": 3529
+      }
+    },
+    {
+      "fold": 2,
+      "inner_seed": 20260924,
+      "training_rows": 175005,
+      "evaluation_rows": 87503,
+      "threshold": 0.21749878998315184,
+      "inner_f1": 0.4329602024258093,
+      "metrics": {
+        "accuracy": 0.8823126064249226,
+        "precision": 0.37706799273214114,
+        "recall": 0.5102885984211207,
+        "f1": 0.4336779586449626,
+        "specificity": 0.9183463698355395,
+        "balanced_accuracy": 0.7143174841283302,
+        "average_precision": 0.4198532565297208,
+        "log_loss": 0.21825832656136304
+      },
+      "confusion_counts": {
+        "true_positives": 3943,
+        "false_positives": 6514,
+        "true_negatives": 73262,
+        "false_negatives": 3784
+      }
+    },
+    {
+      "fold": 3,
+      "inner_seed": 20260925,
+      "training_rows": 175006,
+      "evaluation_rows": 87502,
+      "threshold": 0.20226392198972634,
+      "inner_f1": 0.4302824267782427,
+      "metrics": {
+        "accuracy": 0.8761514022536627,
+        "precision": 0.36420776953295503,
+        "recall": 0.5399948226766762,
+        "f1": 0.43501381575517434,
+        "specificity": 0.9087068792619334,
+        "balanced_accuracy": 0.7243508509693048,
+        "average_precision": 0.4218654985085976,
+        "log_loss": 0.21737223689607144
+      },
+      "confusion_counts": {
+        "true_positives": 4172,
+        "false_positives": 7283,
+        "true_negatives": 72493,
+        "false_negatives": 3554
+      }
+    }
+  ],
+  "metrics": {
+    "accuracy": 0.8778894357505295,
+    "precision": 0.367541267424853,
+    "recall": 0.531190681622088,
+    "f1": 0.4344665761013391,
+    "specificity": 0.9114687792485626,
+    "balanced_accuracy": 0.7213297304353253,
+    "average_precision": 0.42098971959589176,
+    "log_loss": 0.21814695534451184
+  },
+  "confusion_counts": {
+    "true_positives": 12313,
+    "false_positives": 21188,
+    "true_negatives": 218140,
+    "false_negatives": 10867
+  },
+  "phase14_reference_metrics": {
+    "accuracy": 0.8764342420040532,
+    "precision": 0.36763233906254467,
+    "recall": 0.5545729076790337,
+    "f1": 0.4421552272688187,
+    "specificity": 0.9076079689798101,
+    "balanced_accuracy": 0.7310904383294219,
+    "average_precision": 0.4286092503721835,
+    "log_loss": 0.21522507121178044
+  },
+  "phase14_reference_confusion_counts": {
+    "true_positives": 12855,
+    "false_positives": 22112,
+    "true_negatives": 217216,
+    "false_negatives": 10325
+  },
+  "paired_comparison": {
+    "booster_minus_logistic_f1": 0.0076886511674795766,
+    "booster_minus_logistic_f1_interval_95": [
+      0.0049185842528166445,
+      0.010463250337598444
+    ],
+    "bootstrap_resamples": 20000,
+    "joint_decision_counts_by_actual_class": [
+      [
+        213996,
+        3220,
+        4144,
+        17968
+      ],
+      [
+        9524,
+        801,
+        1343,
+        11512
+      ]
+    ],
+    "scope": "Conditional on these fitted models, folds and selected thresholds. Does not include retraining or repeated model-selection uncertainty.",
+    "seed": 20261013
+  },
+  "elapsed_seconds": 45.17310259999067,
+  "current_runner_numerical_functions_unchanged": [
+    "logistic_designs",
+    "metrics",
+    "nested_cv",
+    "paired_comparison"
+  ],
+  "current_runner_refreshed_at_utc": "2026-10-13T01:18:33.349543+00:00"
+}

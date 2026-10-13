@@ -76,6 +76,18 @@ def metrics(labels, probabilities, predictions):
     return values, vars(counts)
 
 
+def verify_input_fingerprints(reference_record, fingerprints):
+    """Require the recorded Phase 14 inputs before claiming matched cleaning."""
+    expected = reference_record['outcome']['input_sha256']
+    fields = {'features_sha256': 'features', 'labels_sha256': 'labels',
+              'split_sha256': 'split_indices', 'metadata_sha256': 'feature_metadata',
+              'preprocessing_sha256': 'preprocessing_config'}
+    for current, historical in fields.items():
+        if fingerprints[current] != expected[historical]:
+            raise ValueError(f"Matched comparison input differs from Phase 14: {historical}")
+    return {'passed': True, 'historical_input_hashes_verified': list(fields.values())}
+
+
 def nested_cv(features, labels, development_indices, names, metadata, plan, suite, artifact_dir,
               fitter=fit_logistic):
     """Use the exact Phase 14 outer/inner row assignment and inner-F1 thresholds."""
@@ -169,7 +181,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, default=ROOT / 'configs/experiments/phase38_phase14_logistic.json')
     parser.add_argument('--data-root', type=Path, default=ROOT)
-    parser.add_argument('--reference-oof', type=Path, required=True)
+    parser.add_argument('--reference-oof', type=Path,
+                        help='Optional original Phase 14 OOF archive for paired error/interval analysis.')
     args = parser.parse_args()
     suite = json.loads(args.config.read_text(encoding='utf-8'))
     data = {key: args.data_root / value for key, value in suite['data'].items()}
@@ -182,36 +195,52 @@ def main():
     plan_path = ROOT / suite['preprocessing_config_path']
     metadata = load_feature_metadata(metadata_path)
     plan = json.loads(plan_path.read_text(encoding='utf-8'))['variants'][0]['preprocessing']
-    if _sha256(args.reference_oof) != suite['reference_oof_sha256']:
-        raise ValueError('The reference is not the recorded selected Phase 14 OOF archive.')
-    with np.load(args.reference_oof) as reference:
-        booster_indices = reference['development_indices'].copy()
-        booster_labels = reference['labels'].copy()
-        booster_fold_ids = reference['fold_ids'].copy()
-        booster_predictions = reference['nested_predictions'].copy()
-        booster_probabilities = reference['probabilities'].copy()
-    if not np.array_equal(booster_indices, development_indices) or not np.array_equal(booster_labels, labels[development_indices]):
-        raise ValueError('Reference rows/labels do not match the development split.')
-    expected_folds = np.zeros(len(development_indices), dtype=np.int8)
-    for fold, (_, validation) in enumerate(_stratified_folds(booster_labels, suite['fold_count'], suite['outer_seed']), start=1):
-        expected_folds[validation] = fold
-    if not np.array_equal(booster_fold_ids, expected_folds):
-        raise ValueError('Reference fold mapping differs from the matched protocol.')
+    booster_predictions = booster_probabilities = None
+    booster_labels = labels[development_indices]
+    if args.reference_oof is not None:
+        if _sha256(args.reference_oof) != suite['reference_oof_sha256']:
+            raise ValueError('The reference is not the recorded selected Phase 14 OOF archive.')
+        with np.load(args.reference_oof) as reference:
+            booster_indices = reference['development_indices'].copy()
+            reference_labels = reference['labels'].copy()
+            booster_fold_ids = reference['fold_ids'].copy()
+            booster_predictions = reference['nested_predictions'].copy()
+            booster_probabilities = reference['probabilities'].copy()
+        if not np.array_equal(booster_indices, development_indices) or not np.array_equal(reference_labels, booster_labels):
+            raise ValueError('Reference rows/labels do not match the development split.')
+        expected_folds = np.zeros(len(development_indices), dtype=np.int8)
+        for fold, (_, validation) in enumerate(_stratified_folds(booster_labels, suite['fold_count'], suite['outer_seed']), start=1):
+            expected_folds[validation] = fold
+        if not np.array_equal(booster_fold_ids, expected_folds):
+            raise ValueError('Reference fold mapping differs from the matched protocol.')
     fingerprint = {'suite_sha256': _sha256(args.config), 'features_sha256': _sha256(data['features_path']),
                    'labels_sha256': _sha256(data['labels_path']), 'split_sha256': _sha256(data['split_indices_path']),
                    'metadata_sha256': _sha256(metadata_path), 'preprocessing_sha256': _sha256(plan_path),
                    'runner_sha256': _sha256(Path(__file__)), 'solver_sha256': _sha256(ROOT / 'src/numpy_logistic.py'),
-                   'phase14_oof_sha256': suite['reference_oof_sha256']}
+                   'shared_cleaner_sha256': _sha256(ROOT / 'src/feature_preprocessing.py'),
+                   'evaluation_sha256': _sha256(ROOT / 'src/evaluation.py'),
+                   'fold_implementation_sha256': _sha256(ROOT / 'src/run_preprocessing_cv.py'),
+                   'phase14_oof_sha256': suite['reference_oof_sha256'] if args.reference_oof else None}
+    reference_record = json.loads((ROOT / suite['reference_record']).read_text(encoding='utf-8'))
+    input_verification = verify_input_fingerprints(reference_record, fingerprint)
     started = time.perf_counter()
     artifact_dir = ROOT / suite['artifact_dir']
     outcome, predictions = nested_cv(features, labels, development_indices, names, metadata, plan, suite, artifact_dir)
     outcome['runtime_seconds'] = time.perf_counter() - started
     outcome['status'] = 'completed'
     outcome['input_and_source_fingerprints'] = fingerprint
+    outcome['phase14_input_verification'] = input_verification
     outcome['oof_sha256'] = _sha256(artifact_dir / 'nested_oof.npz')
-    reference_values, reference_counts = metrics(booster_labels, booster_probabilities, booster_predictions)
+    if args.reference_oof is not None:
+        reference_values, reference_counts = metrics(booster_labels, booster_probabilities, booster_predictions)
+        outcome['comparison'] = paired_comparison(booster_labels, predictions, booster_predictions, **suite['bootstrap'])
+    else:
+        nested_reference = reference_record['outcome']['nested_threshold_evaluation']
+        reference_values = nested_reference['pooled_metrics']
+        reference_counts = nested_reference['pooled_confusion_counts']
+        outcome['comparison'] = {'paired_interval_available': False,
+                                 'scope': 'Point comparison with the included Phase 14 record; paired analysis requires the original verified OOF archive.'}
     outcome['phase14_reference'] = {'record': suite['reference_record'], 'metrics': reference_values, 'confusion_counts': reference_counts}
-    outcome['comparison'] = paired_comparison(booster_labels, predictions, booster_predictions, **suite['bootstrap'])
     outcome['comparison']['booster_minus_logistic_f1'] = reference_values['f1'] - outcome['metrics']['f1']
     config = {'experiment_name': suite['experiment_name'], 'hypothesis': suite['hypothesis'], 'data': suite['data'],
               'features': {'source_count': suite['source_feature_count'], 'preprocessing_source': suite['preprocessing_config_path'],

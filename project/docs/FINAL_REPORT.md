@@ -41,15 +41,20 @@ F1 balances positive recovery and false alarms. With this imbalance, predicting 
 
 | Model | F1 | Precision | Recall | Average precision | Log loss |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Ridge | 0.419508 | 0.33303 | 0.56665 | 0.39028 | 0.22917 |
-| Logistic regression | 0.425628 | 0.35728 | 0.52632 | 0.38775 | 0.22198 |
+| Historical ridge | 0.419508 | 0.33303 | 0.56665 | 0.39028 | 0.22917 |
+| Historical logistic regression | 0.425628 | 0.35728 | 0.52632 | 0.38775 | 0.22198 |
+| Matched logistic, Phase 14 cleaning | 0.434467 | 0.367541 | 0.531191 | 0.420990 | 0.218147 |
 | Booster on 321 raw predictors | 0.441457 | 0.366631 | 0.554659 | 0.427835 | 0.215348 |
 | **Selected Phase 14 booster** | **0.442155** | **0.367632** | **0.554573** | **0.428609** | **0.215225** |
 | Phase 34 booster, corrected search | 0.440803 | 0.362001 | 0.563460 | 0.428781 | 0.215229 |
 | MLP 64 → 32 | 0.424451 | 0.360722 | 0.515531 | 0.387782 | 0.221674 |
 | MLP 128 → 64 | 0.419268 | 0.340005 | 0.546721 | 0.379380 | 0.222710 |
 
-Linear scores come from historical median-fill runs, before categorical fills changed to modes. Selected Phase 14 recovers 12,855 of 23,180 development positives and produces 22,112 false positives. Fold F1 values are 0.439027, 0.444054 and 0.443512.
+Historical ridge and logistic scores come from median-fill runs before categorical fills changed to modes. The matched logistic baseline shares Phase 14 cleaning, 295 source variables and nested partitions. It uses train-fitted categorical modes, numeric medians, standardized filled values and 295 standardized missingness flags, plus an intercept: 591 design columns. NumPy L-BFGS uses fixed L2 0.0001, with no outer-fold tuning or interactions. These are complete pipeline comparisons with different model-specific final matrices.
+
+The [matched study](../results/eda/phase38_matched_logistic_summary.md) gives logistic F1 **0.434467**, versus **0.442155** for Phase 14: an absolute gain of **0.007689**, positive in all three outer folds. Its paired 95% interval **[+0.004919, +0.010463]** is conditional on fitted models and selected thresholds, excluding retraining and repeated-selection uncertainty. All nine logistic fits converged within 484 iterations; recorded runtime is 404.6 seconds. The [verification record](../results/eda/phase38_matched_logistic_verification.json) checks the shared cleaning, rows, folds and frozen Phase 14 predictions. The change from historical logistic F1 0.425628 also changes the solver, regularization, flags and interactions, so it cannot isolate the contribution of cleaning.
+
+Selected Phase 14 recovers 12,855 of 23,180 development positives and produces 22,112 false positives. Fold F1 values are 0.439027, 0.444054 and 0.443512.
 
 ## Experimental progression
 
@@ -93,7 +98,7 @@ Complete nested F1 is **0.440803** versus **0.442155**: **−0.001352**, with tw
 
 The [threshold diagnostic](../results/eda/phase34_threshold_diagnostic.json) crosses scores and thresholds from both versions. Corrected scores with old thresholds give F1 0.441583; corrected scores with new thresholds give 0.440803. The operating threshold contributes to the difference. These cells are descriptive: development comparisons retain thresholds selected in inner folds, without selecting by outer F1. Final calibration later uses new full-train OOF predictions. The [complete comparison](../results/experiments/phase34_missing_only_split_comparison.json) retains metrics, transitions and diagnostic curves; the [summary](../results/eda/phase34_missing_only_split_summary.md) explains the study.
 
-The [Phase 34 comparison's error analysis](../results/eda/phase34_error_followup.json) identifies 9,363 positives missed by both corrected boosting and logistic regression: 40.39% of development positives. Of these, 2,307 have `_AGE80 >= 65` and excellent/very good health (`GENHLTH` 1/2). `_AGE80` is CDC-imputed age; this definition reproduces 2,332 cases in the earlier analysis. Combining positive decisions recovers 756 positives but adds 3,480 false positives, reducing F1 to 0.43521. These errors are consistent with the difficulty of recovering past diagnoses from current responses; they do not establish a ceiling on achievable performance.
+The [Phase 34 comparison's error analysis](../results/eda/phase34_error_followup.json) identifies 9,363 positives missed by both corrected boosting and historical logistic regression: 40.39% of development positives. Of these, 2,307 have `_AGE80 >= 65` and excellent/very good health (`GENHLTH` 1/2). `_AGE80` is CDC-imputed age; this definition reproduces 2,332 cases in the earlier analysis. Combining positive decisions recovers 756 positives but adds 3,480 false positives, reducing F1 to 0.43521. These errors are consistent with the difficulty of recovering past diagnoses from current responses; they do not establish a ceiling on achievable performance.
 
 ## Final studies: weighting and training sampling
 

@@ -1,15 +1,91 @@
 """Check shared cleaning and nested evaluation boundaries for Phase 38."""
 import tempfile
 import unittest
+import json
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 
-from src.run_matched_logistic_cv import logistic_designs, nested_cv, paired_comparison
+from src.run_matched_logistic_cv import logistic_designs, nested_cv, paired_comparison, verify_input_fingerprints
 from src.run_preprocessing_cv import _stratified_folds
+from src import run_matched_logistic_cv as runner
 
 
 class TestMatchedLogistic(unittest.TestCase):
+    def test_cli_can_reproduce_metrics_without_private_oof_and_add_paired_analysis_when_available(self):
+        from src.run_preprocessing_cv import _sha256
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as directory:
+            root = Path(directory).resolve()
+            x = np.column_stack([np.arange(60, dtype=np.float32), np.ones(60, dtype=np.float32)])
+            y = np.tile([0, 1], 30).astype(np.int8)
+            np.save(root / 'x.npy', x)
+            np.save(root / 'y.npy', 2 * y - 1)
+            np.savez(root / 'split.npz', development_indices=np.arange(60, dtype=np.int64))
+            (root / 'header.csv').write_text('Id,amount,constant\n', encoding='utf-8')
+            (root / 'metadata.json').write_text(json.dumps([
+                {'name': name, 'semantic_type': 'count'} for name in ['amount', 'constant']]), encoding='utf-8')
+            (root / 'plan.json').write_text(json.dumps({'variants': [{'preprocessing': {}}]}), encoding='utf-8')
+            (root / 'src').mkdir()
+            for name in ['numpy_logistic', 'feature_preprocessing', 'evaluation', 'run_preprocessing_cv']:
+                (root / 'src' / (name + '.py')).write_text('# Synthetic provenance fixture\n', encoding='utf-8')
+            fold_ids = np.zeros(60, dtype=np.int8)
+            for fold, (_, positions) in enumerate(_stratified_folds(y, 3, 20260919), 1):
+                fold_ids[positions] = fold
+            reference_oof = root / 'reference.npz'
+            np.savez(reference_oof, development_indices=np.arange(60, dtype=np.int64), labels=y,
+                     fold_ids=fold_ids, nested_predictions=y, probabilities=np.where(y, .8, .2))
+            reference_metrics, reference_counts = runner.metrics(y, np.where(y, .8, .2), y)
+            expected = {key: _sha256(root / file) for key, file in [
+                ('features', 'x.npy'), ('labels', 'y.npy'), ('split_indices', 'split.npz'),
+                ('feature_metadata', 'metadata.json'), ('preprocessing_config', 'plan.json')]}
+            (root / 'reference.json').write_text(json.dumps({'outcome': {
+                'input_sha256': expected, 'nested_threshold_evaluation': {
+                    'pooled_metrics': reference_metrics, 'pooled_confusion_counts': reference_counts}}}), encoding='utf-8')
+            suite = {'experiment_name': 'synthetic_matched_logistic', 'hypothesis': 'Test reproduction paths.',
+                     'data': {'features_path': 'x.npy', 'labels_path': 'y.npy',
+                              'split_indices_path': 'split.npz', 'x_train_csv_path': 'header.csv'},
+                     'feature_metadata_path': 'metadata.json', 'preprocessing_config_path': 'plan.json',
+                     'reference_record': 'reference.json', 'reference_oof_sha256': _sha256(reference_oof),
+                     'source_feature_count': 2, 'fold_count': 3, 'outer_seed': 20260919,
+                     'inner_fold_count': 2, 'inner_seed': 20260922,
+                     'logistic_adapter': {'missing_indicators': True}, 'model': {'l2': 1e-4},
+                     'artifact_dir': 'artifacts', 'record_dir': 'records',
+                     'bootstrap': {'resamples': 100, 'seed': 3}}
+            config = root / 'suite.json'
+            config.write_text(json.dumps(suite), encoding='utf-8')
+            for paired in [False, True]:
+                with self.subTest(paired=paired):
+                    arguments = ['runner', '--config', str(config), '--data-root', str(root)]
+                    if paired:
+                        arguments += ['--reference-oof', str(reference_oof)]
+                    with patch.object(runner, 'ROOT', root), patch('sys.argv', arguments), patch('builtins.print'):
+                        runner.main()
+                    records = sorted((root / 'records').glob('*.json'))
+                    outcome = json.loads(records[-1].read_text())['outcome']
+                    self.assertTrue(outcome['phase14_input_verification']['passed'])
+                    self.assertEqual(len(outcome['fits']), 9)
+                    self.assertEqual('booster_minus_logistic_f1_interval_95' in outcome['comparison'], paired)
+                    self.assertAlmostEqual(outcome['comparison']['booster_minus_logistic_f1'], 1 - outcome['metrics']['f1'])
+
+    def test_changed_values_cannot_be_compared_to_historical_predictions_even_with_same_shape(self):
+        from src.run_preprocessing_cv import _sha256
+        values = np.arange(12).reshape(6, 2)
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as directory:
+            path = Path(directory) / 'features.npy'
+            np.save(path, values)
+            original_hash = _sha256(path)
+            expected = {'features': original_hash, 'labels': 'labels', 'split_indices': 'split',
+                        'feature_metadata': 'metadata', 'preprocessing_config': 'plan'}
+            current = {'features_sha256': original_hash, 'labels_sha256': 'labels', 'split_sha256': 'split',
+                       'metadata_sha256': 'metadata', 'preprocessing_sha256': 'plan'}
+            self.assertTrue(verify_input_fingerprints({'outcome': {'input_sha256': expected}}, current)['passed'])
+            values[0, 0] = 1000
+            np.save(path, values)
+            current['features_sha256'] = _sha256(path)
+            with self.assertRaisesRegex(ValueError, 'features'):
+                verify_input_fingerprints({'outcome': {'input_sha256': expected}}, current)
+
     def test_finite_adapter_uses_training_statistics_and_preserves_missingness(self):
         metadata = [{'name': 'amount', 'semantic_type': 'continuous'},
                     {'name': 'category', 'semantic_type': 'categorical'}]

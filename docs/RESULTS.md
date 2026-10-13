@@ -1,6 +1,6 @@
 # Results and interpretation
 
-The final selected model is **Phase 14 NumPy histogram gradient boosting**. It achieves **nested development F1 0.442155**, an absolute gain of **0.016527** over historical logistic regression on the same development rows and outer folds. Its academic submission record reports **AIcrowd F1 0.452 and accuracy 0.878**. Phase 34 is an evaluated comparison and was not selected.
+The final selected model is **Phase 14 NumPy histogram gradient boosting**. It achieves **nested development F1 0.442155**, an absolute gain of **0.007689** over the matched logistic baseline using the same codebook cleaning, source variables, development rows and nested folds. Its academic submission record reports **AIcrowd F1 0.452 and accuracy 0.878**. Phase 34 is an evaluated comparison and was not selected.
 
 Developed for EPFL Machine Learning CS-433, the project combines NumPy model implementation, controlled experiments and result analysis. The experiment records retain the provenance of the academic challenge feedback.
 
@@ -12,16 +12,23 @@ Developed for EPFL Machine Learning CS-433, the project combines NumPy model imp
 | --- | ---: | ---: | ---: | ---: |
 | Historical ridge | 0.419508 | 0.33303 | 0.56665 | 0.39028 |
 | Historical logistic regression | 0.425628 | 0.35728 | 0.52632 | 0.38775 |
+| Matched logistic, Phase 14 cleaning | 0.434467 | 0.367541 | 0.531191 | 0.420990 |
 | **Final Phase 14 booster** | **0.442155** | 0.367632 | 0.554573 | 0.428609 |
 | Phase 34 comparison, corrected search | 0.440803 | 0.362001 | 0.563460 | 0.428781 |
 | MLP 64 → 32 | 0.424451 | 0.360722 | 0.515531 | 0.387782 |
 | MLP 128 → 64 | 0.419268 | 0.340005 | 0.546721 | 0.379380 |
 
-The comparisons use 262,508 development rows, three outer folds and thresholds selected using two inner folds. Preprocessing is fitted within the training partition of each fit. Linear-model results use the historical median-fill representation. These are historical pipeline comparisons; they do not isolate model architecture from preprocessing.
+The comparisons use 262,508 development rows, three outer folds and thresholds selected using two inner folds. Preprocessing is fitted within each training partition. The matched logistic baseline shares Phase 14's cleaning and 295 source variables; train-fitted filling, standardization and missingness flags give it a different final matrix. These are complete pipeline comparisons. The historical linear entries retain their earlier median-fill representation.
 
 ![Development comparison](../assets/figures/model_comparison.png)
 
 The selected booster recovers 12,855 of 23,180 development positives and produces 22,112 false positives. Its three fold F1 scores are 0.439027, 0.444054 and 0.443512. These describe performance on this split, not uncertainty over future populations.
+
+## Matched logistic baseline
+
+The [matched study](../project/results/eda/phase38_matched_logistic_summary.md) reuses verified Phase 14 outer-OOF predictions and fits logistic regression on the same cleaned source variables and partitions. Logistic regression requires finite inputs: training-fold categorical modes and numeric medians fill missing values; filled values and 295 missingness flags are standardized, with an intercept giving 591 design columns. NumPy L-BFGS uses fixed L2 **0.0001**, without outer-fold tuning or interaction features. All nine fits converged within 484 iterations; the recorded run took **404.6 seconds**. The [verification record](../project/results/eda/phase38_matched_logistic_verification.json) checks the evidence and matching boundaries.
+
+Logistic F1 is **0.434467**, with fold scores **0.434666, 0.433678 and 0.435014**. Phase 14 is higher in all three outer folds. Its pooled advantage is **0.007689**, with a paired 95% interval **[+0.004919, +0.010463]**, conditional on these fitted models and thresholds. The interval excludes retraining and repeated model-selection uncertainty. The historical logistic score, **0.425628**, remains a separate result: changes in solver, regularization, missingness flags and interactions prevent attributing the new score difference solely to cleaning.
 
 ## Three score protocols
 

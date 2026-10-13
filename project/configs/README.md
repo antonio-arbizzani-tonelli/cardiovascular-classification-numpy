@@ -26,6 +26,7 @@ in [the final submission record](../results/eda/final_phase14_submission.json).
 | [Hybrid hard-negative undersampling](experiments/phase36_undersampling_hybrid_hard.json) | Same sample budget; half random negatives and half highest-risk negatives from a training-only pilot |
 | [Historical random undersampling 5:1](experiments/phase37_phase14_random_ratio5.json) | Phase 14 with all positives and five negatives per positive; execute through the Phase 37 driver |
 | [Historical random undersampling 7:1](experiments/phase37_phase14_random_ratio7.json) | Same historical model and shared random negative permutation; the 5:1 sample is contained in this one |
+| [Matched logistic baseline](experiments/phase38_phase14_logistic.json) | Exact Phase 14 cleaning and source variables, train-fitted finite adaptation, fixed L2 and matched nested folds |
 
 The other configurations in `experiments/` describe experimental pipelines.
 The measured results are explained in [EXPERIMENTS.md](../docs/EXPERIMENTS.md).
@@ -41,8 +42,7 @@ preprocessing study keeps both raw and cleaned controls on Phase 14's
 earlier implementation.
 
 CV uses numeric caches and the included fixed split. Place the official CSVs
-as described in [data/README.md](../data/README.md), then run from the repository
-root:
+as described in [data/README.md](../data/README.md), then run from `project/`:
 
 ```bash
 python -m tools.prepare_data
@@ -50,6 +50,28 @@ python -m tools.prepare_data
 
 Historical checkpoint replay also requires the saved model and OOF files
 identified in each study report.
+
+The Phase 38 runner defaults to `phase38_phase14_logistic.json`. With official
+data, this reproduces logistic metrics and compares them with the included
+Phase 14 result record:
+
+```bash
+python -m src.run_matched_logistic_cv
+```
+
+The paired interval additionally requires the original Phase 14 OOF archive
+from a trusted local copy. It is excluded from Git; its hash is checked:
+
+```bash
+python -m src.run_matched_logistic_cv --reference-oof results/boosting_artifacts/phase14_codebook_corrections_only/oof_predictions/phase14_boosting_codebook_corrections_only_depth5_features128_200trees_oof.npz
+```
+
+Run this from `project/`. The logistic adapter fills missing values with
+training modes/medians, standardizes filled values and missingness flags,
+and includes an intercept. Its 591-column design differs from the booster's
+295-column matrix while sharing the same source cleaning and nested splits.
+See the [matched study](../results/eda/phase38_matched_logistic_summary.md)
+and [verification](../results/eda/phase38_matched_logistic_verification.json).
 
 Phase 35 uses `python -m tools.phase35_positive_weights prepare` followed by
 `python -m tools.phase35_positive_weights run` to select the exact archived

@@ -49,6 +49,7 @@ or repeated candidate selection.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Historical ridge, lambda 0.0001 | 0.419508 | 0.33303 | 0.56665 | 0.39028 | 0.22917 |
 | Historical logistic, 4,000 updates | 0.425628 | 0.35728 | 0.52632 | 0.38775 | 0.22198 |
+| Matched logistic, Phase 14 cleaning | 0.434467 | 0.367541 | 0.531191 | 0.420990 | 0.218147 |
 | **Selected Phase 14 histogram boosting** | **0.442155** | **0.367632** | **0.554573** | **0.428609** | **0.215225** |
 | Phase 33 historical booster, 321 raw predictors | 0.441457 | 0.366631 | 0.554659 | 0.427835 | 0.215348 |
 | Phase 34 corrected histogram boosting | 0.440803 | 0.362001 | 0.563460 | 0.428781 | 0.215229 |
@@ -77,11 +78,39 @@ reproduces the corrected candidate. The
 [final submission record](../results/eda/final_phase14_submission.json)
 records the calibrated threshold, selected CSV fingerprint and AIcrowd feedback.
 
-The linear metrics are historical results obtained with median fills for
-numeric-coded categorical columns. Current linear preprocessing uses the
-training-fold mode for binary, categorical and ordinal columns, and the
-median for continuous/count columns. The historical results do not measure
-that updated fill policy.
+The historical linear entries use median fills for numeric-coded categorical
+columns. The matched logistic baseline instead shares Phase 14 cleaning and
+uses a train-fitted finite-input adapter. The different model matrices mean
+these are complete pipeline comparisons rather than an architecture-only
+experiment.
+
+## Matched logistic baseline (Phase 38)
+
+Phase 38 fits logistic regression using the exact Phase 14 codebook cleaner
+and 295 source variables on the same 262,508 development rows, three outer
+folds and two inner folds. Thresholds are selected only from inner OOF
+predictions. The verified historical Phase 14 outer-OOF file provides the
+booster reference without retraining it.
+
+The logistic adapter fits categorical modes, numeric medians and z-score
+scaling on each training partition, with 295 standardized missingness flags and an
+intercept: 591 design columns. It uses no one-hot expansion or interactions.
+NumPy L-BFGS uses fixed L2 0.0001 without outer-fold tuning. All nine fits
+converged within 484 iterations; recorded runtime is 404.6 seconds.
+
+Logistic pooled F1 is **0.434467**, versus **0.442155** for Phase 14. Its
+fold scores are 0.434666, 0.433678 and 0.435014; Phase 14 is higher in each.
+The pooled F1 gain is **0.007689**, with a paired 95% interval
+**[+0.004919, +0.010463]** conditional on these fitted models and thresholds.
+It excludes retraining and repeated-selection uncertainty. Differences from
+the historical logistic score also change solver, regularization, flags and
+interactions, so they do not isolate cleaning. Phase 14 remains the final
+selected model.
+
+[Study summary](../results/eda/phase38_matched_logistic_summary.md),
+[verification](../results/eda/phase38_matched_logistic_verification.json),
+[configuration](../configs/experiments/phase38_phase14_logistic.json),
+[completed record](../results/experiments/phase38_matched_logistic/20261013T010425774510Z_phase38-phase14-shared-cleaning-logistic.json).
 
 ## Early development: baseline, linear models and booster selection
 

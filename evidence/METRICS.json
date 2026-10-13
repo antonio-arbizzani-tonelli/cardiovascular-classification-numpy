@@ -129,6 +129,23 @@
       "scope_note": "Historical median-fill representation with age interactions; gamma 0.2, 4000 updates, no regularization. Precedes categorical mode-fill correction."
     },
     {
+      "name": "Matched logistic regression",
+      "source": "results/experiments/phase38_matched_logistic/20261013T010425774510Z_phase38-phase14-shared-cleaning-logistic.json",
+      "metric_json_path": "outcome.metrics",
+      "metrics": {
+        "accuracy": 0.8778894357505295,
+        "average_precision": 0.42098971959589176,
+        "balanced_accuracy": 0.7213297304353253,
+        "f1": 0.4344665761013391,
+        "log_loss": 0.21814695534451184,
+        "precision": 0.367541267424853,
+        "recall": 0.531190681622088,
+        "specificity": 0.9114687792485626
+      },
+      "control": "Phase 14",
+      "scope_note": "Exact Phase 14 codebook cleaning and 295 source columns; same development rows and nested folds. Logistic-specific train-fitted mode/median fill, z-scores and 295 missing flags; fixed L2=1e-4 and converged NumPy L-BFGS. No extra age flag, interactions or one-hot expansion."
+    },
+    {
       "name": "Raw-predictor historical booster",
       "source": "results/experiments/phase33_raw_preprocessing/20261007T011322024298Z_phase33-raw-321-features-depth5-features128-200trees.json",
       "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
@@ -796,7 +813,7 @@
   },
   "employer_story": {
     "headline": "An auditable NumPy ML pipeline for incomplete, imbalanced survey data",
-    "summary": "The EPFL Machine Learning CS-433 project implements and evaluates a NumPy histogram gradient boosting pipeline over 328135 labeled survey responses, with codebook-aware preprocessing, nested threshold selection and recorded ablations. The final selected Phase 14 pipeline achieved nested F1 0.44216 versus 0.42563 for logistic regression; its academic submission record contains team-reported AIcrowd F1 0.452. The author reports current AIcrowd rank 7 on 2026-10-12. The portfolio demonstrates data correctness, metric interpretation and evidence-based model selection for Data Scientist roles.",
+    "summary": "The EPFL Machine Learning CS-433 project implements and evaluates a NumPy histogram gradient boosting pipeline over 328135 labeled survey responses, with codebook-aware preprocessing, nested threshold selection and recorded ablations. The final selected Phase 14 pipeline achieved nested F1 0.44216 versus 0.43447 for logistic regression with the same Phase 14 codebook cleaning, source variables and nested folds; its academic submission record contains team-reported AIcrowd F1 0.452. The author reports current AIcrowd rank 7 on 2026-10-12. The portfolio demonstrates data correctness, metric interpretation and evidence-based model selection for Data Scientist roles.",
     "strongest_evidence": [
       "NumPy model implementation and six required learning functions",
       "Semantic audit separating missing answers from documented zeros",
@@ -813,5 +830,30 @@
       "Corrected split search used by selected submission"
     ]
   },
-  "source_base": "project/"
+  "source_base": "project/",
+  "matched_logistic_comparison": {
+    "source": "results/experiments/phase38_matched_logistic/20261013T010425774510Z_phase38-phase14-shared-cleaning-logistic.json",
+    "summary": "results/eda/phase38_matched_logistic_summary.md",
+    "verification": "results/eda/phase38_matched_logistic_verification.json",
+    "config": "configs/experiments/phase38_phase14_logistic.json",
+    "protocol_source_commit": "3c00bd3d9e956b768ca0d6063d985c46a10538e0",
+    "source_feature_count": 295,
+    "logistic_design_columns_including_intercept": 591,
+    "logistic_nested_f1": 0.4344665761013391,
+    "phase14_nested_f1": 0.4421552272688187,
+    "booster_minus_logistic_f1": 0.0076886511674795766,
+    "conditional_paired_interval_95": [
+      0.0049185842528166445,
+      0.010463250337598444
+    ],
+    "fit_count": 9,
+    "all_fits_converged": true,
+    "runtime_seconds": 404.57268129999284,
+    "limits": [
+      "Shared semantic cleaning, but model-specific final representations.",
+      "Fixed logistic regularization; no broad hyperparameter search.",
+      "The change from historical logistic performance also changes optimizer, regularization, missing flags and interactions; it does not isolate cleaning.",
+      "Conditional on these fitted models, folds and selected thresholds. Does not include retraining or repeated model-selection uncertainty."
+    ]
+  }
 }

@@ -1,6 +1,6 @@
 # Final model and completed studies
 
-The recorded model-development sequence is **complete**. This repository preserves the experiments of the EPFL Machine Learning CS-433 project without starting new training. The final selected model is **Phase 14**, using [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py), with author-reported **F1 0.452 and accuracy 0.878** after submitting both versions to AIcrowd. Phase 34 is a separate evaluated comparison that corrects the observed-versus-missing split search. [EXPERIMENTS.md](EXPERIMENTS.md) records the study history; the [technical results](FINAL_REPORT.md) explain the choice.
+The recorded studies are **complete**, including the matched logistic baseline added after model selection. The final selected model remains **Phase 14**, using [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py), with author-reported **F1 0.452 and accuracy 0.878** after submitting both versions to AIcrowd. Phase 34 is a separate evaluated comparison that corrects the observed-versus-missing split search. [EXPERIMENTS.md](EXPERIMENTS.md) records the study history; the [technical results](FINAL_REPORT.md) explain the choice.
 
 ## Frozen configuration
 
@@ -38,12 +38,15 @@ HAREHAB1 remains included. It asks about rehabilitation after a heart attack, so
 | MLP with dedicated preprocessing | 64 → 32: 0.424451; 128 → 64: 0.419268; both lower in all three folds | [Phase 32](../results/eda/phase32_mlp_summary.md) |
 | Raw preprocessing | 321 raw inputs: 0.441457 versus cleaned control 0.442155 under the same earlier implementation | [Phase 33](../results/eda/phase33_raw_preprocessing_summary.md) |
 | Observed-versus-missing correction | F1 0.440803, delta −0.001352; +206 true positives and +907 false positives versus Phase 14 | [Phase 34](../results/eda/phase34_missing_only_split_summary.md) |
+| Logistic baseline with shared Phase 14 cleaning | F1 0.434467 versus 0.442155; booster gain +0.007689 and higher in all three outer folds | [Phase 38](../results/eda/phase38_matched_logistic_summary.md) |
 
 All F1 values above use nested threshold selection. Comparisons through Phase 33 use the booster before the split correction; comparing Phase 33 raw inputs directly with Phase 34 would also change the implementation. Grouped families report their best measured candidate, rather than a common result for every variant.
 
 The conditional paired interval for the Phase 34 F1 delta is [−0.003005, +0.000319] and includes zero. It holds models and thresholds fixed and excludes retraining and repeated-selection uncertainty. The final choice retained Phase 14 after AIcrowd feedback, with the same model parameters.
 
 Phase 16 imputation screening reached exploratory F1 0.442674 by selecting and evaluating a threshold on the same OOF labels. Phase 24 confirmation with inner thresholds did not reproduce that advantage. Interactions listed in the Phase 16 tree configuration were not applied by tree preprocessing, so that result does not measure their effect. Historical linear results precede the correction from median to mode for categorical fills.
+
+Phase 38 shares the exact Phase 14 cleaner, source variables and nested partitions, with model-specific train-fitted finite adaptation for logistic regression. Its paired 95% interval for the booster F1 gain, [+0.004919, +0.010463], conditions on fixed models and thresholds. The comparison does not isolate architecture, and changes from the historical logistic score cannot be attributed solely to cleaning.
 
 ## Deferred ideas
 

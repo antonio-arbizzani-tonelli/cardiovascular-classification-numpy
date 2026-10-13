@@ -8,7 +8,7 @@ Position reported by the author, 12 Oct 2026: [current leaderboard](https://www.
 
 **328,135 labeled respondents · 295 selected features**
 
-The AIcrowd score is reported feedback for the selected **Phase 14 submission**, displayed to three decimals and preserved in the academic submission record. On nested development evaluation, Phase 14 reaches **F1 0.4422**, compared with **0.4256** for logistic regression: an absolute improvement of **0.0165** on the same development rows and outer folds.
+The AIcrowd score is reported feedback for the selected **Phase 14 submission**, displayed to three decimals and preserved in the academic submission record. With shared codebook cleaning, source variables and nested folds, Phase 14 reaches **F1 0.4422**, compared with **0.4345** for the matched logistic baseline: an absolute improvement of **0.0077**. Model-specific input transformations differ; this compares complete pipelines.
 
 ![Model comparison](assets/figures/model_comparison.png)
 

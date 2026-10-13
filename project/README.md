@@ -33,6 +33,7 @@ comparison using `src/numpy_boosting.py`.
 | --- | ---: |
 | Historical ridge | 0.41951 |
 | Historical logistic regression | 0.42563 |
+| Matched logistic, Phase 14 cleaning | 0.43447 |
 | **Selected Phase 14 booster** | **0.44216** |
 | Corrected Phase 34 booster | 0.44080 |
 | MLP 64 → 32 | 0.42445 |
@@ -40,8 +41,13 @@ comparison using `src/numpy_boosting.py`.
 
 These scores use the same 262,508 development rows, three outer folds and
 thresholds selected on two inner folds. Preprocessing is fitted within each
-training partition. Linear scores refer to the historical median-fill
-representation.
+training partition. The matched logistic baseline shares Phase 14 cleaning
+and source variables; it requires train-fitted filling, scaling and missingness
+flags. Phase 14 improves F1 by **0.00769**, with a conditional paired 95%
+interval **[+0.004919, +0.010463]**, and is higher in all three folds.
+Historical linear rows retain their earlier median-fill representation.
+Model-specific final matrices differ, so the comparison evaluates complete
+pipelines.
 
 `HAREHAB1` is included. It records rehabilitation after a heart attack;
 all 620 development respondents with a recorded code are positive. The
@@ -124,6 +130,31 @@ explicitly selects the included frozen Phase 14 implementation. For the
 corrected comparison, use `configs/experiments/phase34_missing_only_split.json`.
 The [utility guide](tools/README.md) also explains full-train calibration of
 both implementations.
+
+To reproduce the matched logistic metrics with official data, run from `project/`:
+
+```bash
+python -m src.run_matched_logistic_cv
+```
+
+The point comparison uses the included Phase 14 result record. To reproduce
+the paired interval, supply the original Phase 14 OOF archive from a trusted
+local copy; it is excluded from Git and its fingerprint is checked:
+
+```bash
+python -m src.run_matched_logistic_cv --reference-oof results/boosting_artifacts/phase14_codebook_corrections_only/oof_predictions/phase14_boosting_codebook_corrections_only_depth5_features128_200trees_oof.npz
+```
+
+The default configuration is
+[phase38_phase14_logistic.json](configs/experiments/phase38_phase14_logistic.json).
+Logistic regression uses 295 cleaned source variables, 295 standardized missingness flags
+and an intercept, with train-fitted mode/median filling and z-score scaling.
+NumPy L-BFGS uses fixed L2 0.0001 without outer-fold tuning. See the
+[matched study](results/eda/phase38_matched_logistic_summary.md) and
+[verification](results/eda/phase38_matched_logistic_verification.json).
+The historical and matched logistic scores also differ in optimizer,
+regularization, flags and interactions; their difference is not an isolated
+cleaning effect.
 
 To reproduce the MLP comparison:
 

@@ -9,8 +9,8 @@
     "passed": true,
     "source_files": 491,
     "archived_course_files": 2,
-    "public_files": 499,
-    "local_links_checked": 324,
+    "public_files": 508,
+    "local_links_checked": 349,
     "json_numeric_comparisons": 285,
     "original_source_unchanged": true,
     "numerical_json_outcomes_unchanged": true,
@@ -44,14 +44,14 @@
       "path": "README.md",
       "source_sha256": "94540bcef4ad20440dd63cf386bba4b7f646998cfdd107a3c458f662f15064a7",
       "bytes": 6735,
-      "portfolio_sha256": "8681ea494fa2526156fc92a70a7881d97bd7b507ae873fe6580cbf6e9856f147",
+      "portfolio_sha256": "a2497f2bc1d21fb6b1ab64fea064a8d26a1e800ff58b2aa36d17c662ae082fe2",
       "changed": true
     },
     {
       "path": "configs/README.md",
       "source_sha256": "19d948cfc30cd2a2119be54d0113c670de8deacd6587fc0ac49e79b5f01afa4a",
       "bytes": 5210,
-      "portfolio_sha256": "c2007a42fba1eae55d4c9f52f7f541bcb224abeb24750985e29311224bdf20d5",
+      "portfolio_sha256": "78a3fca8acf44e9e8354a5707503c73c47b19bff6c2139a0ed471041062c5da4",
       "changed": true
     },
     {
@@ -618,14 +618,14 @@
       "path": "docs/DEVELOPMENT_PLAN.md",
       "source_sha256": "61e5a46f784ef25abe08c7bfc30662cedaf5ba9abc9e3bad4405b94b7fe1214f",
       "bytes": 6565,
-      "portfolio_sha256": "718db3d2ade289099ac250cc9a6052a5f4d51de7618f57617a8a06fcfb34f47e",
+      "portfolio_sha256": "7e5b8049f2fabcc65f45e419904573431532da3b1c87ea6ed1772a0b2ffa85dc",
       "changed": true
     },
     {
       "path": "docs/EXPERIMENTS.md",
       "source_sha256": "43deb94a9718ee18bc22c02dd15402485dd13fff7026752e34197a0ca21a78aa",
       "bytes": 26817,
-      "portfolio_sha256": "a425d722f178e8d382d052ba0fb8a3da48e8830c97c060aba0d7a767ec234d1d",
+      "portfolio_sha256": "e4248f5c53154ded96557205c4d2f1fd11baf979637dc318322b91757df2fb65",
       "changed": true
     },
     {
@@ -639,7 +639,7 @@
       "path": "docs/FINAL_REPORT.md",
       "source_sha256": "d2e1a0aed9c63215763ff7b7b81126b1dbedeb27a4ebbc9234cc3e5d3d0ca275",
       "bytes": 17938,
-      "portfolio_sha256": "4cb8a0cdca641c368d7056cc6c05810f79fe2c00e1ca799c0c890a49632cf93d",
+      "portfolio_sha256": "29ee959841b16843b671715a01cdee8dbb5d264c303fedcb9cbb46f0896a8e35",
       "changed": true
     },
     {
@@ -716,7 +716,7 @@
       "path": "results/README.md",
       "source_sha256": "26908588bcb60f03d40a849cc7392c4d5a8c19b5c69af8bbbfc958f857954289",
       "bytes": 6716,
-      "portfolio_sha256": "7a33296cfd3e898d111803cd9b4ac0486711ecf6674bd80bda6b1bbe3881c791",
+      "portfolio_sha256": "c5ccf5d8fcc96f9ac9379c23aec3da6e411ce904ae7cae3e09d3884dfa9120b7",
       "changed": true
     },
     {
@@ -3459,9 +3459,54 @@
   ],
   "added_project_files": [
     {
+      "path": "configs/experiments/phase38_phase14_logistic.json",
+      "portfolio_sha256": "4117b0a83e5b25a4603a37ee9267bc29b874679fb12f5e303270790a3db2da8f",
+      "bytes": 1560
+    },
+    {
+      "path": "results/eda/phase38_matched_logistic_summary.md",
+      "portfolio_sha256": "546fd2babf81236f5f54a110e446acb33b54940bb93213b22b20ad0b1dc79984",
+      "bytes": 6757
+    },
+    {
+      "path": "results/eda/phase38_matched_logistic_verification.json",
+      "portfolio_sha256": "0fd97709af939f7e637e93c6f9dcafe56a431776d96058ad82aaa186d562f3e8",
+      "bytes": 34496
+    },
+    {
+      "path": "results/experiments/phase38_matched_logistic/20261013T010425774510Z_phase38-phase14-shared-cleaning-logistic.json",
+      "portfolio_sha256": "fd5f8a060d2b692e6ff953350400c1eff214f523cfc210ef6d841e047f410c50",
+      "bytes": 824933
+    },
+    {
+      "path": "results/experiments/phase38_matched_logistic/index.csv",
+      "portfolio_sha256": "3e436de296d3ad499bda0e5f2f58b9ec6338b8110464569745a26a3d01fa51dc",
+      "bytes": 619
+    },
+    {
+      "path": "src/numpy_logistic.py",
+      "portfolio_sha256": "56d7bb3508b6533107286f3ae9a1990e7bf6b05f32a8afc7f75e5ec92f316801",
+      "bytes": 9027
+    },
+    {
+      "path": "src/run_matched_logistic_cv.py",
+      "portfolio_sha256": "b09c42fd8362b2a8ea751177e5a9728386eddf727e33353948f024a0ace2e15c",
+      "bytes": 16719
+    },
+    {
       "path": "tests/test_error_report_outputs.py",
       "portfolio_sha256": "79d1019f849697aec535def7e04d38bb70dc2783c85505ca379955e9a4a86f00",
       "bytes": 4762
+    },
+    {
+      "path": "tests/test_numpy_logistic.py",
+      "portfolio_sha256": "85c8a76f2780966c51a568af0a05a79e4042c0bf53581455d73e54befa1ea13a",
+      "bytes": 7888
+    },
+    {
+      "path": "tests/test_run_matched_logistic_cv.py",
+      "portfolio_sha256": "d6440f141f1e9f2b2e4d89d491784a4bdcf1b65bfe1f651b8b16825923f037eb",
+      "bytes": 10753
     }
   ],
   "archived_course_files": [

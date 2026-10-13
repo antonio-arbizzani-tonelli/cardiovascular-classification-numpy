@@ -136,21 +136,25 @@ The original submission record describes AIcrowd F1 **0.452** and accuracy **0.8
 
 **Source:** `project/src/numpy_boosting_phase14.py`, `project/configs/final_model.json`.
 
-## Slide 8 — The selected booster improved development F1 by 0.0165
+## Slide 8 — Shared cleaning: Phase 14 improved F1 by 0.0077
 
 **On-slide copy:**
 
-> Historical logistic regression: 0.4256
+> Matched logistic regression: F1 0.4345
 >
-> Final Phase 14 booster: 0.4422
+> Final Phase 14 booster: F1 0.4422
 >
-> Same development rows and outer folds; thresholds selected in inner folds.
+> Absolute gain: +0.0077, higher in all three outer folds.
+>
+> Shared codebook cleaning, 295 source variables and nested folds.
 
-**Visual:** Editable horizontal chart of the six models in `model_comparison.csv`, highlighting Phase 14. Keep the axis at 0–0.50 and use four decimal places in labels.
+**Visual:** Editable horizontal chart of the seven models in `model_comparison.csv`, with Phase 14 in teal and matched logistic in navy. Keep the historical logistic entry labeled as historical. Use an axis of 0–0.50 and four decimal places in labels.
 
-**Caption:** These are complete pipeline comparisons. Historical linear models use median-fill preprocessing, so the difference does not isolate model architecture alone.
+**Caption:** Conditional paired 95% interval for the gain: [+0.0049, +0.0105]. Model-specific final matrices differ; this compares complete pipelines.
 
-**Source:** `assets/chart_data/model_comparison.csv`, `evidence/METRICS.json`.
+**Notes:** Both pipelines share the exact Phase 14 cleaner and source variables. Logistic regression adds train-fitted filling, standardized values and missingness flags, and an intercept; NumPy L-BFGS uses fixed L2 0.0001. The interval conditions on fitted models and thresholds, excluding retraining and repeated-selection uncertainty. The change from the historical logistic score also changes solver, regularization, flags and interactions, so it is not a cleaning-only ablation.
+
+**Source:** `assets/chart_data/model_comparison.csv`, `evidence/METRICS.json`, `project/results/eda/phase38_matched_logistic_summary.md`, `project/results/eda/phase38_matched_logistic_verification.json`.
 
 ## Slide 9 — The tested neural networks did not beat the booster
 
@@ -312,7 +316,7 @@ Show commands from `project/`: install `requirements-dev.txt`, run `python -m to
 
 ## Appendix B — Complete development metrics and provenance
 
-Use the six-model table in `docs/RESULTS.md`: F1, precision, recall and average precision. Round values consistently; retain exact numerical data in `evidence/METRICS.json`. Label the nested protocol and historical linear preprocessing.
+Use the seven-model table in `docs/RESULTS.md`: F1, precision, recall and average precision. Round values consistently; retain exact numerical data in `evidence/METRICS.json`. Label the matched logistic baseline's shared cleaning and model-specific finite-input adaptation; retain the older linear entries as historical results.
 
 Add the current rank: **7th, owner-reported leaderboard snapshot on 12 October 2026**, with the supplied link. Keep the snapshot date and reported provenance readable. Do not present a final placing, cohort size or competition year without additional evidence.
 
