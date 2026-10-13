@@ -1,0 +1,36 @@
+{
+  "experiment_name": "phase38_phase14_shared_cleaning_logistic",
+  "hypothesis": "Compare logistic regression with the selected Phase 14 booster using exactly the same source columns, codebook cleaning and nested development partitions.",
+  "data": {
+    "features_path": "data/processed/x_train_float32.npy",
+    "labels_path": "data/processed/y_train_int8.npy",
+    "x_train_csv_path": "data/raw/dataset/x_train.csv",
+    "split_indices_path": "results/eda/analysis/splits/stratified_seed_20260918.npz"
+  },
+  "preprocessing_config_path": "configs/experiments/phase14_codebook_corrections_only.json",
+  "feature_metadata_path": "configs/feature_metadata.json",
+  "reference_record": "results/experiments/20260921T105139261213Z_phase14-boosting-codebook-corrections-only-depth5-features128-200trees.json",
+  "reference_oof_sha256": "3f15553b05c6f8b3af09f9016d588f583a7ce8297eb0655cb9eb256df2390753",
+  "source_feature_count": 295,
+  "fold_count": 3,
+  "outer_seed": 20260919,
+  "inner_fold_count": 2,
+  "inner_seed": 20260922,
+  "logistic_adapter": {
+    "numeric_fill": "training median",
+    "categorical_fill": "training mode",
+    "scaling": "training z-score",
+    "missing_indicators": true,
+    "interactions": false,
+    "one_hot": false
+  },
+  "model": {
+    "l2": 0.0001,
+    "max_iter": 500,
+    "gradient_tolerance": 0.000001,
+    "history_size": 10
+  },
+  "artifact_dir": "results/oof_predictions/phase38_phase14_logistic",
+  "record_dir": "results/experiments/phase38_matched_logistic",
+  "bootstrap": {"resamples": 20000, "seed": 20261013}
+}
