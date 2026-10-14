@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-14T01:20:39.439596+00:00",
+  "checked_at_utc": "2026-10-14T01:24:29.664842+00:00",
   "scope": "Completed portfolio release of 14 October 2026. Current verification is distinct from the dated historical audit.",
   "historical_verification": "VERIFICATION_20261013.json",
   "selected_variant": "combined18_24_l2_1",
@@ -104,6 +104,53 @@
     "all_pages_visually_checked": true,
     "metrics_and_ranking_text_checked": true,
     "scope": "Guide reading PDF, not the future PowerPoint deck."
+  },
+  "clean_publication_package": {
+    "scope": "Clean public Git archive of committed release; synthetic tests and publication verification; no official data or saved models.",
+    "commit": "bd2f57c8c0f7f490fdd8de4bab0d6c1437ecf2d4",
+    "environment": {
+      "python": "3.14.3",
+      "numpy": "2.4.2",
+      "matplotlib": "3.10.8"
+    },
+    "project_tests": {
+      "tests": 242,
+      "seconds": 53.569,
+      "passed": true,
+      "failures": 0,
+      "errors": 0
+    },
+    "repository_verification": {
+      "checked_at_utc": "2026-10-14T01:23:31.676060+00:00",
+      "environment": {
+        "python": "3.14.3"
+      },
+      "passed": true,
+      "counts": {
+        "eligible_files": 504,
+        "python_files": 105,
+        "json_files": 289,
+        "markdown_links": 330,
+        "indexed_records": 115
+      },
+      "errors": [],
+      "selected_model": "combined18_24_l2_1",
+      "nested_development_f1": null,
+      "nested_development_status": "nested_development_not_evaluated",
+      "historical_baseline": "Historical Phase 14 baseline",
+      "historical_nested_development_f1": 0.4421552272688187,
+      "full_training_calibration_f1": 0.4438823812013395,
+      "submission_threshold": 0.21811010373987366,
+      "scope": "Git-eligible working-tree files, links, syntax, JSON, ledger hashes and frozen configuration. No training or official-runtime execution."
+    },
+    "passed": true,
+    "entry_points": {
+      "passed": true,
+      "commands": [
+        "run.py --help",
+        "-m tools.final_combined_18_24 --help"
+      ]
+    }
   },
   "passed": true
 }
