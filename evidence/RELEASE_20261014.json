@@ -1,6 +1,6 @@
 {
   "release_date": "2026-10-14",
-  "status": "completed_portfolio_release",
+  "status": "final_portfolio_release",
   "author": "Antonio Arbizzani Tonelli",
   "repository_url": "https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy",
   "selected_model": "Combined Phase 18 + Phase 24 (L2=1)",
@@ -60,7 +60,7 @@
   "original_delivery_manifest_sha256": "fccb6202565ae5dce713988d18308081a1f581d1592755faf2acac55693f1d78",
   "original_source_repository_modified": false,
   "ongoing_runs_included": false,
-  "release_scope": "Completed code, configurations, aggregate results and presentation handoff; official data, checkpoints, predictions and ongoing tuning remain local.",
+  "release_scope": "Final presentation, completed code, configurations and aggregate results; official data, checkpoints, predictions and ongoing tuning remain local.",
   "public_replay": "evidence/SELECTED_REPLAY_20261014.json",
   "frozen_implementation_sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
   "files": {
@@ -69,6 +69,17 @@
     "project/configs/experiments/combined18_24_preprocessing.json": "26a90a950aa29a1fa179d19978d0aaa4138c808b01c85108d1283cb2a5bebcc0",
     "project/tools/final_combined_18_24.py": "6ffd2b93585fbe82475158a5d66a5239ebd48ae8cf4e80a47de71032e2c1571b",
     "project/tools/final_promising_candidates.py": "e79e9a416e40845aabed15bf0bbbab624e302d60c1f6876c34f847f3794260b3",
-    "project/results/eda/final_combined18_24_submission.json": "14c278e2ad7442388340828198e0a73ac41f7606d7840e118ead507ea5c4dd95"
+    "project/results/eda/final_combined18_24_submission.json": "14c278e2ad7442388340828198e0a73ac41f7606d7840e118ead507ea5c4dd95",
+    "presentation/RESULTS_PRESENTATION.pptx": "fc1e8cbd274662997bd6fca116ddb4fad3fb60166bf7d3ee4cf39182161c05f1",
+    "presentation/RESULTS_PRESENTATION.pdf": "bd42f2fd31059cdb2aeeefc357aa95a6ee268e2738dd884b7f9b3b625408e249"
+  },
+  "presentation": {
+    "pdf": "presentation/RESULTS_PRESENTATION.pdf",
+    "powerpoint": "presentation/RESULTS_PRESENTATION.pptx",
+    "slides": 16,
+    "main_slides": 14,
+    "appendix_slides": 2,
+    "pdf_sha256": "bd42f2fd31059cdb2aeeefc357aa95a6ee268e2738dd884b7f9b3b625408e249",
+    "powerpoint_sha256": "fc1e8cbd274662997bd6fca116ddb4fad3fb60166bf7d3ee4cf39182161c05f1"
   }
 }

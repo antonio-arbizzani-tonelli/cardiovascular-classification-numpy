@@ -1,6 +1,6 @@
 {
-  "checked_at_utc": "2026-10-14T01:24:29.664842+00:00",
-  "scope": "Completed portfolio release of 14 October 2026. Current verification is distinct from the dated historical audit.",
+  "checked_at_utc": "2026-10-14T02:19:58.110106+00:00",
+  "scope": "Final portfolio release of 14 October 2026. Model tests and replay retain their original execution dates; documentation and publication checks reflect the final files.",
   "historical_verification": "VERIFICATION_20261013.json",
   "selected_variant": "combined18_24_l2_1",
   "selected_replay": {
@@ -39,16 +39,16 @@
   },
   "historical_experiment_records_preserved": true,
   "repository_verification": {
-    "checked_at_utc": "2026-10-14T01:17:02.198666+00:00",
+    "checked_at_utc": "2026-10-14T02:19:58.110106+00:00",
     "environment": {
       "python": "3.12.14"
     },
     "passed": true,
     "counts": {
-      "eligible_files": 504,
+      "eligible_files": 503,
       "python_files": 105,
       "json_files": 289,
-      "markdown_links": 330,
+      "markdown_links": 312,
       "indexed_records": 115
     },
     "errors": [],
@@ -76,11 +76,11 @@
     "scope": "Full public-project synthetic unittest suite; no official-data training."
   },
   "public_package_verification": {
-    "checked_at_utc": "2026-10-14T01:18:07.298269+00:00",
+    "checked_at_utc": "2026-10-14T02:19:56.287466+00:00",
     "passed": true,
-    "public_files": 530,
+    "public_files": 528,
     "json_files": 299,
-    "local_documentation_links": 369,
+    "local_documentation_links": 352,
     "frozen_booster_unchanged": true,
     "selected_result_and_replay_consistent": true,
     "historical_indexed_records_unchanged": true,
@@ -94,16 +94,6 @@
     ],
     "errors": [],
     "scope": "All Git-eligible public working-tree files, private-artifact patterns, source/record/CSV fingerprints and documentation targets. Previously published, unchanged historical execution metadata is retained; no training."
-  },
-  "pdf_brief": {
-    "passed": true,
-    "pages": 11,
-    "main_slides": 16,
-    "appendix_slides": 3,
-    "all_pages_rendered": true,
-    "all_pages_visually_checked": true,
-    "metrics_and_ranking_text_checked": true,
-    "scope": "Guide reading PDF, not the future PowerPoint deck."
   },
   "clean_publication_package": {
     "scope": "Clean public Git archive of committed release; synthetic tests and publication verification; no official data or saved models.",

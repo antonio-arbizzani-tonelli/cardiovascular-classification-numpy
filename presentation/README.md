@@ -1,34 +1,11 @@
-# Results presentation handoff
+# Results presentation
 
-This folder specifies the **14 October 2026 completed portfolio release**. Selected pipeline: `combined18_24_l2_1`; author-reported AIcrowd F1 **0.455**, accuracy **0.882**, and current rank **3** on **14 October 2026**. The finished presentation will be created in Claude Design and added here after export.
+Read the [PDF](RESULTS_PRESENTATION.pdf) or download the [editable PowerPoint](RESULTS_PRESENTATION.pptx).
 
-## Create the deck in Claude Design
+The 16-slide presentation contains 14 main slides and two technical appendices. It explains the data, selected NumPy pipeline, model comparisons, AIcrowd results and evaluation limitations.
 
-1. Use the latest local `CLAUDE_DESIGN_INPUT.zip` in this folder. It packages the guide, prompt, results documentation, charts and evidence for the release. The ZIP is a local handoff bundle excluded from Git.
-2. Upload it to Claude Design. Open [CLAUDE_DESIGN_PROMPT.md](CLAUDE_DESIGN_PROMPT.md), copy the prompt between the separators and paste it into the design request.
-3. Follow [CLAUDE_DESIGN_BRIEF.md](CLAUDE_DESIGN_BRIEF.md): 16 main slides and 3 appendices; editable 16:9 PPTX, matching PDF and slide PNG previews, all in English.
-4. Download exports as `RESULTS_PRESENTATION.pptx` and `RESULTS_PRESENTATION.pdf`. Review each preview before publication.
+Selected result: **AIcrowd F1 0.455 and accuracy 0.882**, reported by the author. The reported **3rd place** is a leaderboard snapshot dated **14 October 2026**.
 
-If using files downloaded from GitHub, upload the guide and prompt, `docs/RESULTS.md`, `docs/CODE_REVIEW.md`, `evidence/RELEASE_20261014.json`, `evidence/METRICS.json`, `evidence/VERIFICATION.json`, `evidence/SELECTED_REPLAY_20261014.json`, the `evidence/aicrowd/` records, both `assets/chart_data/` CSVs, `project/configs/final_model.json`, `project/configs/experiments/combined18_24_preprocessing.json`, and technical notes referenced by the guide. Markdown is the authoritative guide; its companion PDF is a reading copy of the specification, not the slide deck.
+The slides distinguish historical nested development, full-train OOF calibration and challenge feedback. The [results](../docs/RESULTS.md), [runnable project](../project/README.md) and [release evidence](../evidence/RELEASE_20261014.json) provide the detailed sources.
 
-## Check the exported presentation
-
-- Final model is combined diet + restricted imputation using the preserved Phase 14 booster. Standalone Phase 14 is the historical reference.
-- Challenge F1 **0.455** / accuracy **0.882** and rank **3**, dated **14 October 2026**, show their reported provenance.
-- Historical nested F1 **0.442155**, selected OOF calibration F1 **0.443882** and challenge F1 **0.455** have separate labels. No combined held-out result is invented.
-- The post-event `HAREHAB1` limitation is visible. Prediction counts are not called a confusion matrix.
-- Tables and charts are readable after PDF export, links work and text is not clipped.
-
-## Add the finished deck to GitHub
-
-Place both exports in this `presentation/` folder, then run from the **repository root**:
-
-```bash
-git add presentation/RESULTS_PRESENTATION.pptx presentation/RESULTS_PRESENTATION.pdf
-git commit -m "Add results presentation for the 14 October 2026 portfolio release"
-git push
-```
-
-Add root README links after both files exist. Keep guide, prompt and evidence beside the deck so later releases can update it consistently. Review PPTX and PDF together after revisions; update dates and results when a newer completed result is adopted.
-
-Official challenge data, model checkpoints, row-level predictions and the private academic submission report remain outside Git and are not deck inputs.
+**Author:** Antonio Arbizzani Tonelli. **Context:** EPFL Machine Learning CS-433.

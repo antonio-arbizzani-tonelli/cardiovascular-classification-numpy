@@ -2,8 +2,8 @@
 
 Run this project from the `project/` directory of
 [cardiovascular-classification-numpy](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy).
-The project overview, Claude Design brief and current code review are at the
-repository root.
+The project overview, final results presentation and current code review are
+at the repository root.
 
 An **EPFL Machine Learning CS-433 project** for the AIcrowd challenge.
 **Author:** Antonio Arbizzani Tonelli. The target `_MICHD` identifies
@@ -63,8 +63,8 @@ interpretation of the result as prediction before an event.
 The [technical results](docs/FINAL_REPORT.md) explain the comparisons,
 model choice and limitations, with links to the original experiment evidence.
 The [project overview](../README.md) summarizes the work, and the
-[Claude Design brief](../presentation/CLAUDE_DESIGN_BRIEF.md) specifies a
-results deck. The course-delivery report is archived outside the
+[results presentation](../presentation/README.md) is available as PDF and
+editable PowerPoint. The course-delivery report is archived outside the
 public package.
 
 ## Setup

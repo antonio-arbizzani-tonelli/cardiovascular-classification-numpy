@@ -6,7 +6,7 @@ An **EPFL Machine Learning CS-433 project** that implements and evaluates a comp
 
 Position reported by the author on **14 October 2026**; challenge scores reported on **13 October 2026**, displayed to three decimals. [AIcrowd leaderboard](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards). The position is a dated snapshot.
 
-The selected pipeline combines **Phase 18 diet representation and Phase 24 restricted conditional imputation**, using the preserved Phase 14 histogram gradient booster: **297 transformed features, 200 trees, depth 5 and leaf L2 = 1**. It trains on all **328,135 labeled respondents** and generates **109,379 test predictions**. This repository presents the completed results and model choice for the **14 October 2026 release**.
+The selected pipeline combines **Phase 18 diet representation and Phase 24 restricted conditional imputation**, using the preserved Phase 14 histogram gradient booster: **297 transformed features, 200 trees, depth 5 and leaf L2 = 1**. It trains on all **328,135 labeled respondents** and generates **109,379 test predictions**. This repository contains the final presentation, completed results and selected model for the **14 October 2026 release**.
 
 ![Recorded AIcrowd results](assets/figures/aicrowd_progression.png)
 
@@ -25,9 +25,7 @@ The historical controlled comparison uses **262,508 development rows, three oute
 | [Results and interpretation](docs/RESULTS.md) | Selected result, challenge comparisons and evaluation boundaries |
 | [Runnable project](project/README.md) | Setup, training, historical reproduction and checks |
 | [Code review](docs/CODE_REVIEW.md) | Implementation audit and release verification |
-| [Presentation guide](presentation/CLAUDE_DESIGN_BRIEF.md) · [PDF](presentation/CLAUDE_DESIGN_BRIEF.pdf) | Slide-by-slide narrative, visuals and sources |
-| [Claude Design prompt](presentation/CLAUDE_DESIGN_PROMPT.md) | Ready-to-paste instructions for an editable PPTX |
-| [Presentation handoff](presentation/README.md) | Input files, output names and GitHub upload workflow |
+| [Results presentation: PDF](presentation/RESULTS_PRESENTATION.pdf) · [PowerPoint](presentation/RESULTS_PRESENTATION.pptx) | 16 slides explaining the methods, results and limitations |
 | [Release evidence](evidence/RELEASE_20261014.json) | Selected configuration, score provenance and dated rank |
 
 ## Technical scope

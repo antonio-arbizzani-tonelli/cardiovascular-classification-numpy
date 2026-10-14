@@ -8,11 +8,8 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Local preparation notes and duplicate delivery bundles
+# Local workspace instructions and duplicate CI files
 /AGENTS.md
-/docs/PORTFOLIO_PLAN.md
-/project/docs/GITHUB_RELEASE.md
-/presentation/CLAUDE_DESIGN_INPUT.zip
 /project/.github/
 /project/results/aicrowd_*/
 

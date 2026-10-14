@@ -18,7 +18,6 @@ reference; Phase 34 is a separate corrected-search comparison.
 | [EXPERIMENTS.md](EXPERIMENTS.md) | Evaluation protocols and experiment history |
 | [MLP.md](MLP.md) | Neural preprocessing, training and reproduction |
 | [IMPUTATION.md](IMPUTATION.md) | Imputation methods and measured outcomes |
-| [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) | Retained settings, completed studies and future hypotheses |
 | [Historical delivery checks](FINAL_AUDIT.md) | Original verification evidence and its limits |
 
 [Results](../results/README.md) describes the stored analyses and records;
