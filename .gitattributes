@@ -1,0 +1,2 @@
+# Copied AIcrowd feedback records retain their original byte fingerprints.
+evidence/aicrowd/*.json -text whitespace=cr-at-eol

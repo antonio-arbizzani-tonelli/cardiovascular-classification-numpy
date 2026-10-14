@@ -1,0 +1,52 @@
+{
+  "scope": "Portable extract of the completed delivery manifest; source fingerprint retained, machine-specific paths and row predictions omitted.",
+  "source_manifest_sha256": "fccb6202565ae5dce713988d18308081a1f581d1592755faf2acac55693f1d78",
+  "created_at_utc": "2026-10-13T11:21:09.385085+00:00",
+  "complete": true,
+  "selected_variant": "combined18_24_l2_1",
+  "features": 297,
+  "model": {
+    "learning_rate": 0.05,
+    "max_depth": 5,
+    "min_samples_leaf": 200,
+    "n_bins": 64,
+    "l2_regularization": 1.0,
+    "max_features": 128,
+    "random_seed": 20260920,
+    "n_estimators": 200
+  },
+  "threshold": {
+    "value": 0.21811010373987366,
+    "method": "pooled_3_fold_full_train_oof_f1",
+    "fold_count": 3,
+    "fold_seed": 20260919,
+    "training_rows": 328135,
+    "preprocessing_fit": "within_each_training_fold_only",
+    "tie_break": "accuracy"
+  },
+  "calibration_metrics": {
+    "accuracy": 0.8800585125024761,
+    "precision": 0.37580151210642165,
+    "recall": 0.5420880069025021,
+    "f1": 0.4438823812013395,
+    "specificity": 0.9127924856264207,
+    "balanced_accuracy": 0.7274402462644614
+  },
+  "submission": {
+    "local_path": "results/submission_combined18_24_l2_1_full_train_oof.csv",
+    "sha256": "1e4817ab85020156f579ab33fc5384c8aecd24fd8453ce6e37a3dcc094a45854",
+    "rows": 109379,
+    "positive_predictions": 13999,
+    "negative_predictions": 95380,
+    "header": [
+      "Id",
+      "Prediction"
+    ],
+    "label_domain": [
+      -1,
+      1
+    ],
+    "ids_sha256": "01594ee521daf9f1e470ebcf5c887699b2103bc3d0346701c685308a304c318d",
+    "predictions_sha256": "d5cfd08d742d04f80ed43c952ad3bb64e1b9271f0e9534e22894377e2d936dbc"
+  }
+}

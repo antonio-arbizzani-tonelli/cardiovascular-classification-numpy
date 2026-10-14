@@ -1,17 +1,17 @@
 # Experiments and model selection
 
-The final selected version is **Phase 14 NumPy histogram boosting**, using
-[src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py), with
-295 source features and parameters selected in Phase 14, including `HAREHAB1`.
-Its nested development F1 is **0.442155227**; the full-data threshold is
-**0.2106169795070252**, calibrated on pooled three-fold OOF predictions over
-all 328,135 training rows. AIcrowd feedback reported by the author is
-**F1 0.452 and accuracy 0.878**. Model search is closed for this version.
-The separate corrected Phase 34 comparison reaches nested F1 0.440803240;
-Phase 14 was retained
-after submitting both versions with separately calibrated thresholds.
-The [technical results](FINAL_REPORT.md) summarize the selected pipeline; this
-page records the experiment path and links to the detailed evidence.
+The **14 October 2026 release** selects **Combined Phase 18 + Phase 24,
+L2=1**, with 297 transformed features, threshold **0.21811010373987366**
+and author-reported AIcrowd **F1 0.455 / accuracy 0.882**. Its full-train
+three-fold OOF calibration F1 is **0.443882381**. No nested estimate is
+recorded for this exact combination. The [selected record](../results/eda/final_combined18_24_submission.json)
+and [release results](../../docs/RESULTS.md) connect the completed run to its feedback.
+
+The studies below retain historical decisions at their original evaluation
+stage. Phase 14 was the earlier reference, with nested F1 **0.442155227**,
+calibration F1 **0.442769549** and AIcrowd F1 **0.452**. The final release
+uses its preserved booster with combined preprocessing. Historical statements
+about retaining Phase 14 or rejecting a variant refer to those studies.
 
 ## Evaluation protocol
 
@@ -104,7 +104,7 @@ The pooled F1 gain is **0.007689**, with a paired 95% interval
 **[+0.004919, +0.010463]** conditional on these fitted models and thresholds.
 It excludes retraining and repeated-selection uncertainty. Differences from
 the historical logistic score also change solver, regularization, flags and
-interactions, so they do not isolate cleaning. Phase 14 remains the final
+interactions, so they do not isolate cleaning. At that stage, Phase 14 remained the selected
 selected model.
 
 [Study summary](../results/eda/phase38_matched_logistic_summary.md),

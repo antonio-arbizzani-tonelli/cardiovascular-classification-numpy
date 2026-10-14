@@ -130,22 +130,34 @@ def verify(root: Path = ROOT) -> dict:
     })
     selected = {}
     for kind in ("suite", "record"):
-        name = validation[kind]
+        name = validation.get(kind)
+        if name is None:
+            continue
         if name not in files or not (root / name).is_file():
             errors.append(f"Missing published validation {kind}: {name}")
         else:
             selected[kind] = json.loads((root / name).read_text(encoding="utf-8"))
-    if "suite" in selected:
-        suite = selected["suite"]
+    if "training_suite" in final:
+        name = final["training_suite"]
+        if name not in files or not (root / name).is_file():
+            errors.append(f"Missing published selected training suite: {name}")
+        else:
+            selected["training_suite"] = json.loads((root / name).read_text(encoding="utf-8"))
+    if (validation.get("record") is None
+            and validation.get("status") != "nested_development_not_evaluated"):
+        errors.append("Selected pipeline has no nested evaluation or explicit unevaluated status.")
+    configuration_suite = selected.get("training_suite", selected.get("suite"))
+    if configuration_suite is not None:
+        suite = configuration_suite
         parameters = dict(suite["models"][0]["parameters"])
         parameters["n_estimators"] = suite["models"][0]["checkpoints"][-1]
         if final["model"] != parameters:
-            errors.append("Final model parameters differ from the selected validation suite.")
+            errors.append("Final model parameters differ from its selected configuration suite.")
         for field, suite_field in (("config", "preprocessing_config_path"),
                                    ("variant", "preprocessing_variant"),
                                    ("metadata", "feature_metadata_path")):
             if final["preprocessing"][field] != suite[suite_field]:
-                errors.append(f"Final preprocessing {field} differs from the selected validation suite.")
+                errors.append(f"Final preprocessing {field} differs from its selected configuration suite.")
     nested_f1 = None
     if "record" in selected:
         record = selected["record"]
@@ -160,6 +172,32 @@ def verify(root: Path = ROOT) -> dict:
         mean_threshold = sum(f["inner_threshold"] for f in nested["folds"]) / len(nested["folds"])
         if "calibration" not in final and abs(final["decision_threshold"] - mean_threshold) > 1e-15:
             errors.append("Final threshold differs from the mean of selected validation inner thresholds.")
+    historical_nested_f1 = None
+    historical_name = None
+    if "historical_validation" in final:
+        historical = final["historical_validation"]
+        historical_name = historical["name"]
+        baseline_config_path = "configs/historical_phase14_model.json"
+        if baseline_config_path not in files or not (root / baseline_config_path).is_file():
+            errors.append("Missing preserved historical Phase 14 model configuration.")
+        else:
+            baseline_config = json.loads((root / baseline_config_path).read_text(encoding="utf-8"))
+            for kind in ("suite", "record"):
+                name = historical[kind]
+                if name not in files or not (root / name).is_file():
+                    errors.append(f"Missing published historical validation {kind}: {name}")
+                    continue
+                if name != baseline_config["validation"][kind]:
+                    errors.append(f"Historical validation {kind} differs from its preserved configuration.")
+                payload = json.loads((root / name).read_text(encoding="utf-8"))
+                if kind == "record":
+                    if baseline_config["model"] != payload["config"]["model"]["parameters"]:
+                        errors.append("Historical baseline parameters differ from its evaluation record.")
+                    for field, record_field in (("config", "preprocessing_source"),
+                                                ("variant", "preprocessing_variant")):
+                        if baseline_config["preprocessing"][field] != payload["config"]["features"][record_field]:
+                            errors.append(f"Historical preprocessing {field} differs from its evaluation record.")
+                    historical_nested_f1 = payload["outcome"]["nested_threshold_evaluation"]["pooled_metrics"]["f1"]
     if "implementation" in final:
         implementation = final["implementation"]
         source_name = {"phase14": "src/numpy_boosting_phase14.py",
@@ -172,12 +210,14 @@ def verify(root: Path = ROOT) -> dict:
             errors.append("Selected booster source differs from the frozen implementation.")
         if "suite" in selected and selected["suite"].get("implementation", "phase34") != implementation:
             errors.append("Selected CV suite uses a different booster implementation.")
+    calibration_f1 = None
     if "calibration" in final:
         name = final["calibration"]["record"]
         if name not in files or not (root / name).is_file():
             errors.append(f"Missing published full-train calibration record: {name}")
         else:
             calibration = json.loads((root / name).read_text(encoding="utf-8"))
+            calibration_f1 = calibration.get("calibration_metrics", {}).get("f1")
             if calibration["model"] != final["model"]:
                 errors.append("Full-train calibration and final model parameters differ.")
             if abs(calibration["threshold"]["value"] - final["decision_threshold"]) > 1e-15:
@@ -186,6 +226,8 @@ def verify(root: Path = ROOT) -> dict:
                 errors.append("Full-train calibration uses a different booster implementation.")
             if calibration["implementation_sha256"] != final.get("implementation_source_sha256"):
                 errors.append("Full-train calibration source fingerprint differs from the selected source.")
+            if "preprocessing" in calibration and calibration["preprocessing"] != final["preprocessing"]:
+                errors.append("Full-train calibration preprocessing differs from the selected recipe.")
             if (calibration["threshold"]["method"] != "pooled_3_fold_full_train_oof_f1"
                     or calibration["threshold"]["training_rows"] != calibration["training_rows"]
                     or calibration["threshold"]["fold_count"] != 3):
@@ -207,7 +249,12 @@ def verify(root: Path = ROOT) -> dict:
         "checked_at_utc": datetime.now(timezone.utc).isoformat(),
         "environment": {"python": platform.python_version()},
         "passed": not errors, "counts": counts, "errors": errors,
-        "selected_model": validation["name"], "nested_development_f1": nested_f1,
+        "selected_model": final.get("name", validation.get("name", "Phase 14")),
+        "nested_development_f1": nested_f1,
+        "nested_development_status": validation.get("status", "recorded"),
+        "historical_baseline": historical_name,
+        "historical_nested_development_f1": historical_nested_f1,
+        "full_training_calibration_f1": calibration_f1,
         "submission_threshold": final["decision_threshold"],
         "scope": "Git-eligible working-tree files, links, syntax, JSON, ledger hashes and frozen configuration. No training or official-runtime execution.",
     }

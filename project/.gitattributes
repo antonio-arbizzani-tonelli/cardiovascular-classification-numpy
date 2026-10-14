@@ -1,6 +1,15 @@
 # Experiment records are hashed byte-for-byte in results/experiments/index.csv.
 src/numpy_boosting_phase14.py text eol=lf
 helpers.py text eol=lf
+tools/final_promising_candidates.py text eol=lf
+tools/final_combined_18_24.py text eol=lf
+# Preserve release-record byte fingerprints across platforms.
+configs/final_model.json text eol=lf
+configs/historical_phase14_model.json -text whitespace=cr-at-eol
+configs/experiments/combined18_24_preprocessing.json -text whitespace=cr-at-eol
+configs/experiments/combined18_24_l2_1.json -text whitespace=cr-at-eol
+configs/experiments/combined18_24_l2_5.json -text whitespace=cr-at-eol
+results/eda/final_combined18_24_submission.json text eol=lf
 results/experiments/*.json text eol=lf
 results/experiments/index.csv text eol=lf
 results/experiments/**/*.json text eol=lf

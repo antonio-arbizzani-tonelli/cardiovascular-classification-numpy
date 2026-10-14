@@ -1,163 +1,109 @@
 {
-  "checked_at_utc": "2026-10-13T01:19:09.451742+00:00",
-  "environment": {
-    "python": "3.14.3",
-    "numpy": "2.4.2",
-    "matplotlib": "3.10.8"
-  },
-  "project_tests": {
+  "checked_at_utc": "2026-10-14T01:20:39.439596+00:00",
+  "scope": "Completed portfolio release of 14 October 2026. Current verification is distinct from the dated historical audit.",
+  "historical_verification": "VERIFICATION_20261013.json",
+  "selected_variant": "combined18_24_l2_1",
+  "selected_replay": {
     "passed": true,
-    "count": 227,
-    "seconds": 6.787,
-    "scope": "Complete unit/integration suite in the EPFL Machine Learning CS-433 portfolio copy, including active root CI and portfolio publication boundaries; synthetic fixtures and included codebook."
+    "scope": "Public selected preprocessing and frozen booster replay against the trusted completed local model; no booster fitting or source-workspace writes.",
+    "variant": "combined18_24_l2_1",
+    "training_shape": [
+      328135,
+      297
+    ],
+    "test_shape": [
+      109379,
+      297
+    ],
+    "training_matrix_sha256": "b9f12896268bf7256cf9ee317d25209f2f753bdee135cfc2afd80043689201a0",
+    "test_matrix_sha256": "3baffe796832b3924348b519b76454b6cb10d883613b4580435e349a8875eec9",
+    "probability_max_difference": 0.0,
+    "decision_threshold": 0.21811010373987366,
+    "positive_predictions": 13999,
+    "negative_predictions": 95380,
+    "csv_sha256": "1e4817ab85020156f579ab33fc5384c8aecd24fd8453ce6e37a3dcc094a45854",
+    "model_sha256": "2e6c6655ed60c97c09d4092f3381ad696859202d3b655f530b2437a2f1eb507f",
+    "booster_sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
+    "seconds": 12.03270570001041
   },
-  "original_public_course_tests": {
-    "count": 26,
-    "scope": "Historical original-delivery audit, not rerun during this portfolio task"
-  },
-  "official_runtime_executed": true,
   "full_training_repeated": false,
   "submission_repeated": false,
-  "pdf_brief": {
-    "pages": 9,
-    "slide_plan": {
-      "main_slides": 16,
-      "appendix_slides": 3
-    },
-    "rendered_and_all_pages_visually_checked": true,
-    "fonts_embedded": true,
-    "renderers": [
-      "PDFium"
-    ]
+  "original_workspace_modified": false,
+  "leaderboard": {
+    "rank": 3,
+    "snapshot_date": "2026-10-14",
+    "provenance": "Current position explicitly reported by the author in the release request.",
+    "independently_verified": false,
+    "final_placing": false,
+    "url": "https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards"
   },
-  "rank_verified": false,
-  "snapshot_verification": {
-    "passed": true,
-    "source_files": 491,
-    "archived_course_files": 2,
-    "public_files": 508,
-    "local_links_checked": 349,
-    "json_numeric_comparisons": 285,
-    "original_source_unchanged": true,
-    "numerical_json_outcomes_unchanged": true,
-    "frozen_model_unchanged": true,
-    "errors": [],
-    "anchor_errors": []
-  },
+  "historical_experiment_records_preserved": true,
   "repository_verification": {
-    "checked_at_utc": "2026-10-13T01:17:54.799909+00:00",
+    "checked_at_utc": "2026-10-14T01:17:02.198666+00:00",
     "environment": {
       "python": "3.12.14"
     },
     "passed": true,
     "counts": {
-      "eligible_files": 495,
-      "python_files": 101,
-      "json_files": 284,
-      "markdown_links": 327,
+      "eligible_files": 504,
+      "python_files": 105,
+      "json_files": 289,
+      "markdown_links": 330,
       "indexed_records": 115
     },
     "errors": [],
-    "selected_model": "Phase 14",
-    "nested_development_f1": 0.4421552272688187,
-    "submission_threshold": 0.2106169795070252,
+    "selected_model": "combined18_24_l2_1",
+    "nested_development_f1": null,
+    "nested_development_status": "nested_development_not_evaluated",
+    "historical_baseline": "Historical Phase 14 baseline",
+    "historical_nested_development_f1": 0.4421552272688187,
+    "full_training_calibration_f1": 0.4438823812013395,
+    "submission_threshold": 0.21811010373987366,
     "scope": "Git-eligible working-tree files, links, syntax, JSON, ledger hashes and frozen configuration. No training or official-runtime execution."
   },
-  "entry_points": {
+  "project_tests": {
+    "checked_at_utc": "2026-10-14T01:13:00.646908+00:00",
     "passed": true,
-    "count": 5,
-    "commands": [
-      "run.py --help",
-      "run_mlp.py --help",
-      "-m tools.prepare_data --help",
-      "-m tools.final_phase14_phase34 --help",
-      "-m src.run_matched_logistic_cv --help"
-    ]
-  },
-  "language_review": {
-    "scope": "Public Python, Markdown, JSON and CSV files; textual codebook is in English",
-    "italian_markers_found": 0,
-    "archival_record_annotations_translated": 4,
-    "config_annotations_translated": 5,
-    "decision_csv_rows_preserved": 365,
-    "generated_report_modules_translated": 14,
-    "limitation": "A marker scan supports the manual English rewrites; it is not a formal language classifier."
-  },
-  "passed": true,
-  "portfolio": {
-    "author": "Antonio Arbizzani Tonelli",
-    "audience": "Data Scientist hiring teams; self-reading GitHub explanation",
-    "official_course_report_published": false,
-    "github_repository_created": true,
-    "framing": "EPFL Machine Learning CS-433 project",
-    "github_repository_url": "https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy"
-  },
-  "leaderboard": {
-    "rank": 7,
-    "snapshot_date": "2026-10-12",
-    "url": "https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards",
-    "provenance": "Current position reported by the author",
-    "final_placing": false,
-    "independently_verified": false
-  },
-  "wording_updated_on": "2026-10-13",
-  "wording_revision": {
-    "date": "2026-10-13",
-    "framing": "EPFL Machine Learning CS-433 project",
-    "scope": "New measured matched-logistic comparison added to results, main README claim, seven-model chart and Claude brief. Historical records remain unchanged; Phase 14 remains the final selected model.",
-    "verification": "227 tests and repository checks pass. All nine new fits, thresholds, metrics and paired interval replay. Original source project, final Phase 14 configuration and frozen implementation remain unchanged."
-  },
-  "clean_publication_package": {
-    "passed": true,
-    "source": "Git archive of the initial publication commit, with no ignored local files.",
-    "commit": "baac0fa9d184502eff69a750431aab808b0bd77e",
-    "public_files": 499,
-    "tests": {
-      "count": 213,
-      "seconds": 6.321,
-      "passed": true
+    "tests_run": 242,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 116.11861550000322,
+    "environment": {
+      "python": "3.14.3",
+      "numpy": "2.4.2"
     },
-    "repository_verification_passed": true,
-    "staged_diff_check_passed": true
+    "scope": "Full public-project synthetic unittest suite; no official-data training."
   },
-  "github_actions_verification": {
+  "public_package_verification": {
+    "checked_at_utc": "2026-10-14T01:18:07.298269+00:00",
     "passed": true,
-    "url": "https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy/actions/runs/38324436873",
-    "commit": "baac0fa9d184502eff69a750431aab808b0bd77e",
-    "python_target": "3.9",
-    "numpy_pinned": "1.23.1",
-    "runner": "ubuntu-latest",
-    "project_tests": 213,
-    "checks": [
-      "dependency installation",
-      "repository verification",
-      "unit and integration tests",
-      "entry points"
+    "public_files": 530,
+    "json_files": 299,
+    "local_documentation_links": 369,
+    "frozen_booster_unchanged": true,
+    "selected_result_and_replay_consistent": true,
+    "historical_indexed_records_unchanged": true,
+    "retained_historical_machine_path_records": [
+      "project/results/eda/dataset_audit.json",
+      "project/results/eda/phase33_baseline_replay.json",
+      "project/results/experiments/mlp/20261001T014455026674Z_phase32-mlp-mlp64-32.json",
+      "project/results/experiments/mlp/20261001T014455269281Z_phase32-mlp-mlp128-64.json",
+      "project/results/experiments/phase33_raw_preprocessing/20261007T011322024298Z_phase33-raw-321-features-depth5-features128-200trees.json",
+      "project/results/experiments/phase34_missing_only_split/20261007T092637381255Z_phase34-missing-only-split-depth5-features128-200trees.json"
     ],
-    "scope": "Successful initial source release checks. Later documentation alignment updates prose and generated report wording while preserving model implementation, final configuration and numerical experiment outcomes."
+    "errors": [],
+    "scope": "All Git-eligible public working-tree files, private-artifact patterns, source/record/CSV fingerprints and documentation targets. Previously published, unchanged historical execution metadata is retained; no training."
   },
-  "phase14_documentation_alignment": {
+  "pdf_brief": {
     "passed": true,
-    "final_selected_model": "Phase 14",
-    "config": "project/configs/final_model.json",
-    "implementation_source": "project/src/numpy_boosting_phase14.py",
-    "submission_record": "project/results/eda/final_phase14_submission.json",
-    "phase34_role": "Separate experimental comparison, not adopted as the final model",
-    "final_configuration_unchanged": true,
-    "frozen_source_unchanged": true,
-    "numerical_results_unchanged": true,
-    "final_submission_record_unchanged": true
+    "pages": 11,
+    "main_slides": 16,
+    "appendix_slides": 3,
+    "all_pages_rendered": true,
+    "all_pages_visually_checked": true,
+    "metrics_and_ranking_text_checked": true,
+    "scope": "Guide reading PDF, not the future PowerPoint deck."
   },
-  "matched_logistic_development_cv_executed": true,
-  "phase14_training_repeated": false,
-  "matched_logistic_verification": {
-    "passed": true,
-    "source": "project/results/eda/phase38_matched_logistic_verification.json",
-    "fit_count": 9,
-    "all_fits_converged": true,
-    "saved_probabilities_replayed_exactly": true,
-    "source_protocol_commit": "3c00bd3d9e956b768ca0d6063d985c46a10538e0",
-    "shared_cleaning_and_inputs_verified": true,
-    "numerical_experiment_record_preserved": true
-  }
+  "passed": true
 }

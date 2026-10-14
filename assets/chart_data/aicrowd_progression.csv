@@ -1,0 +1,7 @@
+model,f1,accuracy,reported_on,protocol,provenance
+Phase 14 reference,0.452,0.878,2026-10-12,AIcrowd displayed feedback,Author-reported; three decimals; submission URL unavailable
+Phase 18 diet representation,0.453,0.882,2026-10-13,AIcrowd displayed feedback,Author-reported; three decimals; submission URL unavailable
+Phase 24 restricted imputation,0.454,0.88,2026-10-13,AIcrowd displayed feedback,Author-reported; three decimals; submission URL unavailable
+Phase 25 leaf L2=5,0.453,0.883,2026-10-13,AIcrowd displayed feedback,Author-reported; three decimals; submission URL unavailable
+"Combined Phase 18 + 24, L2=1",0.455,0.882,2026-10-13,AIcrowd displayed feedback,Author-reported; three decimals; submission URL unavailable
+"Combined Phase 18 + 24, L2=5",0.453,0.883,2026-10-13,AIcrowd displayed feedback,Author-reported; three decimals; submission URL unavailable

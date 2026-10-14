@@ -2,7 +2,9 @@
 
 These notes document the EPFL Machine Learning CS-433 project: dataset understanding, NumPy implementation, validation, experiments and result interpretation. The [portfolio overview](../../README.md) provides the concise story; this document retains the methods and evidence behind it. The filename is retained for compatibility with historical documentation. The course-delivery report is archived outside the public package.
 
-The final selected model is **Phase 14 NumPy histogram gradient boosting**, with 295 features and the frozen implementation in [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py). Recorded AIcrowd feedback is **F1 0.452 and accuracy 0.878** on 12 October 2026, displayed to three decimals and reported by the project author. Nested development F1 is **0.442155**; full-train OOF calibration F1 is **0.442770**. These are three distinct evaluation protocols. The separate corrected Phase 34 comparison reaches development F1 0.440803. Both versions were submitted and Phase 14 was selected using AIcrowd feedback; no numerical official Phase 34 score was provided.
+The selected release model is **combined18_24_l2_1 NumPy histogram gradient boosting**, with 297 transformed features and the frozen implementation in [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py). It combines the Phase 18 diet representation with restricted Phase 24 feature-only imputation, retaining leaf L2=1. Recorded AIcrowd feedback is **F1 0.455 and accuracy 0.882** on 13 October 2026, displayed to three decimals and reported by the project author. The author reports **3rd place on 14 October 2026**, a dated current leaderboard position. Full-training OOF calibration F1 is **0.443882381**; no completed nested development evaluation exists for this combined model.
+
+The historical Phase 14 baseline has nested development F1 **0.442155**, full-training calibration F1 **0.442770**, and AIcrowd feedback **F1 0.452 / accuracy 0.878** on 12 October 2026. The separate corrected Phase 34 comparison reaches development F1 0.440803. Historical validation, selected threshold calibration and AIcrowd feedback are distinct protocols. No numerical official Phase 34 score was provided.
 
 This portfolio copy preserves experiment numeric outcomes. Four historical annotations were translated with updated copy hashes. At the portfolio root, `evidence/SNAPSHOT_MANIFEST.json` records original source-commit provenance and keeps the original course project distinct from the portfolio.
 
@@ -12,13 +14,15 @@ Codebook cleaning is part of the selected pipeline: it guides exclusions, distin
 
 The `_MICHD` target identifies myocardial infarction or coronary heart disease reported in BRFSS 2015. The dataset contains 328,135 labeled respondents, 321 predictors and 109,379 test rows. Positives account for 8.83% of training labels; 44.79% of predictor cells are missing.
 
-Preprocessing retains 295 features, excluding identifiers, full interview date, survey-design variables and some redundant columns. Documented nonresponses become `NaN`; codes representing zero quantities become zero. For example, `ALCDAY5=888` means no alcohol consumption and `PHYSHLTH=88` means zero days. Binary recoding is fitted on training rows.
+Historical Phase 14 preprocessing retains 295 features, excluding identifiers, full interview date, survey-design variables and some redundant columns. Documented nonresponses become `NaN`; codes representing zero quantities become zero. For example, `ALCDAY5=888` means no alcohol consumption and `PHYSHLTH=88` means zero days. Binary recoding is fitted on training rows.
+
+The selected combination excludes the six mixed-unit raw diet columns `FRUITJU1`, `FRUIT1`, `FVBEANS`, `FVGREEN`, `FVORANG` and `VEGETAB1`, retaining the existing CDC daily-frequency columns. This leaves 289 source features. Restricted imputation fills documented unknown/refused codes for `INCOME2`, `PNEUVAC3` and `EMPLOY1`, blank height/weight, and missing BMI derived from height/weight. It learns only from the corresponding training partition, without target labels, and preserves structural blanks and eight original missing-reason flags. The model therefore receives **297 transformed columns**. The exact plan is in [combined preprocessing](../configs/experiments/combined18_24_preprocessing.json).
 
 Across the 295 development columns, cleaning changes 1,095,421 numeric nonresponse codes to `NaN` and 899,687 zero-quantity codes to zero. These [counts](../results/eda/phase33_preprocessing_counts.json) quantify the representation work.
 
 The [complete raw-input benchmark](../results/eda/phase33_raw_preprocessing_summary.md), run before the algorithm correction, holds model and folds fixed and retains all 321 predictors, original numeric codes and `NaN` values. Raw F1 is **0.441457**, versus **0.442155** after cleaning: **+0.000698**, with a small advantage in each fold. The paired 95% interval for cleaned minus raw is **[−0.001226, +0.002635]**, conditional on fixed fits and thresholds, and includes zero. The gain is small and uncertain. This comparison combines recoding and exclusions, with 128 candidate features drawn from 321 or 295 columns; individual operations remain to be isolated.
 
-Phase 14 fixes fourteen gaps in parsed nonresponse meanings. The booster learns quantile bins on training data and chooses the missing-value branch at each split. Final input contains 295 source columns; nominal activities and mixed-unit frequencies retain the selected numeric encoding. The plan is in [Phase 14 preprocessing](../configs/experiments/phase14_codebook_corrections_only.json).
+Phase 14 fixes fourteen gaps in parsed nonresponse meanings. The booster learns quantile bins on training data and chooses the missing-value branch at each split. Its historical input contains 295 source columns; nominal activities and mixed-unit frequencies retain that earlier numeric encoding. The plan is in [Phase 14 preprocessing](../configs/experiments/phase14_codebook_corrections_only.json). The selected combination uses the same cleaning foundation with the diet exclusions and imputation described above.
 
 ## Model and evaluation
 
@@ -31,9 +35,9 @@ The booster adds Newton trees to minimize logistic loss. The [final configuratio
 | Bins / candidate features per node | 64 / 128 |
 | Leaf L2 / positive-class weight | 1 / 1 |
 | Model seed | 20260920 |
-| Final threshold | 0.2106169795070252 |
+| Final threshold | 0.21811010373987366 |
 
-Final comparisons use the same 262,508 development rows and three outer folds. Two inner folds select an F1 threshold within each outer training partition; the outer held-out fold evaluates the model once. Every fit learns preprocessing and statistics on its own training rows. Development F1 pools predictions using each fold's selected threshold.
+Historical nested comparisons use the same 262,508 development rows and three outer folds. Two inner folds select an F1 threshold within each outer training partition; the outer held-out fold evaluates the model once. Every fit learns preprocessing and statistics on its own training rows. Development F1 pools predictions using each fold's selected threshold. The selected combined pipeline has completed full-training calibration and AIcrowd submissions, but is absent from this nested comparison table.
 
 For the final submission, three new stratified folds cover all 328,135 labeled rows. Each fold fits preprocessing and the booster on training rows; the final threshold maximizes F1 on pooled OOF predictions without test labels. Calibration F1 uses the labels that selected that threshold and is not an independent evaluation.
 
@@ -45,7 +49,7 @@ F1 balances positive recovery and false alarms. With this imbalance, predicting 
 | Historical logistic regression | 0.425628 | 0.35728 | 0.52632 | 0.38775 | 0.22198 |
 | Matched logistic, Phase 14 cleaning | 0.434467 | 0.367541 | 0.531191 | 0.420990 | 0.218147 |
 | Booster on 321 raw predictors | 0.441457 | 0.366631 | 0.554659 | 0.427835 | 0.215348 |
-| **Selected Phase 14 booster** | **0.442155** | **0.367632** | **0.554573** | **0.428609** | **0.215225** |
+| **Historical Phase 14 booster** | **0.442155** | **0.367632** | **0.554573** | **0.428609** | **0.215225** |
 | Phase 34 booster, corrected search | 0.440803 | 0.362001 | 0.563460 | 0.428781 | 0.215229 |
 | MLP 64 → 32 | 0.424451 | 0.360722 | 0.515531 | 0.387782 | 0.221674 |
 | MLP 128 → 64 | 0.419268 | 0.340005 | 0.546721 | 0.379380 | 0.222710 |
@@ -54,7 +58,7 @@ Historical ridge and logistic scores come from median-fill runs before categoric
 
 The [matched study](../results/eda/phase38_matched_logistic_summary.md) gives logistic F1 **0.434467**, versus **0.442155** for Phase 14: an absolute gain of **0.007689**, positive in all three outer folds. Its paired 95% interval **[+0.004919, +0.010463]** is conditional on fitted models and selected thresholds, excluding retraining and repeated-selection uncertainty. All nine logistic fits converged within 484 iterations; recorded runtime is 404.6 seconds. The [verification record](../results/eda/phase38_matched_logistic_verification.json) checks the shared cleaning, rows, folds and frozen Phase 14 predictions. The change from historical logistic F1 0.425628 also changes the solver, regularization, flags and interactions, so it cannot isolate the contribution of cleaning.
 
-Selected Phase 14 recovers 12,855 of 23,180 development positives and produces 22,112 false positives. Fold F1 values are 0.439027, 0.444054 and 0.443512.
+Historical Phase 14 recovers 12,855 of 23,180 development positives and produces 22,112 false positives. Fold F1 values are 0.439027, 0.444054 and 0.443512.
 
 ## Experimental progression
 
@@ -72,11 +76,11 @@ Later studies tested representation, imputation and model changes against Phase 
 | Feature selection | 100 or 60 columns selected by training-only permutation | 0.439224 |
 | MLP | 64 → 32 and 128 → 64 networks with dedicated preprocessing | 0.424451 |
 
-**None exceeded Phase 14 F1 0.442155.** Imputation showed a small initial screening advantage, but nested confirmation reached 0.441791. Some variants improve recall or AP while adding enough false positives to reduce F1. Both 100- and 60-feature selection performed worse in every fold.
+**None of these individual nested-evaluated variants exceeded Phase 14 F1 0.442155.** Imputation showed a small initial screening advantage, but nested confirmation reached 0.441791. Some variants improve recall or AP while adding enough false positives to reduce F1. Both 100- and 60-feature selection performed worse in every fold. Combining diet exclusions and restricted imputation was later selected using AIcrowd feedback, as documented below; its calibration F1 cannot be inserted into this nested table.
 
 MLPs use two ReLU hidden layers, sigmoid output, BCE and Adam. Dedicated training-fitted preprocessing provides imputation, scaling, one-hot encoding and frequency conversion. An internal training holdout selects epochs before a full refit. Both networks underperform the booster in all three folds; the wider network performs worse.
 
-These studies guided the retained Phase 14 plan and historical code. Phase 34 separately evaluates corrected split search; other historical variants were not repeated after that correction. [Experiment history](EXPERIMENTS.md) retains individual results; [MLP.md](MLP.md) documents the neural pipeline.
+These studies established the Phase 14 reference and informed the combined release candidate. Phase 34 separately evaluates corrected split search; other historical variants were not repeated after that correction. [Experiment history](EXPERIMENTS.md) retains individual results; [MLP.md](MLP.md) documents the neural pipeline.
 
 ## HAREHAB1
 
@@ -102,7 +106,7 @@ The [Phase 34 comparison's error analysis](../results/eda/phase34_error_followup
 
 ## Final studies: weighting and training sampling
 
-None of the six late-stage candidates improves its matched control. Final selected Phase 14 retains all rows and positive weight 1. Weights 1.25/1.5 and random ratios 5:1/7:1 use historical Phase 14; random 3:1 and hybrid hard use corrected Phase 34. These ratios are not a single comparison of data quantity under one algorithm.
+None of the six late-stage candidates improves its matched control. The selected combined release retains all rows and positive weight 1. Weights 1.25/1.5 and random ratios 5:1/7:1 use historical Phase 14; random 3:1 and hybrid hard use corrected Phase 34. These ratios are not a single comparison of data quantity under one algorithm.
 
 | Study | Control | F1 | Delta F1 | Favorable folds |
 | --- | --- | ---: | ---: | ---: |
@@ -121,8 +125,17 @@ None of the six late-stage candidates improves its matched control. Final select
 
 ## Full training and submission
 
-Full-train calibration compares both implementations with three OOF fits and one full-data fit each, using identical folds and parameters. Final selected Phase 14 uses threshold **0.2106169795070252** with calibration F1 **0.442769549**; the Phase 34 comparison uses **0.2214498433950319** with calibration F1 **0.443569854**. Phase 34's OOF advantage did not determine the AIcrowd-based choice; these values do not reveal its test score.
+The completed combined study compares leaf L2=1 and L2=5 with the same 297-feature representation, three full-training OOF folds and one full-data fit each. Each candidate selects its own threshold by maximizing pooled OOF F1, with accuracy as a tie-breaker. These metrics describe calibration over all 328,135 labeled rows.
 
-Final Phase 14 trains on all **328,135 labeled rows** and produces **109,379 predictions: 14,746 positive and 94,633 negative**. The CSV uses header `Id,Prediction`, labels −1/+1 and official sample ID order. The [final record](../results/eda/final_phase14_submission.json) retains calibration, historical source, counts and submission fingerprints. `python run.py` uses that source and threshold; the [validation suite](../configs/experiments/final_phase14_validation.json) explicitly selects the same historical code. The [earlier summary](../results/eda/final_training_summary.json) describes September training with threshold 0.21086909970855153 and 14,728 positive predictions.
+| Combined candidate | Calibration F1 | Threshold | AIcrowd F1 | AIcrowd accuracy |
+| --- | ---: | ---: | ---: | ---: |
+| **Selected L2=1** | **0.443882381** | **0.21811010373987366** | **0.455** | **0.882** |
+| L2=5 | 0.442654786 | 0.2206061257480886 | 0.450 | 0.882 |
 
-The author reported **AIcrowd F1 0.452 and accuracy 0.878** for the new Phase 14 submission. Development CV supported many model choices, and early baselines consulted the original 20% partition. Comparing two submissions also contributed to final selection. Inner threshold selection reduces one source of optimism but does not remove repeated model-selection effects.
+AIcrowd values are author-reported feedback on 13 October 2026, displayed to three decimals. Individual Phase 18 and Phase 24 submissions both received F1 0.454, and the Phase 25 L2=5 baseline received 0.452. The combined L2=1 candidate is the selected result for this release. Its advantage over the historical Phase 14 submission is 0.003 in displayed AIcrowd F1; this rounded difference is not a significance test. The author reports a current leaderboard position of 3rd on 14 October 2026, without a final placing claim.
+
+The selected model trains on all **328,135 labeled rows** and produces **109,379 predictions: 13,999 positive and 95,380 negative**. The CSV uses header `Id,Prediction`, labels −1/+1 and official sample ID order. The [selected submission record](../results/eda/final_combined18_24_submission.json) preserves calibration, model and configuration fingerprints, counts and feedback provenance. `python run.py` uses the combined preprocessing and the byte-exact frozen Phase 14 booster with the selected threshold. The completed driver is reproduced with `python -m tools.final_combined_18_24 prepare` followed by `python -m tools.final_combined_18_24 run --workers 1`; a fresh run requires official data and fits both combined candidates.
+
+The earlier two-implementation calibration study is preserved separately. Historical Phase 14 uses threshold **0.2106169795070252** with calibration F1 **0.442769549** and AIcrowd **0.452 / 0.878**; corrected Phase 34 uses threshold **0.2214498433950319** with calibration F1 **0.443569854**. Phase 34's calibration advantage does not reveal its AIcrowd score. Historical Phase 14 produces **14,746 positive and 94,633 negative** predictions. Its [submission record](../results/eda/final_phase14_submission.json), [preserved configuration](../configs/historical_phase14_model.json) and [nested validation suite](../configs/experiments/final_phase14_validation.json) retain that earlier pipeline. The [September summary](../results/eda/final_training_summary.json) records threshold 0.21086909970855153 and 14,728 positive predictions.
+
+Development CV supported many choices, and early baselines consulted the original 20% partition. Repeated AIcrowd submissions also contributed to selecting the combined release. Inner threshold selection reduces one source of optimism but does not remove repeated model-selection effects. There is no completed nested development estimate or matched significance interval for the combined pipeline; its reported calibration result remains separate from historical validation.

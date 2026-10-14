@@ -1,26 +1,18 @@
-# Final model and completed studies
+# Selected model and completed studies
 
-The recorded studies are **complete**, including the matched logistic baseline added after model selection. The final selected model remains **Phase 14**, using [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py), with author-reported **F1 0.452 and accuracy 0.878** after submitting both versions to AIcrowd. Phase 34 is a separate evaluated comparison that corrects the observed-versus-missing split search. [EXPERIMENTS.md](EXPERIMENTS.md) records the study history; the [technical results](FINAL_REPORT.md) explain the choice.
+The completed release selects **Combined Phase 18 + Phase 24 (L2=1)**,
+with author-reported **AIcrowd F1 0.455 / accuracy 0.882** and reported
+**rank 3 on 14 October 2026**. It combines the diet representation and
+restricted conditional imputation using the historical Phase 14 booster.
+The [final configuration](../configs/final_model.json) uses 297 transformed
+features, 200 trees, depth 5, learning rate 0.05, minimum leaf 200,
+64 bins, 128 candidate features per node, leaf L2 1, seed 20260920,
+and threshold **0.21811010373987366**. Calibration covers every labeled row.
 
-## Frozen configuration
-
-| Component | Selected value |
-| --- | --- |
-| Model | Histogram gradient boosting implemented in NumPy |
-| Split search | `src/numpy_boosting_phase14.py`, the frozen Phase 14 source verified by SHA-256 |
-| Input | 295 Phase 14 features, including HAREHAB1 and ALCDAY5 |
-| Preprocessing | Documented nonresponses → NaN; documented zero quantities → 0; quantile bins fitted on training rows |
-| Parameters | 200 trees, depth 5, learning rate 0.05, minimum leaf size 200, 64 bins, 128 candidate features per node |
-| Regularization / weighting | Leaf L2 1; positive-class weight 1 |
-| Model seed | 20260920 |
-| Nested development F1 | 0.442155227 |
-| Precision / recall | 0.367632 / 0.554573 |
-| Final threshold | 0.2106169795070252, maximizing F1 on three-fold OOF predictions over all training rows |
-| AIcrowd feedback | F1 0.452, accuracy 0.878; author-reported |
-
-The [final configuration](../configs/final_model.json) and [preprocessing plan](../configs/experiments/phase14_codebook_corrections_only.json) define the `run.py` pipeline. The new full-data Phase 14 fit uses 328,135 labeled rows and produces 109,379 test predictions, including 14,746 positives. The [final record](../results/eda/final_phase14_submission.json) retains calibration details and the selected submission fingerprint.
-
-HAREHAB1 remains included. It asks about rehabilitation after a heart attack, so response eligibility can reveal information about the outcome. Removing it alone reduced historical F1 to 0.431039. This limits interpretation as prediction before an event.
+The combined pipeline has no completed nested-development estimate.
+The historical Phase 14 reference is retained through
+[historical_phase14_model.json](../configs/historical_phase14_model.json).
+`HAREHAB1` remains in the selected pipeline and limits prospective interpretation.
 
 ## Completed studies
 
@@ -29,7 +21,7 @@ HAREHAB1 remains included. It asks about rehabilitation after a heart attack, so
 | Linear models and representations | Historical nested logistic F1 0.425628; best ridge 0.419508 | [Phase 7](../results/eda/phase7_nested_and_ridge_summary.md) |
 | Booster grid and semantic corrections | Selected 200 trees/depth 5; Phase 14 improves 0.441741 to 0.442155 | [Phase 14](../results/eda/phase14_codebook_corrections_summary.md) |
 | HAREHAB1 ablation | 0.431039, delta −0.011116; feature retained | [Phase 15 record](../results/experiments/20260921T154905753681Z_phase15-boosting-ablate-harehab1-depth5-features128-200trees.json) |
-| Frequencies, activities and ALCDAY5 | Best family candidate 0.441862; none adopted | [History](EXPERIMENTS.md#completed-comparisons-against-phase-14) |
+| Frequencies, activities and ALCDAY5 | Historical best 0.441862; diet representation adopted later via AIcrowd feedback | [History](EXPERIMENTS.md#completed-comparisons-against-phase-14) |
 | General and clinical binning | 0.440783 and 0.439731; Phase 14 quantiles retained | [Phase 20](../results/eda/phase20_binning_summary.md), [Phase 21–22](../results/eda/phase21_22_preprocessing_summary.md) |
 | Indicators and imputation | Indicators 0.440322; restricted-imputation nested confirmation 0.441791 | [Phase 23](../results/eda/phase23_missing_reason_flags_summary.md), [Phase 24](../results/eda/phase24_original_restricted_imputation_summary.md) |
 | Parameters, depth and positive weighting | Best family candidate 0.441393; Phase 14 configuration retained | [History](EXPERIMENTS.md#completed-comparisons-against-phase-14) |
@@ -42,7 +34,7 @@ HAREHAB1 remains included. It asks about rehabilitation after a heart attack, so
 
 All F1 values above use nested threshold selection. Comparisons through Phase 33 use the booster before the split correction; comparing Phase 33 raw inputs directly with Phase 34 would also change the implementation. Grouped families report their best measured candidate, rather than a common result for every variant.
 
-The conditional paired interval for the Phase 34 F1 delta is [−0.003005, +0.000319] and includes zero. It holds models and thresholds fixed and excludes retraining and repeated-selection uncertainty. The final choice retained Phase 14 after AIcrowd feedback, with the same model parameters.
+The conditional paired interval for the Phase 34 F1 delta is [−0.003005, +0.000319] and includes zero. It holds models and thresholds fixed and excludes retraining and repeated-selection uncertainty. The earlier choice retained Phase 14 after AIcrowd feedback; the current release combines Phase 18 and restricted Phase 24 with the same booster parameters.
 
 Phase 16 imputation screening reached exploratory F1 0.442674 by selecting and evaluating a threshold on the same OOF labels. Phase 24 confirmation with inner thresholds did not reproduce that advantage. Interactions listed in the Phase 16 tree configuration were not applied by tree preprocessing, so that result does not measure their effect. Historical linear results precede the correction from median to mode for categorical fills.
 
@@ -50,7 +42,7 @@ Phase 38 shares the exact Phase 14 cleaner, source variables and nested partitio
 
 ## Deferred ideas
 
-These remain hypotheses for a future study; no training queue is active:
+These remain hypotheses beyond the completed release:
 
 - Combine restricted imputation with binning that preserves every indicator state.
 - Test exercise-frequency or activity representations beyond the measured variants.

@@ -14,6 +14,7 @@ Thumbs.db
 /project/docs/GITHUB_RELEASE.md
 /presentation/CLAUDE_DESIGN_INPUT.zip
 /project/.github/
+/project/results/aicrowd_*/
 
 # Superseded Phase 29 exports; completed evidence remains published
 /project/results/eda/phase29_feature_selection/first_fold_partial.json

@@ -5,10 +5,11 @@ project. Start with the [portfolio overview](../../README.md)
 for the result story and the [project guide](../README.md) for setup and
 reproduction.
 
-The final selected model is **Phase 14**, using
-[`src/numpy_boosting_phase14.py`](../src/numpy_boosting_phase14.py) as specified
-in [`configs/final_model.json`](../configs/final_model.json). Phase 34 is a
-separate evaluated comparison of corrected split search.
+The selected release pipeline combines **Phase 18 diet representation and
+Phase 24 restricted imputation**, using the frozen Phase 14 booster and
+[`configs/final_model.json`](../configs/final_model.json). Reported AIcrowd
+F1 is **0.455**, accuracy **0.882**. Phase 14 remains the historical nested
+reference; Phase 34 is a separate corrected-search comparison.
 
 | Document | Purpose |
 | --- | --- |

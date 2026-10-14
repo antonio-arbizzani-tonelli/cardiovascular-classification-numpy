@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "scope": "Public selected preprocessing and frozen booster replay against the trusted completed local model; no booster fitting or source-workspace writes.",
+  "variant": "combined18_24_l2_1",
+  "training_shape": [
+    328135,
+    297
+  ],
+  "test_shape": [
+    109379,
+    297
+  ],
+  "training_matrix_sha256": "b9f12896268bf7256cf9ee317d25209f2f753bdee135cfc2afd80043689201a0",
+  "test_matrix_sha256": "3baffe796832b3924348b519b76454b6cb10d883613b4580435e349a8875eec9",
+  "probability_max_difference": 0.0,
+  "decision_threshold": 0.21811010373987366,
+  "positive_predictions": 13999,
+  "negative_predictions": 95380,
+  "csv_sha256": "1e4817ab85020156f579ab33fc5384c8aecd24fd8453ce6e37a3dcc094a45854",
+  "model_sha256": "2e6c6655ed60c97c09d4092f3381ad696859202d3b655f530b2437a2f1eb507f",
+  "booster_sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
+  "seconds": 12.03270570001041
+}

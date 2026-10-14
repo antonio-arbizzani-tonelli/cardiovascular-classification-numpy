@@ -1,12 +1,13 @@
 # Results and evidence
 
-The final selected model uses [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py).
-This Phase 14 booster scores **F1 0.452 and accuracy 0.878 on AIcrowd**,
-as reported by the author. Its nested development F1 is **0.442155227**;
-the matched logistic baseline using shared cleaning reaches **0.434466576**,
-an absolute gap of **0.007688651** in favor of Phase 14;
-the separate corrected Phase 34 comparison reaches **0.440803240**. The
-[technical results](../docs/FINAL_REPORT.md) explain the model comparison and choice.
+The completed release selects **Combined Phase 18 + Phase 24 (L2=1)**,
+with author-reported AIcrowd **F1 0.455 and accuracy 0.882**. Its
+[submission record](eda/final_combined18_24_submission.json) retains
+full-train OOF calibration F1 **0.443882** and threshold **0.21811010373987366**.
+No nested estimate exists for this exact combined pipeline. Historical
+Phase 14 nested F1 **0.442155** and matched logistic **0.434467** remain
+separate controlled results. [Technical results](../docs/FINAL_REPORT.md)
+explain the evaluation boundaries.
 
 | Location | Contents |
 | --- | --- |
@@ -20,8 +21,8 @@ the separate corrected Phase 34 comparison reaches **0.440803240**. The
 | [Matched logistic study](eda/phase38_matched_logistic_summary.md) | Shared Phase 14 cleaning, source variables and nested folds, with model-specific finite inputs |
 | [Matched logistic verification](eda/phase38_matched_logistic_verification.json) | Matching boundaries, convergence, source/OOF fingerprints and recorded metrics |
 | [Earlier full-data training](eda/final_training_summary.json) | Historical Phase 14 runtime, prediction counts and earlier submission fingerprint |
-| [Final selected Phase 14 submission](eda/final_phase14_submission.json) | Full-train OOF calibration, selected source and CSV fingerprints, AIcrowd feedback |
-| [Final project checks](eda/final_phase14_readiness.json) | Current clean-package tests, public course tests and integrity checks |
+| [Historical Phase 14 submission](eda/final_phase14_submission.json) | Full-train OOF calibration, selected source and CSV fingerprints, AIcrowd feedback |
+| [Historical course-delivery checks](eda/final_phase14_readiness.json) | Current clean-package tests, public course tests and integrity checks |
 | [Earlier project checks](eda/final_readiness.json) | Historical audit and execution environment |
 | [Fixed split](eda/analysis/splits/stratified_seed_20260918.npz) | Development and initial-validation row indices |
 
@@ -31,7 +32,7 @@ to their results.
 
 ## Reading the scores
 
-The final comparisons select F1 thresholds on inner OOF predictions and
+The historical nested comparisons select F1 thresholds on inner OOF predictions and
 score the outer folds. In booster JSONs, this result is stored in
 `outcome.nested_threshold_evaluation.pooled_metrics`. The index F1 column and
 `outcome.metrics` can instead contain fixed-threshold or exploratory scores,

@@ -11,12 +11,18 @@ myocardial infarction or coronary heart disease reported in the BRFSS survey.
 The dataset contains 328,135 labeled respondents, 321 predictors and 8.83%
 positive labels.
 
-The final selected model is **Phase 14 histogram gradient boosting**, using
-[src/numpy_boosting_phase14.py](src/numpy_boosting_phase14.py), with 295
-features cleaned according to the Phase 14 codebook plan, 200 trees and
-maximum depth 5. Its AIcrowd submission scores **F1 0.452 and accuracy 0.878**
-(author-reported feedback, displayed to three decimals). Nested development F1
-is **0.44216**.
+The selected release model is **combined18_24_l2_1 histogram gradient
+boosting**: Phase 14 codebook cleaning, six redundant raw diet columns
+excluded, and restricted feature-only imputation. It uses the frozen
+[Phase 14 booster](src/numpy_boosting_phase14.py), 297 transformed features,
+200 trees and maximum depth 5. AIcrowd feedback on 13 October 2026 is
+**F1 0.455 and accuracy 0.882**, displayed to three decimals and reported
+by the author. The author reports **3rd place on 14 October 2026**; this is
+a dated current leaderboard position.
+
+Full-training OOF threshold calibration gives **F1 0.443882**. There is no
+completed nested development evaluation of this combined pipeline. The
+**0.44216** nested F1 below belongs to the historical Phase 14 baseline.
 
 An implementation audit recovered omitted splits separating observed values
 from missing responses. Phase 34 evaluates the correction with the same
@@ -24,8 +30,8 @@ from missing responses. Phase 34 evaluates the correction with the same
 0.44216 with the earlier search (commit
 `aa9a23e907015e91eda75d785c0425172ac32558`); the correction changes F1 by
 −0.00135 while AP rises by 0.00017. After full-train OOF calibration and
-submission of both versions, Phase 14 was selected based on AIcrowd
-feedback. Its exact historical source is included as
+submission of both versions, the historical Phase 14 pipeline was retained
+before the combined candidate improved AIcrowd F1 to 0.455. Its exact source is included as
 `src/numpy_boosting_phase14.py`; Phase 34 remains a separate evaluated
 comparison using `src/numpy_boosting.py`.
 
@@ -34,7 +40,7 @@ comparison using `src/numpy_boosting.py`.
 | Historical ridge | 0.41951 |
 | Historical logistic regression | 0.42563 |
 | Matched logistic, Phase 14 cleaning | 0.43447 |
-| **Selected Phase 14 booster** | **0.44216** |
+| **Historical Phase 14 booster** | **0.44216** |
 | Corrected Phase 34 booster | 0.44080 |
 | MLP 64 → 32 | 0.42445 |
 | MLP 128 → 64 | 0.41927 |
@@ -58,7 +64,7 @@ The [technical results](docs/FINAL_REPORT.md) explain the comparisons,
 model choice and limitations, with links to the original experiment evidence.
 The [project overview](../README.md) summarizes the work, and the
 [Claude Design brief](../presentation/CLAUDE_DESIGN_BRIEF.md) specifies a
-19-slide results deck. The course-delivery report is archived outside the
+results deck. The course-delivery report is archived outside the
 public package.
 
 ## Setup
@@ -97,15 +103,21 @@ python run.py --data-dir data/raw/dataset --output submission.csv
 The command trains on all labeled rows and writes `Id,Prediction` with labels
 `-1/+1`. Parameters and the decision threshold are in
 [configs/final_model.json](configs/final_model.json). The threshold,
-`0.2106169795070252`, maximizes F1 on pooled three-fold OOF predictions over
+`0.21811010373987366`, maximizes F1 on pooled three-fold OOF predictions over
 all **328,135 labeled rows**, with preprocessing fitted within each training
-fold. Calibration F1 is 0.442770; it uses the threshold-selection labels and
+fold. Calibration F1 is 0.443882; it uses the threshold-selection labels and
 is separate from the nested development score and AIcrowd feedback.
 
-The selected full-data run produces **109,379 predictions: 14,746 positive
-and 94,633 negative**. Its source, threshold, input and CSV fingerprints are
-in the [final submission record](results/eda/final_phase14_submission.json).
-The command above uses that Phase 14 source and calibrated threshold.
+The selected full-data run produces **109,379 predictions: 13,999 positive
+and 95,380 negative**. Its source, threshold, input and CSV fingerprints are
+in the [selected submission record](results/eda/final_combined18_24_submission.json).
+The command above uses the combined preprocessing, frozen Phase 14 source
+and calibrated threshold. The earlier 295-feature pipeline and its threshold
+remain available in [historical_phase14_model.json](configs/historical_phase14_model.json):
+
+```bash
+python run.py --config configs/historical_phase14_model.json --output submission_phase14.csv
+```
 
 CSV output uses `create_csv_submission` in [helpers.py](helpers.py), adapted
 from the [official EPFL starter](https://github.com/epfml/ML_course/blob/main/projects/project1/helpers.py).
@@ -117,7 +129,7 @@ the same. Add `--checkpoint results/final_model.pkl` to save the fitted model.
 
 ## Reproduce validation
 
-Prepare the caches, then run the selected cross-validation:
+Prepare the caches, then reproduce the historical Phase 14 nested evaluation:
 
 ```bash
 python -m tools.prepare_data
@@ -129,7 +141,18 @@ fold uses the threshold selected from its inner OOF predictions. This suite
 explicitly selects the included frozen Phase 14 implementation. For the
 corrected comparison, use `configs/experiments/phase34_missing_only_split.json`.
 The [utility guide](tools/README.md) also explains full-train calibration of
-both implementations.
+both implementations. To reproduce the selected combination's three-fold
+full-training calibration and both L2 candidates with official data:
+
+```bash
+python -m tools.final_combined_18_24 prepare
+python -m tools.final_combined_18_24 run --workers 1
+```
+
+This driver fits three OOF models and one full-data model for each of the
+L2=1 and L2=5 recipes. It preserves the exact historical implementation and
+fits imputation within each training fold. Its OOF metrics describe threshold
+calibration; the historical nested scores above remain a separate study.
 
 To reproduce the matched logistic metrics with official data, run from `project/`:
 

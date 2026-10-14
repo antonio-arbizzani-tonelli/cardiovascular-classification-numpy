@@ -1,0 +1,163 @@
+{
+  "checked_at_utc": "2026-10-13T01:19:09.451742+00:00",
+  "environment": {
+    "python": "3.14.3",
+    "numpy": "2.4.2",
+    "matplotlib": "3.10.8"
+  },
+  "project_tests": {
+    "passed": true,
+    "count": 227,
+    "seconds": 6.787,
+    "scope": "Complete unit/integration suite in the EPFL Machine Learning CS-433 portfolio copy, including active root CI and portfolio publication boundaries; synthetic fixtures and included codebook."
+  },
+  "original_public_course_tests": {
+    "count": 26,
+    "scope": "Historical original-delivery audit, not rerun during this portfolio task"
+  },
+  "official_runtime_executed": true,
+  "full_training_repeated": false,
+  "submission_repeated": false,
+  "pdf_brief": {
+    "pages": 9,
+    "slide_plan": {
+      "main_slides": 16,
+      "appendix_slides": 3
+    },
+    "rendered_and_all_pages_visually_checked": true,
+    "fonts_embedded": true,
+    "renderers": [
+      "PDFium"
+    ]
+  },
+  "rank_verified": false,
+  "snapshot_verification": {
+    "passed": true,
+    "source_files": 491,
+    "archived_course_files": 2,
+    "public_files": 508,
+    "local_links_checked": 349,
+    "json_numeric_comparisons": 285,
+    "original_source_unchanged": true,
+    "numerical_json_outcomes_unchanged": true,
+    "frozen_model_unchanged": true,
+    "errors": [],
+    "anchor_errors": []
+  },
+  "repository_verification": {
+    "checked_at_utc": "2026-10-13T01:17:54.799909+00:00",
+    "environment": {
+      "python": "3.12.14"
+    },
+    "passed": true,
+    "counts": {
+      "eligible_files": 495,
+      "python_files": 101,
+      "json_files": 284,
+      "markdown_links": 327,
+      "indexed_records": 115
+    },
+    "errors": [],
+    "selected_model": "Phase 14",
+    "nested_development_f1": 0.4421552272688187,
+    "submission_threshold": 0.2106169795070252,
+    "scope": "Git-eligible working-tree files, links, syntax, JSON, ledger hashes and frozen configuration. No training or official-runtime execution."
+  },
+  "entry_points": {
+    "passed": true,
+    "count": 5,
+    "commands": [
+      "run.py --help",
+      "run_mlp.py --help",
+      "-m tools.prepare_data --help",
+      "-m tools.final_phase14_phase34 --help",
+      "-m src.run_matched_logistic_cv --help"
+    ]
+  },
+  "language_review": {
+    "scope": "Public Python, Markdown, JSON and CSV files; textual codebook is in English",
+    "italian_markers_found": 0,
+    "archival_record_annotations_translated": 4,
+    "config_annotations_translated": 5,
+    "decision_csv_rows_preserved": 365,
+    "generated_report_modules_translated": 14,
+    "limitation": "A marker scan supports the manual English rewrites; it is not a formal language classifier."
+  },
+  "passed": true,
+  "portfolio": {
+    "author": "Antonio Arbizzani Tonelli",
+    "audience": "Data Scientist hiring teams; self-reading GitHub explanation",
+    "official_course_report_published": false,
+    "github_repository_created": true,
+    "framing": "EPFL Machine Learning CS-433 project",
+    "github_repository_url": "https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy"
+  },
+  "leaderboard": {
+    "rank": 7,
+    "snapshot_date": "2026-10-12",
+    "url": "https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards",
+    "provenance": "Current position reported by the author",
+    "final_placing": false,
+    "independently_verified": false
+  },
+  "wording_updated_on": "2026-10-13",
+  "wording_revision": {
+    "date": "2026-10-13",
+    "framing": "EPFL Machine Learning CS-433 project",
+    "scope": "New measured matched-logistic comparison added to results, main README claim, seven-model chart and Claude brief. Historical records remain unchanged; Phase 14 remains the final selected model.",
+    "verification": "227 tests and repository checks pass. All nine new fits, thresholds, metrics and paired interval replay. Original source project, final Phase 14 configuration and frozen implementation remain unchanged."
+  },
+  "clean_publication_package": {
+    "passed": true,
+    "source": "Git archive of the initial publication commit, with no ignored local files.",
+    "commit": "baac0fa9d184502eff69a750431aab808b0bd77e",
+    "public_files": 499,
+    "tests": {
+      "count": 213,
+      "seconds": 6.321,
+      "passed": true
+    },
+    "repository_verification_passed": true,
+    "staged_diff_check_passed": true
+  },
+  "github_actions_verification": {
+    "passed": true,
+    "url": "https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy/actions/runs/38324436873",
+    "commit": "baac0fa9d184502eff69a750431aab808b0bd77e",
+    "python_target": "3.9",
+    "numpy_pinned": "1.23.1",
+    "runner": "ubuntu-latest",
+    "project_tests": 213,
+    "checks": [
+      "dependency installation",
+      "repository verification",
+      "unit and integration tests",
+      "entry points"
+    ],
+    "scope": "Successful initial source release checks. Later documentation alignment updates prose and generated report wording while preserving model implementation, final configuration and numerical experiment outcomes."
+  },
+  "phase14_documentation_alignment": {
+    "passed": true,
+    "final_selected_model": "Phase 14",
+    "config": "project/configs/final_model.json",
+    "implementation_source": "project/src/numpy_boosting_phase14.py",
+    "submission_record": "project/results/eda/final_phase14_submission.json",
+    "phase34_role": "Separate experimental comparison, not adopted as the final model",
+    "final_configuration_unchanged": true,
+    "frozen_source_unchanged": true,
+    "numerical_results_unchanged": true,
+    "final_submission_record_unchanged": true
+  },
+  "matched_logistic_development_cv_executed": true,
+  "phase14_training_repeated": false,
+  "matched_logistic_verification": {
+    "passed": true,
+    "source": "project/results/eda/phase38_matched_logistic_verification.json",
+    "fit_count": 9,
+    "all_fits_converged": true,
+    "saved_probabilities_replayed_exactly": true,
+    "source_protocol_commit": "3c00bd3d9e956b768ca0d6063d985c46a10538e0",
+    "shared_cleaning_and_inputs_verified": true,
+    "numerical_experiment_record_preserved": true
+  }
+}

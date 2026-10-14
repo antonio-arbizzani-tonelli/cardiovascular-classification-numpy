@@ -1,0 +1,74 @@
+{
+  "release_date": "2026-10-14",
+  "status": "completed_portfolio_release",
+  "author": "Antonio Arbizzani Tonelli",
+  "repository_url": "https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy",
+  "selected_model": "Combined Phase 18 + Phase 24 (L2=1)",
+  "selected_variant": "combined18_24_l2_1",
+  "configuration": "project/configs/final_model.json",
+  "result_record": "project/results/eda/final_combined18_24_submission.json",
+  "aicrowd": {
+    "f1": 0.455,
+    "accuracy": 0.882,
+    "reported_on": "2026-10-13",
+    "provenance": "Author-reported AIcrowd displayed scores, three decimal places; direct submission URL not provided.",
+    "source": "evidence/aicrowd/combined_feedback_20261013.json"
+  },
+  "leaderboard": {
+    "rank": 3,
+    "snapshot_date": "2026-10-14",
+    "provenance": "Current position explicitly reported by the author in the release request.",
+    "independently_verified": false,
+    "final_placing": false,
+    "url": "https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards"
+  },
+  "calibration": {
+    "f1": 0.4438823812013395,
+    "threshold": 0.21811010373987366,
+    "rows": 328135,
+    "folds": 3,
+    "independent_test": false
+  },
+  "historical_reference": {
+    "model": "Phase 14",
+    "nested_development_f1": 0.4421552272688187,
+    "matched_logistic_f1": 0.4344665761013391,
+    "ai_crowd_f1": 0.452,
+    "configuration": "project/configs/historical_phase14_model.json",
+    "attribution": "These nested scores do not measure the selected combined pipeline."
+  },
+  "provenance": [
+    {
+      "source": "results/aicrowd_candidates_20261013/aicrowd_feedback_20261013.json",
+      "public_copy": "evidence/aicrowd/candidates_feedback_20261013.json",
+      "sha256": "40043b219b75558a2469af38f8ca61764fe733326c764d7bc9d50966a24f8d15",
+      "byte_exact_copy": true
+    },
+    {
+      "source": "results/aicrowd_combined18_24_20261013/aicrowd_feedback_20261013.json",
+      "public_copy": "evidence/aicrowd/combined_feedback_20261013.json",
+      "sha256": "bb31cbc631944ecf2511f3c95d9cbbf01a1804ee2733a385aeaa9f9ca9c1c9e6",
+      "byte_exact_copy": true
+    },
+    {
+      "source": "results/aicrowd_combined18_24_20261013/verification.json",
+      "public_copy": "evidence/aicrowd/combined_verification_20261013.json",
+      "sha256": "d44e0c17721978c939cb9dc106b87018375296b85a0d9d58275d14efa5ad3c49",
+      "byte_exact_copy": true
+    }
+  ],
+  "original_delivery_manifest_sha256": "fccb6202565ae5dce713988d18308081a1f581d1592755faf2acac55693f1d78",
+  "original_source_repository_modified": false,
+  "ongoing_runs_included": false,
+  "release_scope": "Completed code, configurations, aggregate results and presentation handoff; official data, checkpoints, predictions and ongoing tuning remain local.",
+  "public_replay": "evidence/SELECTED_REPLAY_20261014.json",
+  "frozen_implementation_sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
+  "files": {
+    "project/configs/final_model.json": "639c3dbdda3c400ba93481a4d2ca96cabee4328ea0ad27836cde54647c888874",
+    "project/configs/historical_phase14_model.json": "5d1c4dc49837c33f18eb6527167c2290c4c754db231a82eae577fda1ceac7e69",
+    "project/configs/experiments/combined18_24_preprocessing.json": "26a90a950aa29a1fa179d19978d0aaa4138c808b01c85108d1283cb2a5bebcc0",
+    "project/tools/final_combined_18_24.py": "6ffd2b93585fbe82475158a5d66a5239ebd48ae8cf4e80a47de71032e2c1571b",
+    "project/tools/final_promising_candidates.py": "e79e9a416e40845aabed15bf0bbbab624e302d60c1f6876c34f847f3794260b3",
+    "project/results/eda/final_combined18_24_submission.json": "14c278e2ad7442388340828198e0a73ac41f7606d7840e118ead507ea5c4dd95"
+  }
+}

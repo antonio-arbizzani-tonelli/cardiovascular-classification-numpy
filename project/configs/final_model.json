@@ -6,8 +6,8 @@
     "sample_submission": "sample_submission.csv"
   },
   "preprocessing": {
-    "config": "configs/experiments/phase14_codebook_corrections_only.json",
-    "variant": "phase14_codebook_corrections_only",
+    "config": "configs/experiments/combined18_24_preprocessing.json",
+    "variant": "combined18_24",
     "metadata": "configs/feature_metadata.json"
   },
   "model": {
@@ -20,16 +20,23 @@
     "max_features": 128,
     "random_seed": 20260920
   },
-  "decision_threshold": 0.2106169795070252,
-  "threshold_source": "F1-maximizing threshold from three stratified OOF folds covering all 328135 labeled rows (seed 20260919).",
+  "name": "combined18_24_l2_1",
+  "training_suite": "configs/experiments/combined18_24_l2_1.json",
+  "decision_threshold": 0.21811010373987366,
+  "threshold_source": "Maximize F1 on pooled three-fold full-training OOF probabilities covering all 328135 labeled rows (seed 20260919); break F1 ties by accuracy. This is threshold calibration, not independent test evaluation.",
   "validation": {
-    "name": "Phase 14",
+    "status": "nested_development_not_evaluated",
+    "suite": null,
+    "record": null
+  },
+  "historical_validation": {
+    "name": "Historical Phase 14 baseline",
     "suite": "configs/experiments/final_phase14_validation.json",
     "record": "results/experiments/20260921T105139261213Z_phase14-boosting-codebook-corrections-only-depth5-features128-200trees.json"
   },
   "implementation": "phase14",
   "implementation_source_sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
   "calibration": {
-    "record": "results/eda/final_phase14_submission.json"
+    "record": "results/eda/final_combined18_24_submission.json"
   }
 }

@@ -1,12 +1,30 @@
 """Tests for the final training and submission entry point."""
 
 import csv
+import hashlib
+import json
 import unittest
 from pathlib import Path
 
 import numpy as np
 
 from run import _read_feature_csv, _read_labels_csv, _write_submission
+
+
+class TestSelectedReleaseConfiguration(unittest.TestCase):
+    def test_selected_release_is_distinct_from_historical_nested_evaluation(self):
+        root = Path(__file__).resolve().parents[1]
+        final = json.loads((root / "configs/final_model.json").read_text(encoding="utf-8"))
+        historical = json.loads((root / "configs/historical_phase14_model.json").read_text(encoding="utf-8"))
+        self.assertEqual(final["name"], "combined18_24_l2_1")
+        self.assertEqual(final["decision_threshold"], 0.21811010373987366)
+        self.assertEqual(final["preprocessing"]["variant"], "combined18_24")
+        self.assertEqual(final["validation"]["status"], "nested_development_not_evaluated")
+        self.assertIsNone(final["validation"]["record"])
+        self.assertEqual(final["historical_validation"]["record"], historical["validation"]["record"])
+        self.assertEqual(historical["decision_threshold"], 0.2106169795070252)
+        source = root / "src/numpy_boosting_phase14.py"
+        self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), final["implementation_source_sha256"])
 
 
 class TestFinalRunIO(unittest.TestCase):

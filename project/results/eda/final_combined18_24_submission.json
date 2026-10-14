@@ -1,0 +1,108 @@
+{
+  "selected_model": "Combined Phase 18 + Phase 24 (L2=1)",
+  "selected_variant": "combined18_24_l2_1",
+  "implementation": "phase14",
+  "implementation_source": "src/numpy_boosting_phase14.py",
+  "implementation_sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
+  "model": {
+    "learning_rate": 0.05,
+    "max_depth": 5,
+    "min_samples_leaf": 200,
+    "n_bins": 64,
+    "l2_regularization": 1.0,
+    "max_features": 128,
+    "random_seed": 20260920,
+    "n_estimators": 200
+  },
+  "preprocessing": {
+    "config": "configs/experiments/combined18_24_preprocessing.json",
+    "variant": "combined18_24",
+    "metadata": "configs/feature_metadata.json"
+  },
+  "training_rows": 328135,
+  "test_rows": 109379,
+  "features": 297,
+  "threshold": {
+    "value": 0.21811010373987366,
+    "method": "pooled_3_fold_full_train_oof_f1",
+    "fold_count": 3,
+    "fold_seed": 20260919,
+    "training_rows": 328135,
+    "preprocessing_fit": "within_each_training_fold_only",
+    "tie_break": "accuracy"
+  },
+  "calibration_metrics": {
+    "accuracy": 0.8800585125024761,
+    "precision": 0.37580151210642165,
+    "recall": 0.5420880069025021,
+    "f1": 0.4438823812013395,
+    "specificity": 0.9127924856264207,
+    "balanced_accuracy": 0.7274402462644614
+  },
+  "calibration_interpretation": "OOF F1 uses the same labels to select and describe its threshold. It is not an unbiased test score.",
+  "nested_development_f1": null,
+  "nested_development_status": "No completed nested evaluation is recorded for this exact combined pipeline. Phase 14 nested scores describe a historical reference.",
+  "aicrowd": {
+    "f1": 0.455,
+    "accuracy": 0.882,
+    "reported_on": "2026-10-13",
+    "provenance": "Author-reported AIcrowd displayed scores, three decimal places; direct submission URL not provided.",
+    "source": "../../../evidence/aicrowd/combined_feedback_20261013.json"
+  },
+  "submission": {
+    "local_path": "results/submission_combined18_24_l2_1_full_train_oof.csv",
+    "sha256": "1e4817ab85020156f579ab33fc5384c8aecd24fd8453ce6e37a3dcc094a45854",
+    "rows": 109379,
+    "positive_predictions": 13999,
+    "negative_predictions": 95380,
+    "header": [
+      "Id",
+      "Prediction"
+    ],
+    "label_domain": [
+      -1,
+      1
+    ],
+    "ids_sha256": "01594ee521daf9f1e470ebcf5c887699b2103bc3d0346701c685308a304c318d",
+    "predictions_sha256": "d5cfd08d742d04f80ed43c952ad3bb64e1b9271f0e9534e22894377e2d936dbc"
+  },
+  "input_sha256": {
+    "data/processed/x_train_float32.npy": "8a6f1b0587adac3139dfadffef5a3ccb3d9f32e0a6ad5854a75a52168acf03b8",
+    "data/processed/y_train_int8.npy": "cfa3b3138223cc6b57f2d320f5800bc9ba9d59edfb4c08cc2a67d09f903a55fd",
+    "data/processed/x_test_float32.npy": "5633ade56ca322e4e42f1fbee599107cdc0e64f9e487918d2af73d2689419f5a",
+    "data/processed/id_train_int64.npy": "b38de1638698580e09ed9c671acd0fe4c62c31fac21c1b87b3d0f82376e425fe",
+    "data/processed/id_test_int64.npy": "afd2bf6ba13e6fd96a08dbd81840d19241538f257a3107b72fb1d7445306c596",
+    "data/raw/dataset/x_train.csv": "bfa447edece27d45b54f8f1486f6351a381885968d71c9eb1574fd1dbf0fa14a",
+    "data/raw/dataset/x_test.csv": "28a7f5f94436a33b5dceb5dd15fd72563f31ec898124e382c123d3827203503c",
+    "data/raw/dataset/y_train.csv": "bc974ff01bd82827e05780d106674ee680c918fc54225384cbf4f7b279422ec1",
+    "data/raw/dataset/sample_submission.csv": "62357ed950e0a7eb238745656fdefaecf451bb79e1775918433472974566a9e3"
+  },
+  "full_model_sha256": "2e6c6655ed60c97c09d4092f3381ad696859202d3b655f530b2437a2f1eb507f",
+  "test_probabilities_sha256": "46ec0b83dbd9679cd2884cedd3ce80b3722d89e98afaff65fc12c789bf35e3b9",
+  "original_calibration_configuration_sha256": "a6f924d06395ed4e7c58f3e13c6c402e30a325150235374cb1e6ee3a8637a120",
+  "original_run_manifest_sha256": "32a332cba4e6e97cb9f676d3fe8acd8d4fb0e3b433b174277552a1e3a444acbf",
+  "delivery_manifest_sha256": "fccb6202565ae5dce713988d18308081a1f581d1592755faf2acac55693f1d78",
+  "delivery_reproduction_verification": {
+    "rows": 109379,
+    "header": [
+      "Id",
+      "Prediction"
+    ],
+    "label_domain": [
+      -1,
+      1
+    ],
+    "ids_sha256": "01594ee521daf9f1e470ebcf5c887699b2103bc3d0346701c685308a304c318d",
+    "predictions_sha256": "d5cfd08d742d04f80ed43c952ad3bb64e1b9271f0e9534e22894377e2d936dbc",
+    "features": 297,
+    "threshold": 0.21811010373987366,
+    "full_model_replay_max_difference": 0.0,
+    "csv_sha256": "1e4817ab85020156f579ab33fc5384c8aecd24fd8453ce6e37a3dcc094a45854",
+    "positive_predictions": 13999,
+    "negative_predictions": 95380
+  },
+  "verification_provenance": "Completed original run replay dated 13 October 2026; the public release separately records its own checks.",
+  "selection_reason": "Highest displayed AIcrowd F1 among completed candidates with recorded feedback at the 14 October 2026 release cutoff.",
+  "selection_limits": "Repeated development and leaderboard feedback informed selection. Calibration F1 is not an independent test. No clinical, prospective or temporal validation is established.",
+  "public_release_replay": "../../../evidence/SELECTED_REPLAY_20261014.json"
+}

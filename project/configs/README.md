@@ -1,20 +1,23 @@
 # Configuration guide
 
-[final_model.json](final_model.json) defines the final selected Phase 14 booster
-used by `python run.py`, explicitly setting `implementation` to `phase14` and
-loading [src/numpy_boosting_phase14.py](../src/numpy_boosting_phase14.py).
-It specifies Phase 14 model parameters and preprocessing, data
-filenames, and threshold **0.2106169795070252**, selected on pooled three-fold
-OOF predictions over all 328,135 training rows. The included historical
-source is identified by its SHA-256; the calibration and AIcrowd scores are
-in [the final submission record](../results/eda/final_phase14_submission.json).
+The current release uses [final_model.json](final_model.json): combined diet representation and restricted imputation, 297 transformed features, threshold 0.21811010373987366. [historical_phase14_model.json](historical_phase14_model.json) preserves the previous reference; the combined pipeline has no completed nested evaluation.
+
+[final_model.json](final_model.json) is used by `python run.py`. It selects
+the frozen `phase14` booster with combined Phase 18 + Phase 24 preprocessing
+and threshold **0.21811010373987366**, calibrated on pooled three-fold OOF
+predictions over all 328,135 training rows. The historical source is
+identified by SHA-256; calibration and reported challenge scores are in
+[the selected submission record](../results/eda/final_combined18_24_submission.json).
 
 | File | Contents |
 | --- | --- |
-| [final_model.json](final_model.json) | Final selected Phase 14 implementation, full-data training settings and prediction threshold |
-| [Selected Phase 14 validation](experiments/final_phase14_validation.json) | Explicit historical implementation, original development folds and inner threshold selection |
+| [final_model.json](final_model.json) | Selected combined preprocessing, historical booster and calibrated prediction threshold |
+| [historical_phase14_model.json](historical_phase14_model.json) | Previous Phase 14 pipeline and threshold 0.2106169795070252 |
+| [Historical Phase 14 validation](experiments/final_phase14_validation.json) | Historical implementation, development folds and inner threshold selection |
+| [Combined preprocessing](experiments/combined18_24_preprocessing.json) | Selected diet exclusions and restricted imputation recipe |
+| [Combined calibration suite](experiments/combined18_24_l2_1.json) | Selected model settings for full-training OOF calibration |
 | [feature_metadata.json](feature_metadata.json) | Feature names, semantic types and codebook response codes |
-| [Phase 14 cleaning](experiments/phase14_codebook_corrections_only.json) | The selected 295 source columns, exclusions and code corrections |
+| [Phase 14 cleaning](experiments/phase14_codebook_corrections_only.json) | Historical 295 source columns, exclusions and code corrections |
 | [Phase 14 CV](experiments/phase14_boosting_codebook_corrections_only.json) | Historical suite: three outer folds and two inner folds for threshold selection |
 | [Phase 32 MLP](experiments/phase32_mlp.json) | Dedicated neural preprocessing and the two evaluated architectures |
 | [Raw tree inputs](experiments/phase33_raw_tree_preprocessing.json) | All 321 predictors, preserving original response codes and NaNs |
@@ -32,11 +35,12 @@ The other configurations in `experiments/` describe experimental pipelines.
 The measured results are explained in [EXPERIMENTS.md](../docs/EXPERIMENTS.md).
 
 Configurations specify settings and input representations; the executed source
-also determines the result. The final-model configuration and
-`final_phase14_validation.json` explicitly select Phase 14. Generic CV suites
+also determines the result. The final-model configuration uses the historical Phase 14 booster with
+combined preprocessing. `historical_phase14_model.json` and
+`final_phase14_validation.json` preserve the earlier Phase 14 pipeline. Generic CV suites
 without an implementation selector use the corrected module, so rerunning old
 settings through that fallback performs a new experiment. Use the Phase 14
-validation suite to reproduce the final selected pipeline and the Phase 34
+validation suite to reproduce the historical reference pipeline and the Phase 34
 suite for its separate corrected comparison. The recorded Phase 33
 preprocessing study keeps both raw and cleaned controls on Phase 14's
 earlier implementation.

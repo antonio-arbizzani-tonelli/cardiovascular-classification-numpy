@@ -114,6 +114,28 @@ Run `python -m tools.final_phase14_phase34 --help` for output and resume
 options. The default artifact directory is `results/boosting_artifacts/final_phase14_phase34`.
 The original dated run remains an archive with its original source
 fingerprints; use a new directory for a fresh run after code changes.
-For the selected model with its already calibrated threshold, use the
-ordinary `python run.py` command. The [submission record](../results/eda/final_phase14_submission.json)
-distinguishes calibration F1 from nested development and AIcrowd scores.
+These commands reproduce the historical Phase 14 / Phase 34 comparison.
+For the current selected combined pipeline with its calibrated threshold,
+use `python run.py`. The [selected submission record](../results/eda/final_combined18_24_submission.json)
+distinguishes calibration F1 from reported AIcrowd feedback; no nested
+development estimate is recorded for this exact combination.
+
+## Selected combined calibration
+
+`final_combined_18_24` combines the completed diet representation and
+restricted conditional-imputation recipes, calibrating separate L2=1 and
+L2=5 candidates. Official CSVs and prepared caches are required. The
+wrapper freezes the byte-exact `final_promising_candidates.py` engine and
+historical booster, fits preprocessing within each OOF training partition,
+then fits the full model and produces a signed submission CSV.
+
+```bash
+python -m tools.prepare_data
+python -m tools.final_combined_18_24 prepare
+python -m tools.final_combined_18_24 run --workers 2
+```
+
+Use `python -m tools.final_combined_18_24 --help` for fresh output-directory
+and resume options. The selected release uses **L2=1**, threshold
+**0.21811010373987366**, and reported AIcrowd F1 **0.455**. The L2=5 variant
+is a completed comparison. Full-train OOF scores describe calibration.

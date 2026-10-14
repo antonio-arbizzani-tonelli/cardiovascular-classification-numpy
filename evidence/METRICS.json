@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "scope": "Evidence summary for the portfolio snapshot. All source paths are relative to project/. Numerical experiment outcomes are preserved; English archival annotation changes and original/copied hashes are recorded in evidence/SNAPSHOT_MANIFEST.json.",
+  "schema_version": 2,
+  "scope": "Current completed portfolio release, 14 October 2026. Historical numerical records are retained and identified separately. Source paths are relative to project/ unless explicitly stated.",
   "dataset": {
     "source": "results/eda/dataset_audit.json",
     "task_source": "docs/DATA.md",
@@ -10,12 +10,13 @@
     "train_rows": 328135,
     "test_rows": 109379,
     "raw_predictors": 321,
-    "retained_features": 295,
     "positives": 28975,
     "negatives": 299160,
     "positive_fraction": 0.08830207079403295,
     "raw_train_missing_cells": 47175779,
-    "raw_train_missing_fraction": 0.4478798165806975
+    "raw_train_missing_fraction": 0.4478798165806975,
+    "phase14_retained_features": 295,
+    "selected_transformed_features": 297
   },
   "preprocessing": {
     "source": "results/eda/phase33_preprocessing_counts.json",
@@ -58,12 +59,12 @@
       "Development folds reused for many model choices",
       "Initial 20% local validation consulted by early baselines",
       "Threshold nesting reduces threshold-selection optimism; does not remove repeated model-selection optimism",
-      "AIcrowd feedback contributed to choice between Phase14 and Phase34"
+      "AIcrowd feedback contributed to choice between Phase14 and Phase34",
+      "Combined final release has full-train OOF calibration and recorded AIcrowd feedback, but no completed nested-development evaluation for that exact pipeline."
     ]
   },
   "model_config_source": "configs/final_model.json",
   "selected_model": {
-    "n_estimators": 200,
     "learning_rate": 0.05,
     "max_depth": 5,
     "min_samples_leaf": 200,
@@ -71,14 +72,17 @@
     "l2_regularization": 1.0,
     "max_features": 128,
     "random_seed": 20260920,
-    "name": "Phase 14"
+    "n_estimators": 200,
+    "name": "Combined Phase 18 + Phase 24 (L2=1)",
+    "variant": "combined18_24_l2_1",
+    "transformed_features": 297
   },
   "selected_implementation": {
-    "name": "Phase 14",
+    "name": "Combined Phase 18 + Phase 24 (L2=1)",
     "source": "src/numpy_boosting_phase14.py",
     "sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
     "historical_search_omission": "Observed-versus-missing endpoint split candidate can be omitted when extreme quantile bins contain observations",
-    "reason": "Final Phase 14 model selected for the AIcrowd submission. Its exact source is preserved; Phase 34 is a separately evaluated comparison that was not adopted.",
+    "reason": "Highest displayed AIcrowd F1 among completed candidates with recorded feedback at the 14 October 2026 release cutoff.",
     "status": "final_selected_model"
   },
   "model_results": [
@@ -169,7 +173,7 @@
       "scope_note": "All 321 raw predictors, numerical response codes and NaNs; same model and folds. Measures cleaning and exclusions together; prior split-search implementation."
     },
     {
-      "name": "Final Phase 14",
+      "name": "Phase 14 reference",
       "source": "results/experiments/20260921T105139261213Z_phase14-boosting-codebook-corrections-only-depth5-features128-200trees.json",
       "metric_json_path": "outcome.nested_threshold_evaluation.pooled_metrics",
       "metrics": {
@@ -251,47 +255,32 @@
       "scope_note": "Same protocol as MLP 64/32; both MLPs lose F1 on all three folds. HAREHAB1 retained."
     }
   ],
-  "selected_development_folds": [
-    {
-      "fold": 1,
-      "inner_threshold": 0.203056688916058,
-      "f1": 0.43902684732785974
-    },
-    {
-      "fold": 2,
-      "inner_threshold": 0.22010463713275993,
-      "f1": 0.44405352097659784
-    },
-    {
-      "fold": 3,
-      "inner_threshold": 0.20944597307683668,
-      "f1": 0.44351164576401336
-    }
-  ],
+  "selected_development_folds": [],
   "selected_final": {
-    "source": "results/eda/final_phase14_submission.json",
+    "source": "results/eda/final_combined18_24_submission.json",
     "calibration_metrics": {
-      "accuracy": 0.8767549941335121,
-      "precision": 0.3685091743119266,
-      "recall": 0.5545125107851596,
-      "f1": 0.44276954874267993,
-      "specificity": 0.9079656371172616,
-      "balanced_accuracy": 0.7312390739512107
+      "accuracy": 0.8800585125024761,
+      "precision": 0.37580151210642165,
+      "recall": 0.5420880069025021,
+      "f1": 0.4438823812013395,
+      "specificity": 0.9127924856264207,
+      "balanced_accuracy": 0.7274402462644614
     },
     "threshold": {
-      "value": 0.2106169795070252,
+      "value": 0.21811010373987366,
       "method": "pooled_3_fold_full_train_oof_f1",
       "fold_count": 3,
       "fold_seed": 20260919,
       "training_rows": 328135,
-      "preprocessing_fit": "within_each_training_fold_only"
+      "preprocessing_fit": "within_each_training_fold_only",
+      "tie_break": "accuracy"
     },
     "submission": {
-      "local_path": "results/submission_phase14_full_train_oof_20261012.csv",
-      "sha256": "8583daf81f7afb378eef3eafdfefd988ce85f78de8d58d38cd8ca39e1faa0df1",
+      "local_path": "results/submission_combined18_24_l2_1_full_train_oof.csv",
+      "sha256": "1e4817ab85020156f579ab33fc5384c8aecd24fd8453ce6e37a3dcc094a45854",
       "rows": 109379,
-      "positive_predictions": 14746,
-      "negative_predictions": 94633,
+      "positive_predictions": 13999,
+      "negative_predictions": 95380,
       "header": [
         "Id",
         "Prediction"
@@ -299,51 +288,31 @@
       "label_domain": [
         -1,
         1
-      ]
+      ],
+      "ids_sha256": "01594ee521daf9f1e470ebcf5c887699b2103bc3d0346701c685308a304c318d",
+      "predictions_sha256": "d5cfd08d742d04f80ed43c952ad3bb64e1b9271f0e9534e22894377e2d936dbc"
     },
     "final_fit_rows": 328135,
-    "phase34_calibration": {
-      "threshold": 0.2214498433950319,
-      "f1": 0.4435698543091851
-    },
-    "verification": {
-      "passed": true,
-      "scope": "Current default configuration and normal Phase 14 module replay of trusted final checkpoint, current full-train preprocessing, official inputs and signed CSV. No repeated full training. End-to-end training entry point additionally tested on a synthetic fixture.",
-      "training_shape": [
-        328135,
-        295
-      ],
-      "test_shape": [
-        109379,
-        295
-      ],
-      "max_probability_difference": 0.0,
-      "csv_sha256": "8583daf81f7afb378eef3eafdfefd988ce85f78de8d58d38cd8ca39e1faa0df1",
-      "positive_predictions": 14746,
-      "negative_predictions": 94633,
-      "input_hashes_verified": 9,
-      "seconds": 8.108060900005512
-    },
     "implementation": "phase14"
   },
   "leaderboard": {
-    "source": "results/eda/final_phase14_submission.json",
+    "source": "results/eda/final_combined18_24_submission.json",
     "record": {
-      "f1": 0.452,
-      "accuracy": 0.878,
-      "reported_on": "2026-10-12",
-      "provenance": "Team-reported AIcrowd displayed scores, three decimal places; submission URL not provided.",
-      "phase34_score": null
+      "f1": 0.455,
+      "accuracy": 0.882,
+      "reported_on": "2026-10-13",
+      "provenance": "Author-reported AIcrowd displayed scores, three decimal places; direct submission URL not provided.",
+      "source": "../evidence/aicrowd/combined_feedback_20261013.json"
     },
+    "rank": 3,
+    "snapshot_date": "2026-10-14",
+    "leaderboard_url": "https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards",
+    "rank_provenance": "Current position explicitly reported by the author in the release request.",
+    "independently_verified": false,
+    "final_placing": false,
     "official_submission_url": null,
     "screenshot": null,
-    "rank": 7,
-    "snapshot_date": "2026-10-12",
-    "status": "current leaderboard position reported by author; not a final placing",
-    "leaderboard_url": "https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards",
-    "rank_provenance": "User confirmation in the portfolio preparation conversation, 2026-10-12. No independent account matching or ranking verification is established.",
-    "top_10_status": "Current rank 7 reported by the author on 2026-10-12; no final placing, challenge year or cohort size inferred",
-    "display_rule": "Label .452 F1 and .878 accuracy as team-reported AIcrowd displayed scores; never call them nested CV or independent audit-verified leaderboard scores. Use 'Ranked 7th on the AIcrowd leaderboard' with the visible note 'Position reported by the author, 12 Oct 2026' and the leaderboard link."
+    "display_rule": "Use F1 0.455 and accuracy 0.882 as author-reported challenge feedback. Use Ranked 3rd on the AIcrowd leaderboard with snapshot date 14 October 2026. Do not attribute historical Phase14 nested F1 to the combined pipeline."
   },
   "phase34": {
     "source": "results/experiments/phase34_missing_only_split_comparison.json",
@@ -813,18 +782,18 @@
   },
   "employer_story": {
     "headline": "An auditable NumPy ML pipeline for incomplete, imbalanced survey data",
-    "summary": "The EPFL Machine Learning CS-433 project implements and evaluates a NumPy histogram gradient boosting pipeline over 328135 labeled survey responses, with codebook-aware preprocessing, nested threshold selection and recorded ablations. The final selected Phase 14 pipeline achieved nested F1 0.44216 versus 0.43447 for logistic regression with the same Phase 14 codebook cleaning, source variables and nested folds; its academic submission record contains team-reported AIcrowd F1 0.452. The author reports current AIcrowd rank 7 on 2026-10-12. The portfolio demonstrates data correctness, metric interpretation and evidence-based model selection for Data Scientist roles.",
+    "summary": "Completed EPFL CS-433 NumPy classification project: selected diet-normalized, restricted-imputation booster reports AIcrowd F1 0.455 and accuracy 0.882. The author reports current rank 3 on 14 October 2026. Historical controlled comparisons establish Phase14 F1 0.442155 versus matched logistic 0.434467; those nested scores are not measurements of the combined final pipeline.",
     "strongest_evidence": [
       "NumPy model implementation and six required learning functions",
       "Semantic audit separating missing answers from documented zeros",
       "Fixed matched comparisons and train-only fitting boundaries",
-      "Rejected imputation, wider neural models, weighting and sampling when F1 worsened",
+      "Compared representation, imputation, neural models, weighting and sampling; selected the combined pipeline using recorded challenge feedback",
       "Audit exposing both a split-search omission and post-event target proxy",
       "Recorded input/source/output fingerprints and checkpoint replay"
     ],
     "avoid_claims": [
       "Clinical deployment or prospective heart-attack prediction",
-      "Final leaderboard placing or independently verified rank from the author-reported current rank 7",
+      "Final leaderboard placing or independently verified rank from the author-reported current rank 3",
       "Large statistically established cleaning uplift",
       "Independent test validity for OOF threshold calibration",
       "Corrected split search used by selected submission"
@@ -855,5 +824,120 @@
       "The change from historical logistic performance also changes optimizer, regularization, missing flags and interactions; it does not isolate cleaning.",
       "Conditional on these fitted models, folds and selected thresholds. Does not include retraining or repeated model-selection uncertainty."
     ]
-  }
+  },
+  "historical_phase14_selected_model": {
+    "n_estimators": 200,
+    "learning_rate": 0.05,
+    "max_depth": 5,
+    "min_samples_leaf": 200,
+    "n_bins": 64,
+    "l2_regularization": 1.0,
+    "max_features": 128,
+    "random_seed": 20260920,
+    "name": "Phase 14"
+  },
+  "historical_phase14_selected_implementation": {
+    "name": "Phase 14",
+    "source": "src/numpy_boosting_phase14.py",
+    "sha256": "6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98",
+    "historical_search_omission": "Observed-versus-missing endpoint split candidate can be omitted when extreme quantile bins contain observations",
+    "reason": "Final Phase 14 model selected for the AIcrowd submission. Its exact source is preserved; Phase 34 is a separately evaluated comparison that was not adopted.",
+    "status": "final_selected_model"
+  },
+  "historical_phase14_selected_development_folds": [
+    {
+      "fold": 1,
+      "inner_threshold": 0.203056688916058,
+      "f1": 0.43902684732785974
+    },
+    {
+      "fold": 2,
+      "inner_threshold": 0.22010463713275993,
+      "f1": 0.44405352097659784
+    },
+    {
+      "fold": 3,
+      "inner_threshold": 0.20944597307683668,
+      "f1": 0.44351164576401336
+    }
+  ],
+  "historical_phase14_selected_final": {
+    "source": "results/eda/final_phase14_submission.json",
+    "calibration_metrics": {
+      "accuracy": 0.8767549941335121,
+      "precision": 0.3685091743119266,
+      "recall": 0.5545125107851596,
+      "f1": 0.44276954874267993,
+      "specificity": 0.9079656371172616,
+      "balanced_accuracy": 0.7312390739512107
+    },
+    "threshold": {
+      "value": 0.2106169795070252,
+      "method": "pooled_3_fold_full_train_oof_f1",
+      "fold_count": 3,
+      "fold_seed": 20260919,
+      "training_rows": 328135,
+      "preprocessing_fit": "within_each_training_fold_only"
+    },
+    "submission": {
+      "local_path": "results/submission_phase14_full_train_oof_20261012.csv",
+      "sha256": "8583daf81f7afb378eef3eafdfefd988ce85f78de8d58d38cd8ca39e1faa0df1",
+      "rows": 109379,
+      "positive_predictions": 14746,
+      "negative_predictions": 94633,
+      "header": [
+        "Id",
+        "Prediction"
+      ],
+      "label_domain": [
+        -1,
+        1
+      ]
+    },
+    "final_fit_rows": 328135,
+    "phase34_calibration": {
+      "threshold": 0.2214498433950319,
+      "f1": 0.4435698543091851
+    },
+    "verification": {
+      "passed": true,
+      "scope": "Current default configuration and normal Phase 14 module replay of trusted final checkpoint, current full-train preprocessing, official inputs and signed CSV. No repeated full training. End-to-end training entry point additionally tested on a synthetic fixture.",
+      "training_shape": [
+        328135,
+        295
+      ],
+      "test_shape": [
+        109379,
+        295
+      ],
+      "max_probability_difference": 0.0,
+      "csv_sha256": "8583daf81f7afb378eef3eafdfefd988ce85f78de8d58d38cd8ca39e1faa0df1",
+      "positive_predictions": 14746,
+      "negative_predictions": 94633,
+      "input_hashes_verified": 9,
+      "seconds": 8.108060900005512
+    },
+    "implementation": "phase14"
+  },
+  "historical_phase14_leaderboard": {
+    "source": "results/eda/final_phase14_submission.json",
+    "record": {
+      "f1": 0.452,
+      "accuracy": 0.878,
+      "reported_on": "2026-10-12",
+      "provenance": "Team-reported AIcrowd displayed scores, three decimal places; submission URL not provided.",
+      "phase34_score": null
+    },
+    "official_submission_url": null,
+    "screenshot": null,
+    "rank": 7,
+    "snapshot_date": "2026-10-12",
+    "status": "current leaderboard position reported by author; not a final placing",
+    "leaderboard_url": "https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards",
+    "rank_provenance": "User confirmation in the portfolio preparation conversation, 2026-10-12. No independent account matching or ranking verification is established.",
+    "top_10_status": "Current rank 7 reported by the author on 2026-10-12; no final placing, challenge year or cohort size inferred",
+    "display_rule": "Label .452 F1 and .878 accuracy as team-reported AIcrowd displayed scores; never call them nested CV or independent audit-verified leaderboard scores. Use 'Ranked 7th on the AIcrowd leaderboard' with the visible note 'Position reported by the author, 12 Oct 2026' and the leaderboard link."
+  },
+  "selected_development_status": "No completed nested evaluation is recorded for this exact combined pipeline. Phase 14 nested scores describe a historical reference.",
+  "release_record": "../evidence/RELEASE_20261014.json"
 }

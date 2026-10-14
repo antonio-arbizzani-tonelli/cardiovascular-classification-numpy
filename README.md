@@ -1,45 +1,52 @@
 # Cardiovascular Disease Classification in NumPy
 
-An **EPFL Machine Learning CS-433 project** for the AIcrowd challenge, focused on cardiovascular disease classification from BRFSS 2015 survey data. The final model is **Phase 14 histogram gradient boosting in NumPy**, with 295 codebook-cleaned predictors, 200 trees and maximum depth 5. Phase 34 is a separate experimental comparison.
+An **EPFL Machine Learning CS-433 project** that implements and evaluates a complete classification pipeline for BRFSS 2015 survey data using NumPy.
 
-**Ranked 7th on the AIcrowd leaderboard · AIcrowd F1 0.452**
+**Ranked 3rd on the AIcrowd leaderboard · F1 0.455 · Accuracy 0.882**
 
-Position reported by the author, 12 Oct 2026: [current leaderboard](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards). This is a current position, not a final placing.
+Position reported by the author on **14 October 2026**; challenge scores reported on **13 October 2026**, displayed to three decimals. [AIcrowd leaderboard](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards). The position is a dated snapshot.
 
-**328,135 labeled respondents · 295 selected features**
+The selected pipeline combines **Phase 18 diet representation and Phase 24 restricted conditional imputation**, using the preserved Phase 14 histogram gradient booster: **297 transformed features, 200 trees, depth 5 and leaf L2 = 1**. It trains on all **328,135 labeled respondents** and generates **109,379 test predictions**. This repository presents the completed results and model choice for the **14 October 2026 release**.
 
-The AIcrowd score is reported feedback for the selected **Phase 14 submission**, displayed to three decimals and preserved in the academic submission record. With shared codebook cleaning, source variables and nested folds, Phase 14 reaches **F1 0.4422**, compared with **0.4345** for the matched logistic baseline: an absolute improvement of **0.0077**. Model-specific input transformations differ; this compares complete pipelines.
+![Recorded AIcrowd results](assets/figures/aicrowd_progression.png)
 
-![Model comparison](assets/figures/model_comparison.png)
+The selected combination improves displayed challenge F1 from the historical Phase 14 result of **0.452 to 0.455**. It uses codebook cleaning, retains derived dietary frequencies in place of six mixed-code raw diet variables, and fits restricted imputation within each training partition. Its decision threshold is **0.21811010373987366**, calibrated using three-fold out-of-fold probabilities across all labeled rows.
 
-The work combines data quality, model implementation and reliable comparisons. The pipeline interprets survey codes using the codebook, routes missing values inside the trees and selects thresholds within training folds. Tests of deeper trees, alternative representations, imputation, class weighting, undersampling, feature selection and two NumPy MLPs supported retaining the selected configuration. The repository records these decisions, including experiments that did not improve F1 and limitations that affect interpretation.
+## Results and evidence
 
-## Explore the work
+The selected pipeline records **full-train OOF calibration F1 0.443882** and **AIcrowd feedback F1 0.455**. Calibration labels also select the threshold, and challenge feedback informed model selection. No completed nested-development estimate is available for this exact combined pipeline.
 
-| Start here | What it shows |
+The historical controlled comparison uses **262,508 development rows, three outer folds and two inner threshold-selection folds**. Phase 14 reaches **F1 0.442155**, compared with **0.434467** for logistic regression with shared codebook cleaning and source variables: a gain of **0.007689**. These scores describe the historical pipelines.
+
+![Historical nested development comparison](assets/figures/model_comparison.png)
+
+| Start here | Contents |
 | --- | --- |
-| [Results](docs/RESULTS.md) | Comparable metrics, decisions and limitations |
-| [Project](project/README.md) | Setup, training and reproduction commands |
-| [Code review](docs/CODE_REVIEW.md) | Current checks, corrections and remaining limits |
-| [Claude Design brief](presentation/CLAUDE_DESIGN_BRIEF.md) · [PDF](presentation/CLAUDE_DESIGN_BRIEF.pdf) | A 19-slide specification with copy, visual direction and source evidence |
+| [Results and interpretation](docs/RESULTS.md) | Selected result, challenge comparisons and evaluation boundaries |
+| [Runnable project](project/README.md) | Setup, training, historical reproduction and checks |
+| [Code review](docs/CODE_REVIEW.md) | Implementation audit and release verification |
+| [Presentation guide](presentation/CLAUDE_DESIGN_BRIEF.md) · [PDF](presentation/CLAUDE_DESIGN_BRIEF.pdf) | Slide-by-slide narrative, visuals and sources |
+| [Claude Design prompt](presentation/CLAUDE_DESIGN_PROMPT.md) | Ready-to-paste instructions for an editable PPTX |
+| [Presentation handoff](presentation/README.md) | Input files, output names and GitHub upload workflow |
+| [Release evidence](evidence/RELEASE_20261014.json) | Selected configuration, score provenance and dated rank |
 
 ## Technical scope
 
-Training uses NumPy and the Python standard library. The project implements the six required linear-model functions, a histogram gradient booster and a two-hidden-layer MLP with Adam. Configurations, fixed development splits and experiment records make the comparisons inspectable.
+Training uses NumPy and the Python standard library. The project implements the six required linear-model functions, histogram gradient boosting and two MLP architectures. The experiment archive records completed studies of representations, missingness, imputation, tree parameters, weighting, sampling and feature selection.
 
-The target is **reported myocardial infarction or coronary heart disease** (`_MICHD`). Phase 14 includes `HAREHAB1`, a question about rehabilitation after a heart attack, which limits interpretation as prediction before an event. Its source is preserved in `project/src/numpy_boosting_phase14.py`, including an audited split-search omission. The Phase 34 correction was evaluated separately and was not adopted as the final model. See [the results and scope](docs/RESULTS.md).
+The target, `_MICHD`, records **reported myocardial infarction or coronary heart disease**. The retained `HAREHAB1` rehabilitation question contains post-event information, so the demonstrated task is survey disease classification. Prospective clinical use would require a different feature policy and fresh validation. The historical booster also retains an audited split-search omission for exact reproducibility; the corrected Phase 34 implementation is evaluated separately.
 
-## Run the checks
+## Reproduce the project
 
-From `project/`, after installing `requirements-dev.txt`:
+From `project/`, install `requirements-dev.txt` and run:
 
 ```bash
 python -m tools.verify_repository
 python -m unittest discover -s tests -q
 ```
 
-Training requires the official challenge CSVs, which are excluded from this repository. Follow the [project setup](project/README.md) before running `python run.py`.
+Training requires the official challenge CSVs, which are excluded from Git. Follow the [project setup](project/README.md), then use `python run.py` for the selected combined pipeline. The [historical configuration](project/configs/historical_phase14_model.json) preserves the Phase 14 reference. The [verification record](evidence/VERIFICATION.json) distinguishes current checks from dated evidence.
 
-Course context: [EPFL Machine Learning, CS-433](https://www.epfl.ch/labs/mlo/machine-learning-cs-433/). Challenge: [AIcrowd EPFL Machine Learning Project 1](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1).
+Course: [EPFL Machine Learning, CS-433](https://www.epfl.ch/labs/mlo/machine-learning-cs-433/). Challenge: [AIcrowd EPFL Machine Learning Project 1](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1).
 
 **Author:** Antonio Arbizzani Tonelli · [GitHub repository](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy).

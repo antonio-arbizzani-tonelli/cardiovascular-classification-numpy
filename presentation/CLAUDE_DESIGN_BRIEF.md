@@ -1,240 +1,314 @@
-# Claude Design brief: EPFL Machine Learning CS-433 project
+# Results presentation guide: EPFL Machine Learning CS-433
 
-Create an editable **16:9 PowerPoint and a matching PDF** for [cardiovascular-classification-numpy](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy). Use **16 main slides and 3 technical appendix slides**. The deck must explain the project without a presenter, with readable captions and enough context to assess each result. The audience is Data Scientist hiring teams at product and technology companies.
+Create an editable **16:9 PowerPoint and a matching PDF** for [cardiovascular-classification-numpy](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy). Use **16 main slides and 3 technical appendix slides**. The deck must explain the completed portfolio release without a presenter, with readable captions, clear metric scopes and traceable sources. The audience is Data Scientist hiring teams and technical reviewers.
 
-Present this simply as an **EPFL Machine Learning CS-433 project**. Credit **Antonio Arbizzani Tonelli** and use a project-centered voice focused on methods, decisions and results. Use the portfolio's technical notes and recorded results; the academic submission report remains a separate artifact.
+Credit **Antonio Arbizzani Tonelli**. Present this as an **EPFL Machine Learning CS-433 project**. Use English throughout, including chart labels, speaker notes and filenames. Describe the project, decisions and evidence directly; avoid recruiter slogans, invented business impact and claims of clinical deployment. The academic submission report is a separate artifact.
 
-**Final model: Phase 14.** Describe the implementation in `project/src/numpy_boosting_phase14.py`, selected by `project/configs/final_model.json`. Phase 34 is a separately evaluated candidate that was not adopted. Attribute the final parameters, threshold, calibration and AIcrowd score to Phase 14 throughout the deck.
+**Release date: 14 October 2026. Final selected pipeline for this release: `combined18_24_l2_1`.** It combines the Phase 18 diet representation with restricted Phase 24 conditional imputation, followed by the frozen historical Phase 14 NumPy booster. Its reported AIcrowd result is **F1 0.455 and accuracy 0.882**. The author reports **current leaderboard rank 3 on 14 October 2026**. This is a dated position, not a competition's final placing. The portfolio has a selected result and complete reproduction instructions; do not describe uncompleted local tests or invent outcomes for them.
 
-## Narrative and design
+## Evidence and metric rules
 
-**Main message:** Phase 14 is the final NumPy classification pipeline, supported by controlled model comparisons and a documented implementation audit.
+Use `evidence/RELEASE_20261014.json` for selection and rank, `evidence/aicrowd/` for copied feedback and delivery records, `project/configs/final_model.json` for the runnable default, and `docs/RESULTS.md` for interpretation. The selected record is `project/results/eda/final_combined18_24_submission.json`. `evidence/METRICS.json` and `assets/chart_data/model_comparison.csv` preserve the historical controlled comparisons; `assets/chart_data/aicrowd_progression.csv` supplies the challenge comparison. Source references below are relative to the repository root.
 
-Lead with the outcome, then show the data problem, evaluation design, model choices, rejected alternatives and remaining limitations. Explain the reasoning behind specific decisions. Emphasize data correctness, useful metrics, reproducible analysis and clear reasoning. Keep the public deck company-neutral.
+Keep these evidence types visibly separate:
 
-Use white evidence slides, navy text and a teal accent for the selected model. A restrained navy cover and closing can frame the deck. Use a readable sans-serif, 30–36 pt headlines and 20–24 pt body text. Prefer flat charts, tables and editable diagrams. Most slides should carry 40–70 visible words, with one main point. A caption must explain the result without relying on notes. Keep longer method details in the appendix and sources in notes.
+| Evidence | Pipeline | F1 | What it establishes |
+| --- | --- | ---: | --- |
+| Historical nested development | Phase 14 reference | 0.442155 | Excluded outer folds with inner threshold selection |
+| Matched nested development | Logistic, shared Phase 14 cleaning | 0.434467 | Controlled comparison on the same development rows and folds |
+| Full-train OOF calibration | Selected combined pipeline | 0.443882 | Threshold selection; labels also describe the selected threshold |
+| Reported AIcrowd feedback | Selected combined pipeline | 0.455 | Author-reported challenge display score, rounded to three decimals |
 
-Use `assets/chart_data/model_comparison.csv` for an editable chart, with a zero-based F1 axis from 0 to 0.50. The supplied PNG/SVG is a visual reference. Keep comparable development scores in one chart; show calibration and challenge scores separately. Do not add business impact, product deployment or an A/B test result that the project has not measured.
+There is **no recorded nested held-out estimate for the selected combined pipeline**. Never relabel Phase 14's nested F1, interval, confusion counts or AP as the combined pipeline's result. Never present 0.442155 → 0.443882 → 0.455 as a same-protocol improvement curve. Challenge feedback contributed to selection and is not a pristine external test reserved until every choice was fixed.
 
-## Ranking and score attribution
+On the cover and rank slide, use:
 
-Use **“Ranked 7th on the AIcrowd leaderboard”**, followed by **“Leaderboard snapshot: 12 October 2026”**. The owner supplied this current position and the [leaderboard link](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards). Include a small note: **“Position and challenge score reported by the author.”** This is a dated position, not an asserted final placing. Do not invent a competition year, number of participants or percentile.
+> Ranked 3rd on the AIcrowd leaderboard
+>
+> Leaderboard snapshot: 14 October 2026
+>
+> Position reported by the author; challenge scores from recorded author-reported AIcrowd feedback.
 
-The original submission record describes AIcrowd F1 **0.452** and accuracy **0.878** as reported feedback. Keep that provenance distinct from numerical results reproduced in development evaluation.
+Link to the [AIcrowd leaderboard](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards). Do not infer participant count, percentile, challenge year, independent verification or final placing.
+
+## Narrative and visual direction
+
+Lead with the selected outcome, then explain the data, semantic preprocessing, NumPy implementation, evaluation evidence, model selection and limitations. Each slide should answer one concrete question through its headline, body and caption.
+
+Use white evidence slides, navy text and teal for the selected combined pipeline. A restrained navy cover and closing can frame the deck. Use a clean sans-serif, 30–36 pt headlines and 20–24 pt body text. Keep tables and notes readable; avoid text below 16 pt. Most slides should have 40–70 visible words, excluding concise chart labels. Use native PowerPoint charts, tables and editable diagrams. Avoid medical stock images, 3D charts, gauges and oversized rank badges.
+
+F1 bar charts use a zero-based axis ending at 0.50. A difference plot may use a centered axis with zero and its interval labeled. Historical references use navy or neutral colors. Do not put historical Phase 14 in the selected-model accent because an older asset did so; regenerate editable charts from the supplied CSV.
 
 ## Slide 1 — Cardiovascular disease classification in NumPy
 
 **On-slide copy:**
 
-> Antonio Arbizzani Tonelli
+> Antonio Arbizzani Tonelli · EPFL Machine Learning CS-433
 >
-> EPFL Machine Learning CS-433 project
+> Selected pipeline: diet representation + restricted imputation + NumPy boosting
 >
-> Ranked 7th on the AIcrowd leaderboard · F1 0.452
+> AIcrowd F1 0.455 · Accuracy 0.882
 >
-> Leaderboard snapshot: 12 October 2026
+> Ranked 3rd · Leaderboard snapshot: 14 October 2026
 
-**Visual:** A typographic cover with the project title leading, the course context below it and the rank beneath. Add the visible author-report note and a clickable leaderboard link.
+**Visual:** Typographic cover with the project title leading. Include the small author-report note and clickable leaderboard link.
 
-**Caption:** A NumPy pipeline for preprocessing, model comparison and evaluation on BRFSS survey data.
+**Caption:** A completed portfolio release for classifying reported cardiovascular disease in BRFSS survey data.
 
-**Source:** `evidence/METRICS.json`, `project/results/eda/final_phase14_submission.json`, owner confirmation and supplied leaderboard link.
+**Source:** `evidence/RELEASE_20261014.json`, `evidence/aicrowd/combined_feedback_20261013.json`, author-reported rank.
 
-## Slide 2 — An end-to-end pipeline, from data inspection to model selection
+## Slide 2 — The selected result comes from an inspectable pipeline
 
 **On-slide copy:**
 
-> The workflow covers survey codebook inspection, preprocessing, NumPy models, validation, experiments and error analysis.
+> Semantic cleaning → diet representation → restricted imputation → NumPy boosting → OOF threshold → challenge submission
 >
-> The repository connects each model choice to its configuration, result record and limitations.
+> Final release: `combined18_24_l2_1`, 297 transformed features and 200 trees.
+>
+> Reported challenge F1 0.455; configuration and feedback are preserved with provenance.
 
-**Visual:** One compact workflow: inspect data → implement → evaluate → decide → audit. Pair each step with a repository location.
+**Visual:** One editable pipeline diagram. Pair threshold and submission stages with their separate calibration and feedback records.
 
-**Caption:** Each stage contributes evidence to the final model choice.
+**Caption:** The model and threshold are fixed for the 14 October 2026 public release.
 
-**Source:** `project/src/`, `project/configs/`, `project/docs/EXPERIMENTS.md`, `docs/CODE_REVIEW.md`.
+**Notes:** “Completed release” describes the portfolio and selected recorded result. It does not assert that the challenge has ended.
 
-## Slide 3 — The data combined missing responses with a minority positive class
+**Source:** `project/configs/final_model.json`, `evidence/RELEASE_20261014.json`, `evidence/aicrowd/combined_manifest_summary_20261013.json`.
+
+## Slide 3 — Missing responses and a minority positive class shape the task
 
 **On-slide copy:**
 
-> 328,135 labeled respondents · 321 original predictors
+> 328,135 labeled respondents · 109,379 challenge test rows
 >
-> 8.83% positive labels · 44.79% missing predictor cells
+> 321 raw predictors · 8.83% positive labels
 >
-> Target: reported myocardial infarction or coronary heart disease (`_MICHD`).
+> 44.79% of raw predictor cells are missing.
+>
+> Target `_MICHD`: reported myocardial infarction or coronary heart disease.
 
-**Visual:** A labeled positive/negative proportion strip and a simple missingness statistic. Use a compact data description beside them; avoid a dashboard of unrelated indicators.
+**Visual:** A labeled positive/negative proportion strip beside sample and missingness counts.
 
-**Caption:** Missingness refers to the raw labeled predictor matrix. The task classifies a reported diagnosis in BRFSS 2015.
+**Caption:** BRFSS 2015 is a cross-sectional survey; the label describes a reported diagnosis.
 
 **Source:** `project/docs/DATA.md`, `project/results/eda/dataset_audit.json`, `evidence/METRICS.json`.
 
-## Slide 4 — Accuracy alone would hide failure on the positive class
+## Slide 4 — Accuracy alone would miss every positive respondent
 
 **On-slide copy:**
 
-> Predicting every respondent as negative yields 91.17% accuracy and F1 0.
+> An all-negative classifier reaches 91.17% accuracy and F1 0.
 >
-> F1 guides model selection; precision, recall and average precision describe the trade-off.
+> F1 guides selection because recovering the minority positive class matters.
+>
+> The selected challenge result has accuracy 88.2% and F1 0.455; accuracy alone is not the success criterion.
 
-**Visual:** Compare the all-negative baseline with the task's need to recover positives. Keep accuracy and F1 labeled as different metrics; do not put them on an unlabeled common scale.
+**Visual:** Two labeled metric columns. Clearly distinguish the descriptive class-balance baseline from challenge feedback.
 
-**Caption:** A strong majority-class score is insufficient when the model identifies none of the positive respondents.
+**Caption:** Precision and recall describe the F1 trade-off; majority-class accuracy can conceal zero positive recovery.
 
-**Source:** `evidence/METRICS.json`, `project/src/evaluation.py`.
+**Source:** Dataset prevalence in `evidence/METRICS.json`; selected feedback in `evidence/aicrowd/combined_feedback_20261013.json`.
 
-## Slide 5 — Survey codes are transformed according to their meaning
+## Slide 5 — Survey codes are interpreted before models are fitted
 
 **On-slide copy:**
 
-> 295 retained source variables
->
 > `ALCDAY5=888`: no alcohol consumption → zero
 >
 > `PHYSHLTH=88`: zero unhealthy days → zero
 >
-> Feature-specific nonresponse codes → missing values
+> Feature-specific “unknown” and “refused” codes → missing
+>
+> The codebook separates real quantities, categories and nonresponses.
 
-**Visual:** Three before/after examples with short explanations. Add a restrained count line: 1,095,421 nonresponse codes and 899,687 zero-quantity codes recoded on development rows.
+**Visual:** Three editable before/after examples. Do not imply that 88, 7 or 9 is recoded globally.
 
-**Caption:** Numeric codes can represent categories, missing answers or real quantities. The codebook determines the transformation.
+**Caption:** Semantic recoding is feature-specific. Learned quantities are fitted on training rows only.
 
-**Notes:** Counts describe the 262,508-row development representation before binary recoding. They are data-transformation counts, not independently measured performance gains.
+**Notes:** Optional detail: 1,095,421 nonresponse codes and 899,687 zero-quantity codes were recoded in the historical 262,508-row, 295-column development audit. These are transformation counts, not combined feature counts or performance gains.
 
-**Source:** `project/results/eda/phase33_preprocessing_counts.json`, `project/configs/experiments/phase14_codebook_corrections_only.json`.
+**Source:** `project/configs/experiments/phase14_codebook_corrections_only.json`, `project/results/eda/phase33_preprocessing_counts.json`.
 
-## Slide 6 — Fitting, threshold selection and evaluation use separate partitions
+## Slide 6 — The final representation combines two specific changes
 
 **On-slide copy:**
 
-> Three outer folds estimate development performance.
+> Diet: remove six mixed day/week/month codes; retain existing derived per-day equivalents.
 >
-> Two inner folds select each outer model's F1 threshold.
+> Restricted fill: estimate selected nonresponses and height/weight blanks from training features; derive missing BMI where applicable.
 >
-> Preprocessing is fitted within the training partition of every fit.
+> Preserve structural missingness and missing-state information.
+>
+> Final input: 289 source columns + 8 flags = 297 features.
 
-**Visual:** One nested-fold diagram: training split, inner threshold selection and excluded outer evaluation. Label the boundaries directly.
+**Visual:** Two branches merge into the final matrix. Show `FRUIT1` → existing `FRUTDA1_`, labeled “retain derived field.”
 
-**Caption:** The comparison uses 262,508 development rows. Threshold nesting controls threshold-selection optimism; repeated model choices still reuse the same development folds.
+**Caption:** The plan combines Phase 18 diet exclusions and Phase 24 restricted conditional imputation, rather than blanket filling.
 
-**Source:** `project/configs/experiments/final_phase14_validation.json`, `project/src/run_boosting_cv.py`, `evidence/METRICS.json`.
+**Notes:** The six excluded raw diet fields are `FRUITJU1`, `FRUIT1`, `FVBEANS`, `FVGREEN`, `FVORANG`, `VEGETAB1`; retained derived counterparts are `FTJUDA1_`, `FRUTDA1_`, `BEANDAY_`, `GRENDAY_`, `ORNGDAY_`, `VEGEDA1_`. Restricted unknown/refused filling targets `INCOME2`, `PNEUVAC3`, `EMPLOY1`, using feature-only conditional naive Bayes. Configured blank `HTM4` / `WTKG3` use anchor-bin ridge models; missing BMI is derived from completed height and weight. The imputer uses features, not disease labels, and is fitted within each training partition. Do not invent six new diet columns or call 297 the retained raw-variable count.
 
-## Slide 7 — The final model is Phase 14 histogram gradient boosting
+**Source:** `project/configs/experiments/combined18_24_preprocessing.json`, `project/src/conditional_imputation.py`, `evidence/aicrowd/combined_manifest_summary_20261013.json`.
+
+## Slide 7 — Histogram boosting is implemented in NumPy
 
 **On-slide copy:**
 
-> Quantile bins → Newton tree updates for logistic loss → summed tree predictions
+> Quantile bins → Newton tree updates for logistic loss → summed predictions
 >
-> Final Phase 14 configuration: 200 trees, maximum depth 5.
+> Selected model: 200 trees, depth 5, learning rate 0.05, leaf L2 1.
 >
-> Missing responses are routed inside each tree; binning is learned on training data.
+> Training uses NumPy and the Python standard library; missing values are routed inside each tree.
 
-**Visual:** A small annotated model diagram with one tree and an ensemble sum. Explain the operations in words; move equations and the full parameter table to the appendix.
+**Visual:** An editable ensemble diagram: training-fitted bins, one tree and additive score converted to probability.
 
-**Caption:** Phase 14 training uses NumPy and the Python standard library. Its exact source is preserved to reproduce the selected submission.
+**Caption:** Combined preprocessing uses the preserved historical Phase 14 booster implementation.
 
-**Source:** `project/src/numpy_boosting_phase14.py`, `project/configs/final_model.json`.
+**Notes:** The selected implementation preserves its historical split search, including an audited omission of some observed-versus-missing endpoint candidates. Corrected Phase 34 is a separate evaluated comparison. Do not claim that correction is in the selected model.
 
-## Slide 8 — Shared cleaning: Phase 14 improved F1 by 0.0077
+**Source:** `project/src/numpy_boosting_phase14.py`, `project/configs/final_model.json`, `docs/CODE_REVIEW.md`.
+
+## Slide 8 — Each reported score answers a different question
 
 **On-slide copy:**
 
-> Matched logistic regression: F1 0.4345
+> Historical nested development: compare pipelines using excluded outer folds and inner threshold selection.
 >
-> Final Phase 14 booster: F1 0.4422
+> Selected full-train OOF: choose the final threshold using all labeled rows.
 >
-> Absolute gain: +0.0077, higher in all three outer folds.
+> AIcrowd feedback: compare submitted challenge candidates.
 >
-> Shared codebook cleaning, 295 source variables and nested folds.
+> No nested held-out score is recorded for the selected combination.
 
-**Visual:** Editable horizontal chart of the seven models in `model_comparison.csv`, with Phase 14 in teal and matched logistic in navy. Keep the historical logistic entry labeled as historical. Use an axis of 0–0.50 and four decimal places in labels.
+**Visual:** Three parallel rows: “controlled reference,” “calibration” and “challenge feedback.” Use the 3 outer / 2 inner fold diagram in the historical reference row only.
 
-**Caption:** Conditional paired 95% interval for the gain: [+0.0049, +0.0105]. Model-specific final matrices differ; this compares complete pipelines.
+**Caption:** Threshold nesting controls threshold-selection optimism; repeated model choice still reuses development and challenge evidence.
 
-**Notes:** Both pipelines share the exact Phase 14 cleaner and source variables. Logistic regression adds train-fitted filling, standardized values and missingness flags, and an intercept; NumPy L-BFGS uses fixed L2 0.0001. The interval conditions on fitted models and thresholds, excluding retraining and repeated-selection uncertainty. The change from the historical logistic score also changes solver, regularization, flags and interactions, so it is not a cleaning-only ablation.
+**Notes:** Historical comparisons use 262,508 development rows. Full-train calibration uses three OOF folds across 328,135 rows; labels also optimize the threshold. Do not merge these populations into one performance trend.
 
-**Source:** `assets/chart_data/model_comparison.csv`, `evidence/METRICS.json`, `project/results/eda/phase38_matched_logistic_summary.md`, `project/results/eda/phase38_matched_logistic_verification.json`.
+**Source:** `evidence/METRICS.json`, `project/results/eda/final_combined18_24_submission.json`, `project/configs/experiments/final_phase14_validation.json`.
 
-## Slide 9 — The tested neural networks did not beat the booster
+## Slide 9 — The historical booster beat a matched linear reference
 
 **On-slide copy:**
 
-> MLP 64 → 32: F1 0.4245
+> Matched logistic: nested F1 0.4345
 >
-> MLP 128 → 64: F1 0.4193
+> Historical Phase 14 booster: nested F1 0.4422
 >
-> Final Phase 14 booster: F1 0.4422
+> Absolute difference: +0.0077, higher in all three outer folds.
 >
-> Both networks underperformed the booster in all three outer folds.
+> Shared cleaning, 295 source variables and nested folds.
 
-**Visual:** Two small network sketches paired with a clear three-model comparison. Do not suggest that depth or width automatically implies a better model.
+**Visual:** Editable horizontal chart from `assets/chart_data/model_comparison.csv`, axis 0–0.50. Title: “Historical nested development comparison.” Label Phase 14 as the historical reference.
 
-**Caption:** ReLU networks use binary cross-entropy and Adam, dedicated preprocessing and training-internal epoch selection.
+**Caption:** Conditional paired 95% interval: [+0.0049, +0.0105]. This supports the historical comparison, not a combined-model held-out claim.
 
-**Notes:** The result concerns the tested architectures and configurations. It does not rule out better neural tuning on this dataset.
+**Notes:** Model-specific matrices differ. Logistic uses train-fitted filling, standardized values, missingness flags, an intercept and fixed L2 0.0001 with NumPy L-BFGS. The interval conditions on fixed fits and thresholds, excluding retraining and repeated-selection uncertainty. The improvement over older logistic is not a cleaning-only ablation.
 
-**Source:** `project/docs/MLP.md`, `project/results/eda/phase32_mlp_summary.md`, `project/src/numpy_mlp.py`.
+**Source:** `assets/chart_data/model_comparison.csv`, `project/results/eda/phase38_matched_logistic_summary.md`, `evidence/METRICS.json`.
 
-## Slide 10 — Additional changes did not improve the historical reference
+## Slide 10 — Several tested alternatives added complexity without a gain
 
 **On-slide copy:**
 
-> Restricted imputation: 0.4418
+> Historical nested F1:
 >
-> Top 100 selected features: 0.4392
+> MLP 64 → 32: 0.4245 · MLP 128 → 64: 0.4193
 >
-> Positive class weight 1.25: 0.4408
+> Top 100 features: 0.4392 · Positive weight 1.25: 0.4408
 >
-> Final Phase 14 reference: 0.4422
+> Phase 14 reference: 0.4422
 
-**Visual:** A compact decision table: tested change, nested F1, decision. These variants use the historical Phase 14 control.
+**Visual:** Editable table with tested change, F1 and decision. Use ordinary method names alongside phase identifiers.
 
-**Caption:** Negative experiments prevented added complexity from becoming the default without a measured benefit.
+**Caption:** These configurations did not beat the historical reference; other tuning is not ruled out.
 
-**Notes:** These results justify decisions among the tested settings, rather than a general claim that imputation, feature selection or weighting cannot work.
+**Notes:** MLPs use dedicated preprocessing, ReLU, binary cross-entropy, Adam and training-only epoch selection. Historical restricted imputation had nested F1 0.441791 but later challenge feedback F1 0.454. Do not call all imputation rejected: restricted imputation is selected in the combined release. Local and challenge evidence answer different questions.
 
-**Source:** `project/results/eda/phase24_original_restricted_imputation_summary.md`, `project/results/eda/phase29_feature_selection_summary.md`, `project/results/eda/phase35_positive_weights_summary.md`.
+**Source:** `project/results/eda/phase32_mlp_summary.md`, `project/results/eda/phase29_feature_selection_summary.md`, `project/results/eda/phase35_positive_weights_summary.md`, `project/results/eda/phase24_original_restricted_imputation_summary.md`.
 
-## Slide 11 — Semantic cleaning had a small, uncertain measured gain
+## Slide 11 — Semantic correctness does not imply a large measured uplift
 
 **On-slide copy:**
 
-> Raw predictors: F1 0.441457
+> Historical raw-predictor booster: F1 0.441457
 >
-> Selected preprocessing: F1 0.442155
+> Historical cleaned reference: F1 0.442155
 >
 > Difference: +0.000698
 >
-> Paired 95% interval: [−0.001226, +0.002635]
+> Conditional paired 95% interval: [−0.001226, +0.002635]
 
-**Visual:** One difference plot showing zero and the interval, with the two pipeline results beside it. Do not magnify the point estimate into a large improvement.
+**Visual:** Difference plot centered on zero, with its interval crossing zero and both F1 values visible.
 
-**Caption:** The interval includes zero. This comparison combines recoding and exclusions and is conditional on fixed fits and thresholds.
+**Caption:** This measures cleaning and exclusions together; the small uncertain difference does not establish a large gain.
 
-**Notes:** The raw pipeline has 321 predictors and the cleaned pipeline 295, with 128 candidate features per node in each. Semantic correctness supports cleaning; this benchmark establishes only a small uncertain predictive difference.
+**Notes:** Raw and cleaned pipelines have 321 and 295 source variables. Each samples 128 features per node, so candidate fractions differ. This is historical preprocessing evidence, not an isolated final-combination test.
 
 **Source:** `project/results/experiments/phase33_raw_preprocessing_comparison.json`, `project/results/eda/phase33_raw_preprocessing_summary.md`.
 
-## Slide 12 — The F1 result still involves missed cases and false positives
+## Slide 12 — The selected combination has the highest reported challenge F1
 
 **On-slide copy:**
 
-> 12,855 of 23,180 development positives identified
+| Submitted pipeline | AIcrowd F1 | Accuracy |
+| --- | ---: | ---: |
+| Historical Phase 14 | 0.452 | 0.878 |
+| Diet representation, Phase 18 | 0.453 | 0.882 |
+| Restricted imputation, Phase 24 | 0.454 | 0.880 |
+| Leaf L2 = 5, Phase 25 | 0.453 | 0.883 |
+| Combined diet + restricted fill, L2 1 | **0.455** | **0.882** |
+| Combined diet + restricted fill, L2 5 | 0.453 | 0.883 |
+
+**Visual:** Editable table or F1 bars from `assets/chart_data/aicrowd_progression.csv`, highlighting the selected combination. Do not interpolate or use a cumulative-gain waterfall.
+
+**Caption:** Author-reported scores: Phase 14 on 12 October; later candidates on 13 October 2026. Selected F1 is +0.003 above the historical submission.
+
+**Notes:** This rounded difference is not a significance claim. Accuracy did not determine selection: two alternatives report 0.883 accuracy but lower F1. Submission URLs and independently verified challenge predictions are unavailable. Rank 3 is author-reported on 14 October, not inferred from the table.
+
+**Source:** `assets/chart_data/aicrowd_progression.csv`, `evidence/aicrowd/candidates_feedback_20261013.json`, `evidence/aicrowd/combined_feedback_20261013.json`, historical submission record.
+
+## Slide 13 — The final threshold is calibrated, not independently tested
+
+**On-slide copy:**
+
+> Selected threshold: 0.21811010373987366
 >
-> 10,325 positives missed · 22,112 false positives
+> Three-fold OOF over 328,135 labeled rows: calibration F1 0.443882.
+>
+> Fit on all labeled rows, then predict 109,379 challenge test rows.
+>
+> The same calibration labels select and describe the threshold.
+
+**Visual:** Folds → pooled OOF probabilities → F1 threshold → full-data fit → signed CSV. Do not invent a probability distribution or threshold curve.
+
+**Caption:** OOF prediction excludes each row from model fitting; pooled threshold selection still introduces calibration optimism.
+
+**Notes:** F1 ties are broken by accuracy. The submitted CSV has 13,999 positive and 95,380 negative predictions. These are prediction counts, not a confusion matrix: official test labels are unavailable locally.
+
+**Source:** `project/configs/final_model.json`, `project/results/eda/final_combined18_24_submission.json`, `evidence/aicrowd/combined_verification_20261013.json`.
+
+## Slide 14 — Historical error analysis shows the F1 trade-off
+
+**On-slide copy:**
+
+> Historical Phase 14 nested decisions:
+>
+> 12,855 positives recovered · 10,325 positives missed
+>
+> 22,112 false positives · 217,216 true negatives
 >
 > Precision 0.3676 · Recall 0.5546
 
-**Visual:** A clearly labeled confusion matrix or two count bars. Keep positives recovered and false positives visually distinct.
+**Visual:** Editable confusion matrix labeled as the historical nested reference.
 
-**Caption:** These counts describe the selected nested development decisions. Choosing an operational threshold would require a defined use case and explicit error costs.
+**Caption:** These are historical development counts. No equivalent independent final-combined confusion matrix is recorded.
 
-**Notes:** True negatives are 217,216. Do not translate these survey classification counts into patients helped, treatment decisions or business savings.
+**Notes:** An operational threshold requires a decision, error costs and fresh validation. Do not translate respondents into patients treated, cases prevented or business savings.
 
-**Source:** `evidence/METRICS.json`, selected Phase 14 experiment record.
+**Source:** Historical Phase 14 result in `evidence/METRICS.json` and linked experiment record.
 
-## Slide 13 — A post-event question limits the prediction claim
+## Slide 15 — A post-event question limits what the result can claim
 
 **On-slide copy:**
 
@@ -242,98 +316,86 @@ The original submission record describes AIcrowd F1 **0.452** and accuracy **0.8
 >
 > All 620 development respondents with a recorded response are positive.
 >
-> Removing it reduces historical F1 from 0.4422 to 0.4310.
+> Removing it lowers historical nested F1 from 0.4422 to 0.4310.
+>
+> The selected pipeline retains the feature.
 
-**Visual:** A survey-question annotation and a paired with/without feature comparison. Make the feature timing visible.
+**Visual:** Survey-question annotation and a historical with/without comparison, with feature timing explicit.
 
-**Caption:** The selected model classifies reported disease. Its result does not establish prediction before a cardiovascular event.
+**Caption:** The project classifies reported disease; its score does not establish prediction before a cardiovascular event.
 
-**Notes:** The final model retains this feature. A prospective task would need a new feature policy and validation design, including a timing audit of other variables.
+**Notes:** A prospective study needs a new feature-availability policy and fresh evaluation, including timing checks on other variables. Keep historical ablation attribution visible.
 
-**Source:** `project/docs/FINAL_REPORT.md`, `evidence/METRICS.json`, `project/results/experiments/20260921T154905753681Z_phase15-boosting-ablate-harehab1-depth5-features128-200trees.json`.
+**Source:** `evidence/METRICS.json`, `project/docs/FINAL_REPORT.md`, historical Phase 15 ablation record.
 
-## Slide 14 — Phase 14 remained final after testing Phase 34
+## Slide 16 — The release connects its result to code and evidence
 
 **On-slide copy:**
 
-> Final Phase 14: F1 0.4422; AP 0.4286.
+> Selected NumPy pipeline · Reported AIcrowd F1 0.455
 >
-> Phase 34 comparison: F1 0.4408; AP 0.4288.
+> Rank 3, reported by the author on 14 October 2026
 >
-> Phase 34 adds split candidates separating observed and missing responses.
-
-**Visual:** Compare the models. Label Phase 14 **final selected model** and Phase 34 **experimental comparison, not adopted**. Attribute the split-search correction only to Phase 34.
-
-**Caption:** Phase 34 corrects missing-only split search. Phase 14 remains selected; the paired F1 difference interval includes zero.
-
-**Notes:** Phase 14 retains the audited omission. Both versions were submitted; reported AIcrowd feedback supported Phase 14. The numerical Phase 34 challenge score was not supplied.
-
-**Source:** `project/configs/final_model.json`, `project/results/eda/phase34_missing_only_split_summary.md`, `evidence/METRICS.json`.
-
-## Slide 15 — Phase 14 has distinct development, calibration and challenge scores
-
-**On-slide copy:**
-
-> Phase 14 nested development: F1 0.4422 — excluded outer folds
+> Inspect configurations, experiments, verification and limitations on GitHub.
 >
-> Phase 14 full-train OOF calibration: F1 0.4428 — threshold selection
->
-> Phase 14 AIcrowd feedback: F1 0.452 — reported challenge score
+> Antonio Arbizzani Tonelli · EPFL Machine Learning CS-433
 
-**Visual:** Three labeled rows with purpose, data scope and score. Do not plot them as successive improvements.
+**Visual:** Restrained closing with the clickable [repository link](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy) and artifact map: `project/`, `docs/RESULTS.md`, `evidence/`, `presentation/`.
 
-**Caption:** The final threshold is 0.2106169795070252. Its calibration labels also select that threshold, so calibration F1 is not an independent test.
+**Caption:** The completed release makes the selected outcome reproducible and its evidence limits explicit.
 
-**Notes:** Calibration covers all 328,135 labeled rows. The full-data model produces 109,379 predictions. Challenge feedback is used in final model selection; this is not a pristine external test reserved until all decisions were fixed.
+**Notes:** Cite only completed checks in verification records. Do not invent successful CI or a current test count. Local verification, exact prediction replay and a full training rerun are distinct activities.
 
-**Source:** `project/results/eda/final_phase14_submission.json`, `project/configs/final_model.json`.
+**Source:** `docs/CODE_REVIEW.md`, `evidence/VERIFICATION.json`, `evidence/SELECTED_REPLAY_20261014.json`, `evidence/RELEASE_20261014.json`, `project/README.md`.
 
-## Slide 16 — A reproducible EPFL Machine Learning CS-433 project
+## Appendix A — The selected release has an exact specification
 
-**On-slide copy:**
+Use an editable parameter table:
 
-> NumPy implementation, controlled experiments and a documented audit.
->
-> [Explore the code, configurations, results and audit on GitHub.](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy)
->
-> Antonio Arbizzani Tonelli
+| Parameter | Selected value |
+| --- | --- |
+| Pipeline identifier | `combined18_24_l2_1` |
+| Preprocessing variant | `combined18_24` |
+| Model input | 289 source columns + 8 flags = 297 |
+| Booster implementation | Frozen historical Phase 14 |
+| Trees / maximum depth | 200 / 5 |
+| Learning rate | 0.05 |
+| Minimum rows per leaf | 200 |
+| Quantile bins | 64 |
+| Candidate features per node | 128 |
+| Leaf L2 | 1 |
+| Seed | 20260920 |
+| Decision threshold | 0.21811010373987366 |
+| Calibration | Three-fold full-train OOF; fold seed 20260919 |
 
-**Visual:** A restrained closing with a clickable link to `https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy`. Use one short project summary and an inspectable artifact map.
+Keep the threshold and configuration reference visible; move the SHA-256 to notes. Frozen booster source SHA-256: `6fede57915b07a6ea7675292833f8ad79269e665f09977bffd2a9562ce1aaf98`. Source preservation enables replay; it does not mean the historical split-search omission is corrected.
 
-**Caption:** The project demonstrates data interpretation, implementation, validation and analytical judgment, with explicit limits on what its score supports.
+From the repository's `project/` directory, follow `project/README.md`. After installing development requirements, run `python -m tools.verify_repository` and `python -m unittest discover -s tests -q`. With official CSVs, `python run.py --data-dir data/raw/dataset --output submission.csv` trains the selected default. Original course environment: Python 3.9 / NumPy 1.23.1. Official data, checkpoints and row-level predictions remain outside Git.
 
-**Notes:** Use the current test count and completed runtime checks in `evidence/VERIFICATION.json`. Distinguish local verification from Python 3.9 / NumPy 1.23.1 CI, and link to the repository's checks. Avoid claims of production deployment or absence of all bugs.
+**Source:** `project/configs/final_model.json`, `project/README.md`, `evidence/aicrowd/combined_manifest_summary_20261013.json`, `docs/CODE_REVIEW.md`.
 
-**Source:** `docs/CODE_REVIEW.md`, `evidence/VERIFICATION.json`, `project/README.md`.
+## Appendix B — Preserve complete metric scope and provenance
 
-## Appendix A — The final Phase 14 model is specified for reproduction
+Use the seven-model table from `assets/chart_data/model_comparison.csv`: historical ridge, historical logistic, matched logistic, historical Phase 14 reference, corrected Phase 34 comparison and both MLPs. Include F1, precision, recall and AP. Title it **“Historical nested development comparison”**. Round to four decimals; preserve exact repository values.
 
-Use an editable parameter table for **Phase 14**: 200 trees; depth 5; learning rate 0.05; minimum 200 rows per leaf; 64 bins; 128 candidate features per node; leaf L2 1; positive weight 1; model seed 20260920; 295 source variables; final threshold 0.2106169795070252. Identify `implementation: "phase14"` and `src/numpy_boosting_phase14.py`.
+Add a separate selected-release block: **OOF calibration F1 0.443882; reported AIcrowd F1 0.455 / accuracy 0.882; author-reported rank 3 on 14 October 2026**. State **“No nested held-out estimate recorded for the combined pipeline.”** Do not add the combination to the historical table as though it shares that protocol.
 
-Show commands from `project/`: install `requirements-dev.txt`, run `python -m tools.verify_repository`, `python -m unittest discover -s tests -q`, then `python run.py` with official challenge data. Keep official data, checkpoints and row-level predictions outside Git. Explain that the source hash identifies the historical selected model.
+Corrected Phase 34 has nested F1 0.440803 and AP 0.428781, versus Phase 14's F1 0.442155 and AP 0.428609. It is a methodological comparison, not the selected implementation; the paired F1 difference interval includes zero.
 
-**Source:** `project/configs/final_model.json`, `project/README.md`, `docs/CODE_REVIEW.md`.
+**Source:** `evidence/METRICS.json`, `assets/chart_data/model_comparison.csv`, `evidence/RELEASE_20261014.json`, `evidence/aicrowd/`.
 
-## Appendix B — Complete development metrics and provenance
+## Appendix C — A new use case requires a new validation study
 
-Use the seven-model table in `docs/RESULTS.md`: F1, precision, recall and average precision. Round values consistently; retain exact numerical data in `evidence/METRICS.json`. Label the matched logistic baseline's shared cleaning and model-specific finite-input adaptation; retain the older linear entries as historical results.
+Use an editable sequence: define decision and error costs → audit feature availability and timing → reserve fresh evaluation data → fit transformations and threshold within training → assess performance and subgroup stability → evaluate impact in the actual operational setting.
 
-Add the current rank: **7th, owner-reported leaderboard snapshot on 12 October 2026**, with the supplied link. Keep the snapshot date and reported provenance readable. Do not present a final placing, cohort size or competition year without additional evidence.
+Label this **“Proposed validation for a new use case.”** These are transfer requirements, not missing work required to read the completed challenge portfolio. No prospective study, deployment, A/B test or clinical outcome is claimed.
 
-**Source:** `docs/RESULTS.md`, `evidence/METRICS.json`, supplied leaderboard link.
+**Source:** Limitations in `docs/RESULTS.md` and `project/docs/FINAL_REPORT.md`.
 
-## Appendix C — Proposed validation for a new use case
+## Delivery and inspection
 
-Use a concise next-study sequence: define the decision and error costs; audit feature availability and timing; reserve fresh evaluation data; choose the operating threshold within training; evaluate performance and subgroup stability; measure drift and operational impact after deployment.
+Return editable `RESULTS_PRESENTATION.pptx`, matching `RESULTS_PRESENTATION.pdf` and PNG previews of every slide. The PDF is the reading artifact; PowerPoint is the editable source. Source references belong in speaker notes; metric scopes, the rank date and material caveats remain visible on relevant slides.
 
-Label this as **future work**. These are proposed steps, not experiments or product results already demonstrated. Keep the current case study anchored in survey classification and the recorded challenge result.
+Check each number against its source. Inspect all exports for clipping, readable tables, consistent model names and working links. No slide may call standalone Phase 14 the final pipeline, report rank 7, assign historical nested evidence to the combination, or call calibration an independent test. Avoid fabricated error bars and stale figures. This guide is the design specification; it is not the slide deck.
 
-**Source:** `docs/RESULTS.md`, `project/docs/DEVELOPMENT_PLAN.md`.
-
-## Delivery and publication
-
-Return editable `RESULTS_PRESENTATION.pptx` and `RESULTS_PRESENTATION.pdf`, plus PNG previews of every slide. Use native charts and editable shapes. Check every number against `evidence/METRICS.json`, verify links and inspect all slides after export. Keep all visible text, captions, notes and filenames in English.
-
-The exported PDF is the reading artifact; the PowerPoint is the editable source. Keep the deck's first two slides useful as a quick introduction, with the appendix supporting deeper review. Use the actual repository URL for the closing link: `https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy`.
-
-Use this brief with the supplied figures, chart data, `docs/RESULTS.md` and technical notes. The companion PDF contains the design specification; the requested slide deck is a separate output. Keep the academic submission report outside the deck inputs.
+Use the latest `CLAUDE_DESIGN_INPUT.zip` with `CLAUDE_DESIGN_PROMPT.md`. Follow `presentation/README.md` to publish the finished deck.

@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import copy
 from pathlib import Path
 import shutil
 import unittest
@@ -188,10 +189,66 @@ class TestSelectedValidation(unittest.TestCase):
         self._write("configs/final_model.json", self.final)
         result = self._verify()
         self.assertFalse(result["passed"])
-        self.assertIn("Final model parameters differ from the selected validation suite.", result["errors"])
+        self.assertIn("Final model parameters differ from its selected configuration suite.", result["errors"])
         self.assertIn("Final model parameters differ from the selected validation record.", result["errors"])
         self.assertIn("Final threshold differs from the mean of selected validation inner thresholds.", result["errors"])
-        self.assertIn("Final preprocessing metadata differs from the selected validation suite.", result["errors"])
+        self.assertIn("Final preprocessing metadata differs from its selected configuration suite.", result["errors"])
+
+    def _select_combined_release(self):
+        self._select_full_train_calibration()
+        historical = copy.deepcopy(self.final)
+        historical["validation"] = {"name": "Phase 14", "suite": BASELINE_SUITE,
+                                    "record": BASELINE}
+        self._write("configs/historical_phase14_model.json", historical)
+        self.final.update({
+            "name": "combined_release",
+            "training_suite": "configs/combined.json",
+            "validation": {"status": "nested_development_not_evaluated",
+                           "suite": None, "record": None},
+            "historical_validation": {"name": "Historical Phase 14 baseline",
+                                      "suite": BASELINE_SUITE, "record": BASELINE},
+            "decision_threshold": 0.26,
+            "calibration": {"record": "results/eda/combined_calibration.json"},
+        })
+        self._write(self.final["training_suite"], self.suite)
+        selected_calibration = copy.deepcopy(self.calibration)
+        selected_calibration["threshold"]["value"] = 0.26
+        selected_calibration["calibration_metrics"] = {"f1": 0.4439}
+        selected_calibration["preprocessing"] = self.preprocessing.copy()
+        self._write(self.final["calibration"]["record"], selected_calibration)
+        self._write("configs/final_model.json", self.final)
+
+    def test_combined_release_keeps_historical_nested_score_separate_from_calibration(self):
+        self._select_combined_release()
+        result = self._verify()
+        self.assertTrue(result["passed"], result["errors"])
+        self.assertEqual(result["selected_model"], "combined_release")
+        self.assertIsNone(result["nested_development_f1"])
+        self.assertEqual(result["nested_development_status"], "nested_development_not_evaluated")
+        self.assertEqual(result["historical_nested_development_f1"], 0.44)
+        self.assertEqual(result["full_training_calibration_f1"], 0.4439)
+        self.assertEqual(result["submission_threshold"], 0.26)
+
+    def test_unevaluated_release_requires_an_explicit_nested_status(self):
+        self._select_combined_release()
+        self.final["validation"].pop("status")
+        self._write("configs/final_model.json", self.final)
+        result = self._verify()
+        self.assertFalse(result["passed"])
+        self.assertIn("Selected pipeline has no nested evaluation or explicit unevaluated status.",
+                      result["errors"])
+
+    def test_selected_training_suite_cannot_borrow_historical_parameters(self):
+        self._select_combined_release()
+        training_suite = copy.deepcopy(self.suite)
+        training_suite["models"][0]["parameters"]["max_depth"] = 7
+        self._write(self.final["training_suite"], training_suite)
+        result = self._verify()
+        self.assertFalse(result["passed"])
+        self.assertIn("Final model parameters differ from its selected configuration suite.",
+                      result["errors"])
+        self.assertIsNone(result["nested_development_f1"])
+        self.assertEqual(result["historical_nested_development_f1"], 0.44)
 
     def test_selected_record_cannot_mix_a_different_preprocessing_with_the_suite(self):
         self._select_phase34()

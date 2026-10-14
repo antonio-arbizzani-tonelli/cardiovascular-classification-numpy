@@ -1,26 +1,30 @@
 # Code review and verification
 
-The portfolio copy was reviewed against the final **Phase 14** configuration, recorded evaluation protocols and existing test contracts. `configs/final_model.json` and `run.py` select `src/numpy_boosting_phase14.py`; Phase 34 is a separate comparison. The review covers the root entry points, linear implementations, every `src/` module, every `tools/` module, configurations and CI. Static checks cover all published Python files; execution uses synthetic fixtures and bounded checks.
+The **14 October 2026 release** selects `combined18_24_l2_1`: combined diet representation and restricted imputation with the frozen Phase 14 booster. The [final configuration](../project/configs/final_model.json) and [selected record](../project/results/eda/final_combined18_24_submission.json) agree on parameters, 297 transformed features and threshold 0.21811010373987366. Historical Phase 14 nested validation remains separately reproducible.
 
-## Corrections in the portfolio copy
+## Current release checks
 
-| Issue | Correction |
+The public preprocessing was replayed against the trusted completed local model. Its train/test matrix hashes match the original fit, predicted probabilities have maximum difference **0.0**, and the generated CSV has the selected SHA-256: `1e4817ab85020156f579ab33fc5384c8aecd24fd8453ce6e37a3dcc094a45854`. The replay recovers **13,999 positive and 95,380 negative** test predictions without retraining the booster. [Replay evidence](../evidence/SELECTED_REPLAY_20261014.json) records these checks.
+
+The synthetic suite checks selected entry-point parity, configuration identity, training-fold imputation boundaries, checkpoint validation and interrupted-run resume, alongside the existing model, evaluation and report tests. Repository verification checks Python 3.9 syntax, JSON, documentation links, six experiment ledgers and 115 indexed hashes. The [current verification record](../evidence/VERIFICATION.json) reports executed outcomes; the [prior verification](../evidence/VERIFICATION_20261013.json) remains dated historical evidence.
+
+The [root CI workflow](../.github/workflows/checks.yml) runs verification and tests under Python 3.9 / NumPy 1.23.1. A local pass and a completed GitHub Actions run are recorded separately. Official data, model checkpoints, row-level predictions and local logs are excluded from publication. The original course workspace and ongoing runs are not modified by this release.
+
+## Earlier corrections retained
+
+| Issue | Retained correction |
 | --- | --- |
-| Logged CV rejected the selected Phase 14 implementation keyword | The wrapper forwards the selector and records the selected source fingerprint. A regression exercises the final suite, corrected Phase 34 and the default selector without expensive training. |
-| Five historical launchers used a Windows-only subprocess flag unconditionally | The launchers use the available flag on Windows and zero elsewhere, matching the other controllers. A mocked non-Windows check verifies the launch argument. |
-| Two analysis scripts passed a Python 3.10-only keyword to `Path.write_text` | They now use `Path.open` with explicit UTF-8 and LF output, compatible with the official Python 3.9 target. |
-| Error analysis formatted absent statistics as numbers when a confusion category was empty | Empty categories now display an absent-value marker. A synthetic end-to-end report test covers the case. |
+| Logged CV rejected the historical implementation keyword | The wrapper forwards it to the selected booster factory. |
+| Booster copied columns from read-only inference data | Prediction reads selected columns without mutating inputs. |
+| MLP module used a Python 3.9-incompatible dataclass option | The supported decorator is retained. |
+| Error reports formatted absent statistics as numbers | Empty categories use an absent-value marker with fixture coverage. |
 
-Documentation and generated report text are in English. Four historical hypothesis annotations and the imputation decision table are translated; the copied ledger fingerprints are updated. Numerical outcomes and the frozen selected source are preserved. The [snapshot manifest](../evidence/SNAPSHOT_MANIFEST.json) records original and copied file hashes.
+Public documentation and generated report text are in English. Historical translated annotations and numerical records retain the [original snapshot provenance](../evidence/SNAPSHOT_MANIFEST.json). The frozen booster is byte-identical; new release records add evidence without rewriting historical experiment outcomes.
 
 ## Interpretation and reproduction limits
 
-The final Phase 14 booster retains the known omission of some observed-versus-missing split candidates. Its frozen source reproduces the selected submission. Phase 34 evaluates a correction separately and was not adopted as the final model. Changing the Phase 14 source would break the recorded submission identity.
+The historical booster retains an audited omission of some observed-versus-missing split candidates. Phase 34 evaluates the correction separately; the selected combined pipeline uses the preserved historical source. The imputation and preprocessing recipe changes the pipeline, rather than the booster source.
 
-Data caches check structure and IDs rather than the full CSV content. When data values change, use a fresh cache directory even if shape and IDs stay the same. Historical experimental controllers may need ignored local checkpoints and OOF artifacts; the default final training entry point is documented separately.
+Data caches validate structure and row IDs rather than all CSV values. Use a fresh cache directory when data values change. Historical experiment controllers may require ignored local checkpoints and OOF arrays; the default selected training entry point and completed combined calibration driver are documented in the [project guide](../project/README.md).
 
-Preprocessing and nested threshold fitting use their training partitions. The same development folds were reused across many model choices, and AIcrowd feedback contributed to final selection. Threshold nesting does not eliminate that model-selection optimism. `HAREHAB1` contains post-event information; prospective use requires a different feature policy and validation study.
-
-**All 227 tests pass in the current portfolio copy.** The matched logistic tests check the objective against finite differences and an independent scalar optimum, convergence/failure reporting, training-only adaptation, nested boundaries, changed-input rejection and reproduction with or without local reference predictions. Repository verification passes: 101 Python files, 284 JSON files and 115 indexed record hashes. The [matched-study verification](../project/results/eda/phase38_matched_logistic_verification.json) separately replays all nine fits, thresholds and metrics without retraining. Local execution uses Python 3.14.3, NumPy 2.4.2 and Matplotlib 3.10.8; the [root CI workflow](../.github/workflows/checks.yml) runs repository verification and tests with Python 3.9 / NumPy 1.23.1. [VERIFICATION.json](../evidence/VERIFICATION.json) retains current and historical evidence.
-
-The new matched logistic study performs nine development-only fits with the exact Phase 14 cleaning and folds. The selected booster was not retrained and its challenge submission was not repeated. The checks support the documented behavior and reviewed contracts; they do not establish that every possible input is bug-free.
+No completed nested estimate exists for the exact combined pipeline. Full-train OOF F1 describes threshold calibration, and author-reported AIcrowd feedback informed selection. Reused development folds and leaderboard feedback introduce model-selection optimism. `HAREHAB1` contains post-event information; prospective use needs a different feature policy and new validation.
