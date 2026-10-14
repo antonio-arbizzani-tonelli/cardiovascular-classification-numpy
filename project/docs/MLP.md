@@ -39,7 +39,7 @@ Each architecture requires nine epoch-selection fits and nine full refits: 36 ne
 
 ## Reproduction
 
-Install [README](../README.md) dependencies and place the four official CSVs as described in [data/README.md](../data/README.md). CV reads prepared NumPy caches. From the project root in PowerShell:
+Install the [project guide](../README.md) dependencies and place the four official CSVs as described in the [data guide](../data/README.md). CV reads prepared NumPy caches. Run every command below from **`project/`** in PowerShell; if the shell is at the outer repository root, first run `cd project`. Paths such as `data/`, `configs/` and `results/` are relative to `project/`.
 
 ```powershell
 $env:OPENBLAS_NUM_THREADS = '1'

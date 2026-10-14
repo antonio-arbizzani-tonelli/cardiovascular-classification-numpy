@@ -1,18 +1,22 @@
 # Utilities
 
-Run from the repository root:
+**Run every command in this guide from `project/`.** If the shell is at the
+outer repository root, first run `cd project`. Paths such as `data/`,
+`configs/`, `results/` and `.local/` below are relative to `project/`.
 
 ```bash
 python -m tools.prepare_data
 python -m tools.verify_repository
 ```
 
-`prepare_data` checks the four official CSV files and creates caches under
-`data/processed/`. Place the CSV files as described in [data/README.md](../data/README.md).
+`prepare_data` checks the four official CSV files in `data/raw/dataset/` and
+creates caches under `data/processed/`, without training a model. Their outer
+repository paths are `project/data/raw/dataset/` and `project/data/processed/`.
+Place the CSV files as described in the [data guide](../data/README.md).
 `verify_repository` checks Git contents, documentation links, configurations
 and experiment hashes. It requires a Git checkout.
 
-For model training and CV, follow the [root README](../README.md#reproduce-validation)
+For model training and CV, follow the [project guide](../README.md#reproduce-historical-evaluations)
 and the [MLP guide](../docs/MLP.md).
 
 ## Recorded studies
@@ -93,7 +97,7 @@ uses two single-thread workers and resumable checkpoints every 25 trees.
 `compare` verifies all nine models, retained-row bin edges, inner OOF scores
 and nested thresholds per candidate. `report --publish` serially copies
 verified records to the main local ledger. Requires local data caches and
-the archived numerical source. The selected Phase 14 retains all training rows.
+the archived numerical source. The historical Phase 14 reference retains all training rows.
 
 ## Final full-train calibration and submissions
 
@@ -137,5 +141,12 @@ python -m tools.final_combined_18_24 run --workers 2
 
 Use `python -m tools.final_combined_18_24 --help` for fresh output-directory
 and resume options. The selected release uses **L2=1**, threshold
-**0.21811010373987366**, and reported AIcrowd F1 **0.455**. The L2=5 variant
-is a completed comparison. Full-train OOF scores describe calibration.
+**0.21811010373987366**, and author-reported AIcrowd F1 **0.455** on
+**13 October 2026**. The L2=5 variant is a completed comparison. Each candidate
+selects its own threshold by maximizing pooled three-fold OOF F1 over all
+328,135 labeled rows, with accuracy breaking ties. Model selection follows
+the highest displayed AIcrowd F1 among completed candidates with recorded
+feedback at the 14 October 2026 release. These OOF scores describe calibration;
+there is no completed nested evaluation of this exact combination. See the
+[selected record](../results/eda/final_combined18_24_submission.json) and the
+[results guide](../../docs/RESULTS.md).

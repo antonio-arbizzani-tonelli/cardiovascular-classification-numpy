@@ -8,8 +8,12 @@ restricted booster pipeline: F1 0.441791 versus 0.442155 for Phase 14, with
 one of three folds improving. The exploratory gain is not confirmed. The
 Phase 14 booster and threshold are historical references in this study,
 before the Phase 34 observed-versus-missing split correction. The current
-final selection retains that historical Phase 14 source, with a newly
-calibrated full-train threshold, as documented in [EXPERIMENTS.md](EXPERIMENTS.md).
+final pipeline combines this restricted imputation recipe with the Phase 18
+diet representation and retains the historical Phase 14 booster source. It
+was selected using recorded AIcrowd feedback, with a newly calibrated
+full-training OOF threshold. No completed nested evaluation is recorded for
+that exact combination. See [DATA.md](DATA.md) for the final representation
+and [EXPERIMENTS.md](EXPERIMENTS.md) for the separate evaluation stages.
 
 See [the Phase 24 report](../results/eda/phase24_original_restricted_imputation_summary.md).
 The expanded variant and the revised restricted variant with exact indicator
@@ -91,7 +95,10 @@ and extended suites remain available as feature-audit configurations.
 
 Install the dependencies and obtain the four official CSV files as described
 in the [README](../README.md) and [data/README.md](../data/README.md).
-The experiment runners read prepared NumPy caches. From the repository root:
+The experiment runners read prepared NumPy caches. Run the commands in this
+guide from **`project/`**; if the shell is at the outer repository root, first
+run `cd project`. Paths such as `data/`, `configs/` and `results/` below are
+relative to `project/`:
 
 ```powershell
 python -m tools.prepare_data
@@ -110,7 +117,7 @@ the three outer training folds. It saves one probability for every development
 row and chooses the F1-maximizing threshold on those same pooled OOF rows.
 That threshold's F1 is useful for screening, but is optimistic. The logistic
 runner also saves the original missing-state flags as model inputs. The
-historical screening can be rerun from the repository root with:
+following commands expose the available experimental variants from `project/`:
 
 ```powershell
 python -m src.run_phase16_logistic_cv phase16_imputation_restricted --optimistic-only
@@ -118,6 +125,14 @@ python -m src.run_phase16_logistic_cv phase16_imputation_expanded --optimistic-o
 python -m src.run_boosting_cv configs/experiments/phase16_imputation_restricted_boosting_optimistic.json
 python -m src.run_boosting_cv configs/experiments/phase16_imputation_expanded_boosting_optimistic.json
 ```
+
+The booster suites above omit an implementation selector. With the current
+runner, they use the corrected Phase 34 booster and perform new experiments;
+they do not replay the historical Phase 16 scores reported below. Exact
+historical replay requires the archived source versions and trusted local
+OOF/checkpoint artifacts identified by the original records. See the
+[configuration guide](../configs/README.md) for implementation selection.
+Keep fresh experiment outputs separate from the archived records.
 
 The logistic outputs are written to
 `results/linear_imputation_artifacts/phase16_imputation_*_optimistic/`.
@@ -135,15 +150,17 @@ categorical missing values; the newly trained linear models use the current
 mode-fill preprocessing. Their difference from the historical reference is
 therefore not attributable solely to imputation.
 
-## Original nested commands and completed Phase 24 confirmation
+## Available nested commands and historical Phase 24 confirmation
 
 Feature recovery is already summarized in
 `results/eda/phase15_imputation_variable_decisions.md`. The full nested
 comparison uses two inner folds to select a threshold for each outer fold:
 
-The commands below describe the original full-retraining route. The restricted
-booster confirmation is complete through Phase 24; its command reproduces a
-completed experiment. The other commands expose available experimental variants.
+The restricted booster confirmation completed historically through Phase 24.
+The commands below expose the available nested variants. As with the optimistic
+booster suites above, these booster configurations omit an implementation
+selector and currently use corrected Phase 34. Running them performs new
+experiments, not exact reproduction of the recorded Phase 24 comparison.
 
 ```powershell
 python -m src.run_boosting_cv configs/experiments/phase16_imputation_restricted_boosting.json
@@ -151,6 +168,13 @@ python -m src.run_boosting_cv configs/experiments/phase16_imputation_expanded_bo
 python -m src.run_phase16_logistic_cv phase16_imputation_restricted
 python -m src.run_phase16_logistic_cv phase16_imputation_expanded
 ```
+
+Replaying the historical result requires its archived source and verified
+local artifacts; the command list alone does not provide those prerequisites.
+For the selected final combination, use the separately documented
+[full-training OOF calibration driver](../README.md#reproduce-threshold-calibration),
+which freezes the historical booster and combined preprocessing. That driver
+reproduces calibration, not a nested estimate of the combination.
 
 `python -m src.summarize_phase16_retrained` requires all four nested variant
 OOFs and the same two historical control artifacts described above.
@@ -181,8 +205,14 @@ The dedicated configuration is
 `configs/experiments/phase24_original_restricted_imputation.json`.
 The complete result is
 `results/experiments/phase24_original_restricted_imputation_comparison.json`.
-The original restricted imputation was not adopted. The historical Phase 14
-reference used its 295-feature tree representation, direct missing-value
-routing and submission threshold `0.2108690997` before the split correction.
-Later booster and MLP comparisons are
-summarized in [docs/EXPERIMENTS.md](EXPERIMENTS.md).
+At that historical nested-evaluation stage, restricted imputation did not
+replace Phase 14. The later release selected the combination of diet exclusions
+and this restricted recipe using AIcrowd feedback; its full-training OOF
+calibration does not supply a nested estimate of the combination. The
+[selected record](../results/eda/final_combined18_24_submission.json) preserves
+that final threshold, feedback provenance and evaluation limit.
+
+The historical Phase 14 reference used its 295-feature tree representation,
+direct missing-value routing and submission threshold `0.2108690997` before
+the split correction. Later booster and MLP comparisons are summarized in
+[EXPERIMENTS.md](EXPERIMENTS.md).

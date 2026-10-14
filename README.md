@@ -1,50 +1,62 @@
 # Cardiovascular Disease Classification in NumPy
 
-An **EPFL Machine Learning CS-433 project** that implements and evaluates a complete classification pipeline for BRFSS 2015 survey data using NumPy.
+This project classifies whether respondents to the **2015 Behavioral Risk Factor Surveillance System (BRFSS)**, a U.S. health survey, reported myocardial infarction or coronary heart disease. It uses the dataset supplied for the EPFL Machine Learning CS-433 challenge: **328,135 labeled respondents, 321 predictors and 109,379 unlabeled test rows**. Positive labels account for **8.83%** of the training data.
 
-**Ranked 3rd on the AIcrowd leaderboard · F1 0.455 · Accuracy 0.882**
+The models and training pipeline are implemented with **NumPy and the Python standard library**. The project compares linear models, histogram gradient boosting and two multilayer perceptrons (MLPs), with particular attention to survey response codes, missing data and decision thresholds. The final pipeline uses histogram gradient boosting with codebook-based cleaning, derived dietary frequencies and restricted imputation learned from training data.
 
-Position reported by the author on **14 October 2026**; challenge scores reported on **13 October 2026**, displayed to three decimals. [AIcrowd leaderboard](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards). The position is a dated snapshot.
+The target, `_MICHD`, describes reported disease in a cross-sectional survey. The retained `HAREHAB1` question concerns rehabilitation after a heart attack and contains post-event information. These results support survey classification; they do not establish prospective clinical prediction.
 
-The selected pipeline combines **Phase 18 diet representation and Phase 24 restricted conditional imputation**, using the preserved Phase 14 histogram gradient booster: **297 transformed features, 200 trees, depth 5 and leaf L2 = 1**. It trains on all **328,135 labeled respondents** and generates **109,379 test predictions**. This repository contains the final presentation, completed results and selected model for the **14 October 2026 release**.
+## Results at a glance
+
+| Result | F1 | What it measures |
+| --- | ---: | --- |
+| Final pipeline: AIcrowd feedback | **0.455** | Author-reported challenge score used in model selection; accuracy **0.882** |
+| Final pipeline: out-of-fold threshold calibration | **0.443882** | Three-fold predictions over all labeled rows; the same labels select and describe the threshold |
+| Historical reference: nested development evaluation | **0.442155** | Earlier pipeline, with threshold selection inside each outer training fold |
+
+**No completed nested evaluation is available for the exact final pipeline.** Its challenge F1 is 0.003 higher than the historical reference's displayed 0.452, but repeated challenge feedback informed the choice. The out-of-fold (OOF) calibration score is not an independent test result.
 
 ![Recorded AIcrowd results](assets/figures/aicrowd_progression.png)
 
-The selected combination improves displayed challenge F1 from the historical Phase 14 result of **0.452 to 0.455**. It uses codebook cleaning, retains derived dietary frequencies in place of six mixed-code raw diet variables, and fits restricted imputation within each training partition. Its decision threshold is **0.21811010373987366**, calibrated using three-fold out-of-fold probabilities across all labeled rows.
+The final pipeline's challenge scores were reported by the author on **13 October 2026**, to three decimal places. The author also reported **3rd place on 14 October 2026** on the [AIcrowd leaderboard](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1/leaderboards). This is a dated, author-reported position, not a final placing; the [release record](evidence/RELEASE_20261014.json) preserves its provenance.
 
-## Results and evidence
-
-The selected pipeline records **full-train OOF calibration F1 0.443882** and **AIcrowd feedback F1 0.455**. Calibration labels also select the threshold, and challenge feedback informed model selection. No completed nested-development estimate is available for this exact combined pipeline.
-
-The historical controlled comparison uses **262,508 development rows, three outer folds and two inner threshold-selection folds**. Phase 14 reaches **F1 0.442155**, compared with **0.434467** for logistic regression with shared codebook cleaning and source variables: a gain of **0.007689**. These scores describe the historical pipelines.
+In the historical controlled comparison, the reference booster reached F1 **0.442155**, versus **0.434467** for logistic regression with the same codebook cleaning, source variables and folds: a gain of **0.007689**. These results use **262,508 development rows, three outer folds and two inner threshold-selection folds**. They compare complete historical pipelines and do not evaluate the final combination.
 
 ![Historical nested development comparison](assets/figures/model_comparison.png)
 
-| Start here | Contents |
-| --- | --- |
-| [Results and interpretation](docs/RESULTS.md) | Selected result, challenge comparisons and evaluation boundaries |
-| [Runnable project](project/README.md) | Setup, training, historical reproduction and checks |
-| [Code review](docs/CODE_REVIEW.md) | Implementation audit and release verification |
-| [Results presentation: PDF](presentation/RESULTS_PRESENTATION.pdf) · [PowerPoint](presentation/RESULTS_PRESENTATION.pptx) | 16 slides explaining the methods, results and limitations |
-| [Release evidence](evidence/RELEASE_20261014.json) | Selected configuration, score provenance and dated rank |
+## Run the project
 
-## Technical scope
+Follow the [project guide](project/README.md) to create the environment and obtain the official challenge CSVs, which are excluded from Git. Run commands from `project/`. With the data in `project/data/raw/dataset/`, train the selected pipeline and write a submission with:
 
-Training uses NumPy and the Python standard library. The project implements the six required linear-model functions, histogram gradient boosting and two MLP architectures. The experiment archive records completed studies of representations, missingness, imputation, tree parameters, weighting, sampling and feature selection.
+```bash
+python run.py --data-dir data/raw/dataset --output submission.csv
+```
 
-The target, `_MICHD`, records **reported myocardial infarction or coronary heart disease**. The retained `HAREHAB1` rehabilitation question contains post-event information, so the demonstrated task is survey disease classification. Prospective clinical use would require a different feature policy and fresh validation. The historical booster also retains an audited split-search omission for exact reproducibility; the corrected Phase 34 implementation is evaluated separately.
+The command fits all labeled rows and applies the threshold stored in [final_model.json](project/configs/final_model.json). The guide also explains how to reproduce threshold calibration, historical nested evaluation and the model comparisons.
 
-## Reproduce the project
-
-From `project/`, install `requirements-dev.txt` and run:
+Repository checks use synthetic fixtures and the included codebook. After installing `requirements-dev.txt` from `project/`, run:
 
 ```bash
 python -m tools.verify_repository
 python -m unittest discover -s tests -q
 ```
 
-Training requires the official challenge CSVs, which are excluded from Git. Follow the [project setup](project/README.md), then use `python run.py` for the selected combined pipeline. The [historical configuration](project/configs/historical_phase14_model.json) preserves the Phase 14 reference. The [verification record](evidence/VERIFICATION.json) distinguishes current checks from dated evidence.
+## Methods and evidence
 
-Course: [EPFL Machine Learning, CS-433](https://www.epfl.ch/labs/mlo/machine-learning-cs-433/). Challenge: [AIcrowd EPFL Machine Learning Project 1](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1).
+The final pipeline is recorded as `combined18_24_l2_1`: it combines the diet representation studied in Phase 18 with restricted conditional imputation from Phase 24. It uses **297 transformed features, 200 trees, maximum depth 5 and leaf L2 = 1**. Its threshold, **0.21811010373987366**, maximizes F1 on pooled three-fold OOF probabilities over all labeled rows, with accuracy breaking F1 ties. Among completed candidates with recorded AIcrowd feedback, this pipeline had the highest displayed F1 at the **14 October 2026 release**.
 
-**Author:** Antonio Arbizzani Tonelli · [GitHub repository](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy).
+The booster source is the frozen historical Phase 14 implementation. It retains an audited omission of some observed-versus-missing split candidates so that the historical submission remains reproducible. The corrected implementation was evaluated separately as Phase 34; the final pipeline uses the frozen version. The experiment archive also records studies of representations, missingness, imputation, tree parameters, weighting, sampling and feature selection. The six linear-model functions required by the course are included in `project/implementations.py`.
+
+| Document | Contents |
+| --- | --- |
+| [Results and interpretation](docs/RESULTS.md) | Evaluation protocols, model selection, detailed scores and limitations |
+| [Runnable project](project/README.md) | Setup, data files, training, calibration and historical reproduction |
+| [Technical report](project/docs/FINAL_REPORT.md) | Preprocessing, experiments and implementation details |
+| [Code review](docs/CODE_REVIEW.md) | Implementation audit and recorded release checks |
+| [Presentation draft](presentation/PRESENTATION_DRAFT.md) | Proposed narrative, slide copy, sources, reusable visuals and a Claude Design prompt |
+| [Previous presentation PDF](presentation/RESULTS_PRESENTATION.pdf) · [PowerPoint](presentation/RESULTS_PRESENTATION.pptx) | The previous 16-slide presentation is being updated from the sourced draft |
+| [Release evidence](evidence/RELEASE_20261014.json) · [Verification record](evidence/VERIFICATION.json) | Configuration, score provenance, dated rank and previously executed checks |
+
+This is an **EPFL Machine Learning CS-433 project**, presented here as a portfolio by **Antonio Arbizzani Tonelli**. The official course submission and its report remain separate from this public package.
+
+Course: [EPFL Machine Learning, CS-433](https://www.epfl.ch/labs/mlo/machine-learning-cs-433/). Challenge and dataset access: [AIcrowd EPFL Machine Learning Project 1](https://www.aicrowd.com/challenges/epfl-machine-learning-project-1). Repository: [cardiovascular-classification-numpy](https://github.com/antonio-arbizzani-tonelli/cardiovascular-classification-numpy).
