@@ -53,8 +53,7 @@ The booster source is the frozen historical Phase 14 implementation. It retains 
 | [Runnable project](project/README.md) | Setup, data files, training, calibration and historical reproduction |
 | [Technical report](project/docs/FINAL_REPORT.md) | Preprocessing, experiments and implementation details |
 | [Code review](docs/CODE_REVIEW.md) | Implementation audit and recorded release checks |
-| [Presentation draft](presentation/PRESENTATION_DRAFT.md) | Proposed narrative, slide copy, sources, reusable visuals and a Claude Design prompt |
-| [Previous presentation PDF](presentation/RESULTS_PRESENTATION.pdf) · [PowerPoint](presentation/RESULTS_PRESENTATION.pptx) | The previous 16-slide presentation is being updated from the sourced draft |
+| [Presentation PDF](presentation/RESULTS_PRESENTATION.pdf) · [PowerPoint](presentation/RESULTS_PRESENTATION.pptx) | Problem, methods, results and limitations in 10 main slides and four appendices; [sources and version notes](presentation/README.md) |
 | [Release evidence](evidence/RELEASE_20261014.json) · [Verification record](evidence/VERIFICATION.json) | Configuration, score provenance, dated rank and previously executed checks |
 
 This is an **EPFL Machine Learning CS-433 project**, presented here as a portfolio by **Antonio Arbizzani Tonelli**. The official course submission and its report remain separate from this public package.

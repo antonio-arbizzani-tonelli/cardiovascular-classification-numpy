@@ -6,7 +6,7 @@ The final pipeline uses histogram gradient boosting with codebook-based cleaning
 
 `HAREHAB1` is retained and contains information about rehabilitation after a heart attack. This is classification of reported disease in a survey, without established prospective clinical validity.
 
-This is an **EPFL Machine Learning CS-433 project**, presented as a portfolio by **Antonio Arbizzani Tonelli**. See the [repository overview](../README.md), [results and interpretation](../docs/RESULTS.md) and [presentation](../presentation/README.md). The previous presentation is being updated from a [sourced draft](../presentation/PRESENTATION_DRAFT.md). The official course submission and its report are archived separately from this public package.
+This is an **EPFL Machine Learning CS-433 project**, presented as a portfolio by **Antonio Arbizzani Tonelli**. See the [repository overview](../README.md), [results and interpretation](../docs/RESULTS.md) and the completed [presentation in PDF and PowerPoint](../presentation/README.md). The official course submission and its report are archived separately from this public package.
 
 ## Setup and data
 
